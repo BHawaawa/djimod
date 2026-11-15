@@ -1,0 +1,45 @@
+plugins { id 'java-library' }
+
+// Canonical sources stay with the existing 1.20.1 project so existing worlds
+// and builds are unaffected. Every platform compiles exactly this shared logic.
+def sharedClasses = [
+    'com/example/avatadrone/signal/Coverage.java',
+    'com/example/avatadrone/navigation/ReturnRoutePlanner.java',
+    'com/example/avatadrone/charging/ChargeIndicator.java',
+    'com/example/avatadrone/client/DroneAttitude.java',
+    'com/example/avatadrone/client/DjiGfx.java'
+]
+ext.sharedClasses = sharedClasses
+sourceSets.main.java {
+    srcDirs = [file('../../src/main/java')]
+    sharedClasses.each { include it }
+}
+sourceSets.test.java {
+    srcDirs = [file('../../src/test/java')]
+    include '**/CoverageTest.java', '**/ReturnRoutePlannerTest.java',
+            '**/ChargeIndicatorTest.java', '**/DroneAttitudeTest.java'
+}
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.targetCompatibility = JavaVersion.VERSION_1_8
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 8
+}
+// These dependency-free regressions use main(), not a JUnit test engine.
+// Gradle 9 otherwise fails the empty Test task before the JavaExec checks finish.
+tasks.named('test') { enabled = false }
+[
+    coverageTest: 'com.example.avatadrone.signal.CoverageTest',
+    returnRouteTest: 'com.example.avatadrone.navigation.ReturnRoutePlannerTest',
+    chargeIndicatorTest: 'com.example.avatadrone.charging.ChargeIndicatorTest',
+    gimbalTest: 'com.example.avatadrone.client.DroneAttitudeTest'
+].each { taskName, entryPoint ->
+    def regression = tasks.register(taskName, JavaExec) {
+        dependsOn testClasses
+        classpath = sourceSets.test.runtimeClasspath
+        mainClass = entryPoint
+        javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(17) }
+    }
+    tasks.named('check') { dependsOn regression }
+}

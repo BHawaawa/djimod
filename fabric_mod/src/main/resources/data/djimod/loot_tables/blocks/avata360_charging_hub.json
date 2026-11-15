@@ -1,0 +1,1 @@
+{"type":"minecraft:block","pools":[{"rolls":1,"entries":[{"type":"minecraft:item","name":"djimod:avata360_charging_hub"}],"conditions":[{"condition":"minecraft:survives_explosion"}]}]}

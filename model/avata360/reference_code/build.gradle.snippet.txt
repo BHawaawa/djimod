@@ -1,0 +1,13 @@
+// ===== 把下面内容合并进你 Fabric 1.20.1 模组的 build.gradle =====
+repositories {
+    maven {
+        name = 'GeckoLib'
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        content { includeGroupByRegex("software\\.bernie.*") }
+    }
+}
+
+dependencies {
+    // 1.20.1 对应 GeckoLib 4.x，版本号可换成 Modrinth/CurseForge 上 1.20.1 的最新 4.x
+    modImplementation "software.bernie.geckolib:geckolib-fabric-1.20.1:4.4.9"
+}

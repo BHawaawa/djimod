@@ -1,0 +1,394 @@
+{
+  "id": "avata360",
+  "version": 2,
+  "display_name": "DJI Avata 360",
+  "minecraft": "1.20.1",
+  "format": "GeckoLib 4.x (Bedrock geometry 1.12.0)",
+  "files": {
+    "blockbench_project": "avata360.bbmodel",
+    "geometry": "geo/avata360.geo.json",
+    "animation": "animations/avata360.animation.json",
+    "texture": "textures/avata360.png",
+    "glowmask": "textures/avata360_glowmask.png",
+    "battery_item_texture": "textures/item/avata360_battery.png",
+    "battery_item_model": "models/item/avata360_battery.json",
+    "previews": "preview/",
+    "gifs": "../gif/avata360/batteryinavata360/",
+    "reference_code": "reference_code/"
+  },
+  "md5": {
+    "avata360.bbmodel": "4e86bec2fb007e55eddbe932f523bc54",
+    "geo/avata360.geo.json": "dd7069f2ac405edc14deb641f09b288d",
+    "animations/avata360.animation.json": "b7b498ca0afa26dd1af6e0a49bc1337d",
+    "textures/avata360.png": "971ddc47a9ad3317a3c6c7e6d66e214e",
+    "textures/avata360_glowmask.png": "7459311ba732274aec75e1c02dc47fd4",
+    "textures/item/avata360_battery.png": "a31534b4e05bd1ff5a3629aa313eb0e6"
+  },
+  "geometry_identifier": "geometry.avata360",
+  "texture": {
+    "width": 2048,
+    "height": 2048,
+    "uv_mode": "per-face UV",
+    "alpha": "cutout (propeller blades) - GeckoLib default entityCutoutNoCull",
+    "glowmask": "battery LEDs only (AutoGlowingGeoLayer)"
+  },
+  "model_size_px": {
+    "width_x": 30.05,
+    "length_z": 25.07,
+    "height_y": 6.05,
+    "front": "-Z (north)",
+    "origin": "bottom centre",
+    "bbox_min": [
+      -15.026,
+      0.22,
+      -12.848
+    ],
+    "bbox_max": [
+      15.026,
+      6.27,
+      12.22
+    ]
+  },
+  "real_scale": "1 model px ~= 8 mm (real drone ~246 x 199 x 55 mm)",
+  "cube_count": 1709,
+  "battery": {
+    "default": "not inserted (bone `battery` hidden: Blockbench visibility off, code setHidden, animation battery_empty scales it to 0)",
+    "source_model": "model/battery/avata360 (4 mm/px) merged at scale 0.5, rotated 180 deg about Y",
+    "transform": {
+      "scale": 0.5,
+      "rotation_y": 180,
+      "centre_line_y": 2.65,
+      "z_shift": 5.15
+    },
+    "bay_blockbench": {
+      "x": [
+        -2.9899999999999998,
+        2.9899999999999998
+      ],
+      "y": [
+        0.9599999999999997,
+        4.34
+      ],
+      "z": [
+        -2.05,
+        9.2
+      ],
+      "corner_r": 0.5900000000000001
+    },
+    "insert_from": "+Z (tail); connector end goes in first, cap with power button + 4 LEDs stays outside as the tail",
+    "fit": "cap cross-section == spine cross-section (same rounded-rect polygon), same shell colour; seamless tail when inserted"
+  },
+  "suggested": {
+    "renderer_scale": 0.5,
+    "hitbox_width": 0.95,
+    "hitbox_height": 0.3,
+    "shadow_radius": 0.35,
+    "real_size_renderer_scale": 0.25
+  },
+  "bones": [
+    {
+      "name": "root",
+      "parent": null,
+      "pivot_blockbench": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cube_count": 0,
+      "desc": "空骨骼，留给代码做姿态（按速度倾斜）"
+    },
+    {
+      "name": "drone",
+      "parent": "root",
+      "pivot_blockbench": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cube_count": 0,
+      "desc": "整机；fly 动画在此浮动"
+    },
+    {
+      "name": "body",
+      "parent": "drone",
+      "pivot_blockbench": [
+        0.0,
+        2.65,
+        2.0
+      ],
+      "cube_count": 97,
+      "desc": "机身：中空圆角脊梁（尾部电池仓）、前肩/传感器罩、下巴"
+    },
+    {
+      "name": "guards",
+      "parent": "drone",
+      "pivot_blockbench": [
+        0.0,
+        2.0,
+        0.0
+      ],
+      "cube_count": 1132,
+      "desc": "4 个圆截面桨圈 + 腰部连接块 + 三角支撑 + 脚垫"
+    },
+    {
+      "name": "frame",
+      "parent": "drone",
+      "pivot_blockbench": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "cube_count": 12,
+      "desc": "4 根机臂 + 8 根辐条"
+    },
+    {
+      "name": "camera",
+      "parent": "drone",
+      "pivot_blockbench": [
+        0.0,
+        3.05,
+        -8.8
+      ],
+      "cube_count": 54,
+      "desc": "360 相机模组（mode_360 动画绕 X 转 90°）"
+    },
+    {
+      "name": "motor_fl",
+      "parent": "drone",
+      "pivot_blockbench": [
+        -9.0,
+        1.0,
+        -6.1
+      ],
+      "cube_count": 18,
+      "desc": "电机 fl"
+    },
+    {
+      "name": "prop_fl",
+      "parent": "motor_fl",
+      "pivot_blockbench": [
+        -9.0,
+        2.9,
+        -6.1
+      ],
+      "cube_count": 10,
+      "desc": "四叶桨 fl（fly 动画旋转）"
+    },
+    {
+      "name": "motor_fr",
+      "parent": "drone",
+      "pivot_blockbench": [
+        9.0,
+        1.0,
+        -6.1
+      ],
+      "cube_count": 18,
+      "desc": "电机 fr"
+    },
+    {
+      "name": "prop_fr",
+      "parent": "motor_fr",
+      "pivot_blockbench": [
+        9.0,
+        2.9,
+        -6.1
+      ],
+      "cube_count": 10,
+      "desc": "四叶桨 fr（fly 动画旋转）"
+    },
+    {
+      "name": "motor_rl",
+      "parent": "drone",
+      "pivot_blockbench": [
+        -9.0,
+        1.0,
+        6.1
+      ],
+      "cube_count": 18,
+      "desc": "电机 rl"
+    },
+    {
+      "name": "prop_rl",
+      "parent": "motor_rl",
+      "pivot_blockbench": [
+        -9.0,
+        2.9,
+        6.1
+      ],
+      "cube_count": 10,
+      "desc": "四叶桨 rl（fly 动画旋转）"
+    },
+    {
+      "name": "motor_rr",
+      "parent": "drone",
+      "pivot_blockbench": [
+        9.0,
+        1.0,
+        6.1
+      ],
+      "cube_count": 18,
+      "desc": "电机 rr"
+    },
+    {
+      "name": "prop_rr",
+      "parent": "motor_rr",
+      "pivot_blockbench": [
+        9.0,
+        2.9,
+        6.1
+      ],
+      "cube_count": 10,
+      "desc": "四叶桨 rr（fly 动画旋转）"
+    },
+    {
+      "name": "battery",
+      "parent": "drone",
+      "pivot_blockbench": [
+        0.0,
+        2.65,
+        5.15
+      ],
+      "cube_count": 0,
+      "desc": "插入的 Avata 360 电池（0.5 倍、转 180°）；默认隐藏，插拔动画移动此骨骼"
+    },
+    {
+      "name": "bat_body",
+      "parent": "battery",
+      "pivot_blockbench": [
+        0.0,
+        2.65,
+        5.15
+      ],
+      "cube_count": 104,
+      "desc": "电池主体（伸入电池仓）"
+    },
+    {
+      "name": "bat_cap",
+      "parent": "battery",
+      "pivot_blockbench": [
+        0.0,
+        2.65,
+        9.2
+      ],
+      "cube_count": 178,
+      "desc": "电池帽 = 机尾（电源键 + 4 颗电量灯）"
+    },
+    {
+      "name": "bat_latch_r",
+      "parent": "battery",
+      "pivot_blockbench": [
+        3.4,
+        2.65,
+        8.15
+      ],
+      "cube_count": 3,
+      "desc": "电池卡扣（机身右侧 +X）"
+    },
+    {
+      "name": "bat_latch_l",
+      "parent": "battery",
+      "pivot_blockbench": [
+        -3.4,
+        2.65,
+        8.15
+      ],
+      "cube_count": 3,
+      "desc": "电池卡扣（机身左侧 -X）"
+    },
+    {
+      "name": "bat_button",
+      "parent": "bat_cap",
+      "pivot_blockbench": [
+        1.175,
+        2.65,
+        12.15
+      ],
+      "cube_count": 14,
+      "desc": "电源键"
+    }
+  ],
+  "animations": [
+    {
+      "name": "animation.avata360.idle",
+      "loop": true,
+      "length_s": 1.0,
+      "bones": [
+        "drone"
+      ]
+    },
+    {
+      "name": "animation.avata360.fly",
+      "loop": true,
+      "length_s": 1.0,
+      "bones": [
+        "drone",
+        "prop_fl",
+        "prop_fr",
+        "prop_rl",
+        "prop_rr"
+      ]
+    },
+    {
+      "name": "animation.avata360.mode_360",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.75,
+      "bones": [
+        "camera"
+      ]
+    },
+    {
+      "name": "animation.avata360.mode_single",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.75,
+      "bones": [
+        "camera"
+      ]
+    },
+    {
+      "name": "animation.avata360.battery_insert",
+      "loop": "hold_on_last_frame",
+      "length_s": 2.0,
+      "bones": [
+        "battery",
+        "bat_latch_r",
+        "bat_latch_l",
+        "bat_button"
+      ]
+    },
+    {
+      "name": "animation.avata360.battery_remove",
+      "loop": "hold_on_last_frame",
+      "length_s": 1.5,
+      "bones": [
+        "battery",
+        "bat_latch_r",
+        "bat_latch_l"
+      ]
+    },
+    {
+      "name": "animation.avata360.battery_installed",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.05,
+      "bones": [
+        "battery"
+      ]
+    },
+    {
+      "name": "animation.avata360.battery_empty",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.05,
+      "bones": [
+        "battery"
+      ]
+    }
+  ],
+  "install_paths": {
+    "geometry": "assets/<modid>/geo/avata360.geo.json",
+    "animation": "assets/<modid>/animations/avata360.animation.json",
+    "texture": "assets/<modid>/textures/entity/avata360.png",
+    "glowmask": "assets/<modid>/textures/entity/avata360_glowmask.png",
+    "battery_item_texture": "assets/<modid>/textures/item/avata360_battery.png",
+    "battery_item_model": "assets/<modid>/models/item/avata360_battery.json"
+  },
+  "generator": "DJI/tools/gen_avata.py <out> [battery_model_dir]  (previews: tools/preview_avata.py, gifs: tools/make_battery_gifs.py)"
+}

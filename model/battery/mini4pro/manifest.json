@@ -1,0 +1,282 @@
+{
+  "id": "mini4pro_battery",
+  "display_name": "DJI Mini 4 Pro Intelligent Flight Battery",
+  "type": "item",
+  "minecraft": "1.20.1",
+  "format": "GeckoLib 4.x item (Bedrock geometry 1.12.0)",
+  "files": {
+    "blockbench_project": "mini4pro_battery.bbmodel",
+    "geometry": "geo/mini4pro_battery.geo.json",
+    "animation": "animations/mini4pro_battery.animation.json",
+    "texture": "textures/mini4pro_battery.png",
+    "item_model_display": "models/item/mini4pro_battery.json",
+    "previews": "preview/",
+    "reference_code": "reference_code/"
+  },
+  "md5": {
+    "mini4pro_battery.bbmodel": "df48eeeda689566d0b807e1a9ea5b1a8",
+    "geo/mini4pro_battery.geo.json": "1f323c7a6832c314fab2e53e9c746ba8",
+    "animations/mini4pro_battery.animation.json": "0591777c300e448a0633ef25d4d8055f",
+    "textures/mini4pro_battery.png": "a131cbb116d16b77210591c33e122685",
+    "models/item/mini4pro_battery.json": "755a64697d94dfae72e20f9a56ecdafb"
+  },
+  "geometry_identifier": "geometry.mini4pro_battery",
+  "texture": {
+    "width": 2048,
+    "height": 2048,
+    "uv_mode": "per-face UV",
+    "alpha": "opaque"
+  },
+  "model_size_px": {
+    "width_x": 15.393,
+    "height_y": 9.435,
+    "length_z": 26.667,
+    "front": "-Z (north) = collar / tail end with the two push buttons; +Z = connector end",
+    "top": "+Y = black label face",
+    "origin": "model centred on the GeckoLib item pivot (internal Y offset -4.22)"
+  },
+  "real_scale": "1 model px = 3 mm (battery ~80 x 38 (collar 44.5) x 26.5 mm, measured from the user photos; label: BWX162-3850-7.38, 3850 mAh, 7.38 V, 28.41 Wh, max 8.5 V)",
+  "cube_count": 154,
+  "bones": [
+    {
+      "name": "root",
+      "parent": null,
+      "pivot_geo": [
+        -0.0,
+        -4.2167,
+        0.0
+      ],
+      "cube_count": 0,
+      "desc": "根骨骼（中心=物品渲染枢轴）"
+    },
+    {
+      "name": "battery",
+      "parent": "root",
+      "pivot_geo": [
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "cube_count": 0,
+      "desc": "整块电池；showcase 动画在此旋转"
+    },
+    {
+      "name": "body",
+      "parent": "battery",
+      "pivot_geo": [
+        -0.0,
+        0.0,
+        0.0
+      ],
+      "cube_count": 94,
+      "desc": "电池主体：顶面黑色标签（BWX162-3850-7.38）、前端 6 针触点、侧面凸起成型面板与上沿、底部台阶（前 44 mm 抬高 2.5 mm）、底部 ULTRA LIGHT 249g 印字"
+    },
+    {
+      "name": "collar",
+      "parent": "battery",
+      "pivot_geo": [
+        -0.0,
+        0.0,
+        -8.0
+      ],
+      "cube_count": 58,
+      "desc": "尾部加宽段（16 mm，宽 44.5 mm，比主体深 1.5 mm）：竖纹尾面、顶部两个卡钩槽、两侧弹片与两道横槽"
+    },
+    {
+      "name": "button_l",
+      "parent": "battery",
+      "pivot_geo": [
+        7.4167,
+        0.0,
+        -11.3333
+      ],
+      "cube_count": 1,
+      "desc": "左侧带网点纹理的按压钮（Blockbench -X）"
+    },
+    {
+      "name": "button_r",
+      "parent": "battery",
+      "pivot_geo": [
+        -7.4167,
+        0.0,
+        -11.3333
+      ],
+      "cube_count": 1,
+      "desc": "右侧按压钮（Blockbench +X）"
+    }
+  ],
+  "animations": [
+    {
+      "name": "animation.mini4pro_battery.idle",
+      "loop": true,
+      "length_s": 1.0,
+      "bones": [
+        "root"
+      ]
+    },
+    {
+      "name": "animation.mini4pro_battery.buckle_press",
+      "loop": false,
+      "length_s": 0.6,
+      "bones": [
+        "button_r",
+        "button_l"
+      ]
+    },
+    {
+      "name": "animation.mini4pro_battery.showcase",
+      "loop": true,
+      "length_s": 8.0,
+      "bones": [
+        "battery"
+      ]
+    }
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        10,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        1.0
+      ],
+      "scale": [
+        0.38,
+        0.38,
+        0.38
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        10,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        1.0
+      ],
+      "scale": [
+        0.38,
+        0.38,
+        0.38
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        10,
+        200,
+        0
+      ],
+      "translation": [
+        0,
+        3.5,
+        0
+      ],
+      "scale": [
+        0.45,
+        0.45,
+        0.45
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        10,
+        160,
+        0
+      ],
+      "translation": [
+        0,
+        3.5,
+        0
+      ],
+      "scale": [
+        0.45,
+        0.45,
+        0.45
+      ]
+    },
+    "ground": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        2,
+        0
+      ],
+      "scale": [
+        0.32,
+        0.32,
+        0.32
+      ]
+    },
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.56,
+        0.56,
+        0.56
+      ]
+    },
+    "head": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        14,
+        0
+      ],
+      "scale": [
+        0.65,
+        0.65,
+        0.65
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        -90,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.6,
+        0.6,
+        0.6
+      ]
+    }
+  },
+  "install_paths": {
+    "geometry": "assets/<modid>/geo/mini4pro_battery.geo.json",
+    "animation": "assets/<modid>/animations/mini4pro_battery.animation.json",
+    "texture": "assets/<modid>/textures/item/mini4pro_battery.png",
+    "item_model": "assets/<modid>/models/item/mini4pro_battery.json"
+  },
+  "generator": "DJI/tools/gen_battery_mini4pro.py  (shared builder DJI/tools/bbgen.py, preview DJI/tools/preview_item.py)",
+  "version": 2,
+  "used_by": "model/mini4pro merges this geo+texture as bone \"battery\" (scale 0.5, 180 deg); regenerate the drone after changing this model"
+}

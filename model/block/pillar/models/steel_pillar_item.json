@@ -1,0 +1,1 @@
+{ "parent": "avatadrone:block/pillar/pillar", "textures": { "0": "avatadrone:block/steel_pillar", "particle": "avatadrone:block/steel_pillar" } }

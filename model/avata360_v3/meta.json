@@ -1,0 +1,334 @@
+{
+ "battery_transform": {
+  "scale": 0.5,
+  "rotation_y": 0,
+  "centre_line_y": 2.75,
+  "z_shift": 5.3
+ },
+ "bay": {
+  "x": [
+   -3.08,
+   3.08
+  ],
+  "y": [
+   0.9699999999999998,
+   4.53
+  ],
+  "z": [
+   -1.8,
+   9.6
+  ],
+  "corner_r": 0.6800000000000002
+ },
+ "gimbal_cover_pivot": {
+  "y": 3.1,
+  "z": -13.2
+ },
+ "kind": "entity",
+ "cubes": 1737,
+ "atlas": [
+  2048,
+  2048
+ ],
+ "offset": [
+  0.0,
+  0.0,
+  0.0
+ ],
+ "bones": {
+  "root": {
+   "parent": null,
+   "pivot_bb": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "cubes": 0
+  },
+  "drone": {
+   "parent": "root",
+   "pivot_bb": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "cubes": 0
+  },
+  "body": {
+   "parent": "drone",
+   "pivot_bb": [
+    0.0,
+    2.75,
+    2.0
+   ],
+   "cubes": 97
+  },
+  "guards": {
+   "parent": "drone",
+   "pivot_bb": [
+    0.0,
+    2.0,
+    0.0
+   ],
+   "cubes": 1132
+  },
+  "frame": {
+   "parent": "drone",
+   "pivot_bb": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "cubes": 12
+  },
+  "camera": {
+   "parent": "drone",
+   "pivot_bb": [
+    0.0,
+    3.1,
+    -9.45
+   ],
+   "cubes": 54
+  },
+  "gimbal_cover": {
+   "parent": "camera",
+   "pivot_bb": [
+    0.0,
+    3.1,
+    -13.2
+   ],
+   "cubes": 24
+  },
+  "motor_fl": {
+   "parent": "drone",
+   "pivot_bb": [
+    -9.2,
+    1.0,
+    -6.4
+   ],
+   "cubes": 18
+  },
+  "prop_fl": {
+   "parent": "motor_fl",
+   "pivot_bb": [
+    -9.2,
+    3.0,
+    -6.4
+   ],
+   "cubes": 11
+  },
+  "motor_fr": {
+   "parent": "drone",
+   "pivot_bb": [
+    9.2,
+    1.0,
+    -6.4
+   ],
+   "cubes": 18
+  },
+  "prop_fr": {
+   "parent": "motor_fr",
+   "pivot_bb": [
+    9.2,
+    3.0,
+    -6.4
+   ],
+   "cubes": 11
+  },
+  "motor_rl": {
+   "parent": "drone",
+   "pivot_bb": [
+    -9.2,
+    1.0,
+    6.4
+   ],
+   "cubes": 18
+  },
+  "prop_rl": {
+   "parent": "motor_rl",
+   "pivot_bb": [
+    -9.2,
+    3.0,
+    6.4
+   ],
+   "cubes": 11
+  },
+  "motor_rr": {
+   "parent": "drone",
+   "pivot_bb": [
+    9.2,
+    1.0,
+    6.4
+   ],
+   "cubes": 18
+  },
+  "prop_rr": {
+   "parent": "motor_rr",
+   "pivot_bb": [
+    9.2,
+    3.0,
+    6.4
+   ],
+   "cubes": 11
+  },
+  "battery": {
+   "parent": "drone",
+   "pivot_bb": [
+    0.0,
+    2.75,
+    5.3
+   ],
+   "cubes": 0
+  },
+  "bat_body": {
+   "parent": "battery",
+   "pivot_bb": [
+    0.0,
+    2.75,
+    5.3
+   ],
+   "cubes": 104
+  },
+  "bat_cap": {
+   "parent": "battery",
+   "pivot_bb": [
+    0.0,
+    2.75,
+    9.35
+   ],
+   "cubes": 178
+  },
+  "bat_latch_r": {
+   "parent": "battery",
+   "pivot_bb": [
+    3.4,
+    2.75,
+    8.3
+   ],
+   "cubes": 3
+  },
+  "bat_latch_l": {
+   "parent": "battery",
+   "pivot_bb": [
+    -3.4,
+    2.75,
+    8.3
+   ],
+   "cubes": 3
+  },
+  "bat_button": {
+   "parent": "bat_cap",
+   "pivot_bb": [
+    1.175,
+    2.75,
+    12.3
+   ],
+   "cubes": 14
+  }
+ },
+ "bbox_min": [
+  -15.3264,
+  0.2,
+  -14.268
+ ],
+ "bbox_max": [
+  15.3264,
+  6.44,
+  12.5264
+ ],
+ "animations": {
+  "animation.avata360.idle": {
+   "loop": "loop",
+   "length": 1.0,
+   "bones": [
+    "drone"
+   ]
+  },
+  "animation.avata360.fly": {
+   "loop": "loop",
+   "length": 1.0,
+   "bones": [
+    "drone",
+    "prop_fl",
+    "prop_fr",
+    "prop_rl",
+    "prop_rr"
+   ]
+  },
+  "animation.avata360.mode_360": {
+   "loop": "hold",
+   "length": 0.75,
+   "bones": [
+    "camera"
+   ]
+  },
+  "animation.avata360.mode_single": {
+   "loop": "hold",
+   "length": 0.75,
+   "bones": [
+    "camera"
+   ]
+  },
+  "animation.avata360.gimbal_open": {
+   "loop": "hold",
+   "length": 0.6,
+   "bones": [
+    "gimbal_cover"
+   ]
+  },
+  "animation.avata360.gimbal_close": {
+   "loop": "hold",
+   "length": 0.5,
+   "bones": [
+    "gimbal_cover"
+   ]
+  },
+  "animation.avata360.battery_insert": {
+   "loop": "hold",
+   "length": 2.2,
+   "bones": [
+    "battery",
+    "bat_latch_r",
+    "bat_latch_l",
+    "bat_button"
+   ]
+  },
+  "animation.avata360.battery_remove": {
+   "loop": "hold",
+   "length": 1.6,
+   "bones": [
+    "battery",
+    "bat_latch_r",
+    "bat_latch_l"
+   ]
+  },
+  "animation.avata360.battery_installed": {
+   "loop": "hold",
+   "length": 0.05,
+   "bones": [
+    "battery"
+   ]
+  },
+  "animation.avata360.battery_empty": {
+   "loop": "hold",
+   "length": 0.05,
+   "bones": [
+    "battery"
+   ]
+  },
+  "animation.avata360.gimbal_on": {
+   "loop": "hold",
+   "length": 0.05,
+   "bones": [
+    "gimbal_cover"
+   ]
+  },
+  "animation.avata360.gimbal_off": {
+   "loop": "hold",
+   "length": 0.05,
+   "bones": [
+    "gimbal_cover"
+   ]
+  }
+ }
+}

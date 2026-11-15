@@ -1,0 +1,126 @@
+{
+  "id": "m400_battery",
+  "display_name": "DJI TB100 Intelligent Flight Battery (Matrice 400)",
+  "type": "item",
+  "minecraft": "1.20.1",
+  "format": "GeckoLib 4.x item (Bedrock geometry 1.12.0)",
+  "files": {
+    "blockbench_project": "m400_battery.bbmodel",
+    "geometry": "geo/m400_battery.geo.json",
+    "animation": "animations/m400_battery.animation.json",
+    "texture": "textures/m400_battery.png",
+    "glowmask": "textures/m400_battery_glowmask.png",
+    "item_model_display": "models/item/m400_battery.json",
+    "previews": "preview/",
+    "reference_code": "reference_code/"
+  },
+  "md5": {
+    "m400_battery.bbmodel": "eaee3d5643b579d747c95a78d56b647c",
+    "geo/m400_battery.geo.json": "726263240a3df1ba8d26a5be875adaef",
+    "animations/m400_battery.animation.json": "f6440747cfe49bde9988f51721449397",
+    "textures/m400_battery.png": "f93002b36d03c23ab6f2a3cc6f357800",
+    "textures/m400_battery_glowmask.png": "6a645adc36d1779ec0d3af94b3f3e19f",
+    "models/item/m400_battery.json": "b64d90ff1f57f1c78d66c4a7ca6153d4"
+  },
+  "geometry_identifier": "geometry.m400_battery",
+  "texture": {
+    "width": 2048,
+    "height": 1024,
+    "uv_mode": "per-face UV",
+    "alpha": "opaque"
+  },
+  "real_scale": "1 model px = 7.5 mm (the drone uses the same shape at 15 mm/px)",
+  "model_size_px": {
+    "bbox_min": [
+      -10.24,
+      -7.701,
+      -14.96
+    ],
+    "bbox_max": [
+      10.24,
+      7.701,
+      14.96
+    ],
+    "top": "+Y = lid (vents, LEDs, power button)",
+    "front": "-Z = vent end (faces the drone's nose when installed); +Z = LED end with the label",
+    "origin": "centred on the item pivot"
+  },
+  "cube_count": 40,
+  "bones": [
+    {
+      "name": "root",
+      "parent": null,
+      "pivot_bb": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cube_count": 0
+    },
+    {
+      "name": "battery",
+      "parent": "root",
+      "pivot_bb": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cube_count": 38
+    },
+    {
+      "name": "latch_l",
+      "parent": "battery",
+      "pivot_bb": [
+        -10.0,
+        6.0,
+        8.84
+      ],
+      "cube_count": 1
+    },
+    {
+      "name": "latch_r",
+      "parent": "battery",
+      "pivot_bb": [
+        10.0,
+        6.0,
+        8.84
+      ],
+      "cube_count": 1
+    }
+  ],
+  "animations": [
+    {
+      "name": "animation.m400_battery.idle",
+      "loop": "loop",
+      "length_s": 1.0,
+      "bones": [
+        "root"
+      ]
+    },
+    {
+      "name": "animation.m400_battery.latch_press",
+      "loop": "once",
+      "length_s": 0.6,
+      "bones": [
+        "latch_r",
+        "latch_l"
+      ]
+    },
+    {
+      "name": "animation.m400_battery.showcase",
+      "loop": "loop",
+      "length_s": 8.0,
+      "bones": [
+        "battery"
+      ]
+    }
+  ],
+  "install_paths": {
+    "geometry": "assets/<modid>/geo/m400_battery.geo.json",
+    "animation": "assets/<modid>/animations/m400_battery.animation.json",
+    "texture": "assets/<modid>/textures/item/m400_battery.png",
+    "glowmask": "assets/<modid>/textures/item/m400_battery_glowmask.png",
+    "item_model": "assets/<modid>/models/item/m400_battery.json"
+  },
+  "generator": "DJI/tools/gen_battery_m400.py <out>  (shape: tools/tb100.py)"
+}

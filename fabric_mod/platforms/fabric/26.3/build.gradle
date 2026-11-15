@@ -1,0 +1,24 @@
+plugins { id 'net.fabricmc.fabric-loom' version '1.19.4' }
+ext.platformLoader = 'Fabric'
+apply from: '../../platform-26.3.gradle'
+
+repositories { maven { url = 'https://api.modrinth.com/maven' } }
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    // 26.3 is unobfuscated. Do not request Yarn or intermediary mappings.
+    implementation "net.fabricmc:fabric-loader:${loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+    implementation "maven.modrinth:geckolib:kSxHvs99"
+    include implementation('com.fazecast:jSerialComm:2.11.0')
+}
+loom.mods { djimod { sourceSet sourceSets.main; sourceSet project(':common').sourceSets.main } }
+sourceSets.main.resources.srcDir '../../../src/main/resources'
+processResources {
+    filesMatching('fabric.mod.json') {
+        filter { line -> line.replace('"minecraft": "1.20.1"', '"minecraft": "26.3"')
+            .replace('"java": ">=17"', '"java": ">=25"')
+            .replace('"fabricloader": ">=0.16.10"', '"fabricloader": ">=0.20.1"')
+            .replace('"geckolib": ">=4.4.9 <5.0.0"', '"geckolib": ">=5.5.7 <6.0.0"') }
+        expand version: project.version
+    }
+}

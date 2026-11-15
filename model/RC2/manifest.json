@@ -1,0 +1,181 @@
+{
+  "id": "rc2",
+  "display_name": "DJI RC 2 Remote Controller",
+  "type": "item",
+  "minecraft": "1.20.1",
+  "format": "GeckoLib 4.x item (Bedrock geometry 1.12.0)",
+  "files": {
+    "blockbench_project": "rc2.bbmodel",
+    "geometry": "geo/rc2.geo.json",
+    "animation": "animations/rc2.animation.json",
+    "texture": "textures/rc2.png",
+    "item_model_display": "models/item/rc2.json",
+    "previews": "preview/",
+    "reference_code": "reference_code/"
+  },
+  "md5": {
+    "rc2.bbmodel": "486b40150bec1fefa166faf16edc3361",
+    "geo/rc2.geo.json": "317c26402096e272ae578f85edf83ae2",
+    "animations/rc2.animation.json": "97a2fca8dc6057efef651746a69b2747",
+    "textures/rc2.png": "8166579468beabc67dd12c8616103cb9",
+    "models/item/rc2.json": "c5f95b02432eb82f6e4938ddf75cf5a0"
+  },
+  "geometry_identifier": "geometry.rc2",
+  "texture": {
+    "width": 2048,
+    "height": 1024,
+    "uv_mode": "per-face UV",
+    "alpha": "opaque"
+  },
+  "model_size_px": {
+    "width_x": 24.0,
+    "height_y": 22.2,
+    "depth_z": "6.65 body (+2.5 sticks)",
+    "front": "screen faces -Z (north)",
+    "origin": "model centred on GeckoLib item pivot (internal Y offset -11)"
+  },
+  "real_scale": "1 model px ~= 7 mm (real RC 2 ~168 x 132 x 46 mm)",
+  "cube_count": 235,
+  "bones": [
+    {
+      "name": "root",
+      "parent": null,
+      "pivot_geo": [
+        -0.0,
+        -11.0,
+        0.0
+      ],
+      "cube_count": 0,
+      "desc": "整体根骨骼（中心=物品渲染枢轴）"
+    },
+    {
+      "name": "body",
+      "parent": "root",
+      "pivot_geo": [
+        -0.0,
+        -1.0,
+        0.0
+      ],
+      "cube_count": 135,
+      "desc": "外壳、握把、背部 C1/C2、摇杆槽、拨轮底座、天线铰链柱"
+    },
+    {
+      "name": "screen",
+      "parent": "root",
+      "pivot_geo": [
+        -0.0,
+        -3.3,
+        -2.6
+      ],
+      "cube_count": 1,
+      "desc": "5.5 寸屏幕（黑边 + 显示区）"
+    },
+    {
+      "name": "buttons",
+      "parent": "root",
+      "pivot_geo": [
+        -0.0,
+        4.0,
+        -2.6
+      ],
+      "cube_count": 29,
+      "desc": "急停/返航键、电源键、C-N-S 档位开关、顶部录像(+X)/拍照(-X)键、左右拨轮"
+    },
+    {
+      "name": "stick_l",
+      "parent": "root",
+      "pivot_geo": [
+        -7.4,
+        5.1,
+        -2.75
+      ],
+      "cube_count": 11,
+      "desc": "左摇杆（操作者视角左侧 = +X）"
+    },
+    {
+      "name": "stick_r",
+      "parent": "root",
+      "pivot_geo": [
+        7.4,
+        5.1,
+        -2.75
+      ],
+      "cube_count": 11,
+      "desc": "右摇杆（-X）"
+    },
+    {
+      "name": "antenna_l",
+      "parent": "root",
+      "pivot_geo": [
+        -4.75,
+        10.4,
+        0.1
+      ],
+      "cube_count": 24,
+      "desc": "左天线（+X，绕 Z 轴展开）"
+    },
+    {
+      "name": "antenna_r",
+      "parent": "root",
+      "pivot_geo": [
+        4.75,
+        10.4,
+        0.1
+      ],
+      "cube_count": 24,
+      "desc": "右天线（-X）"
+    }
+  ],
+  "animations": [
+    {
+      "name": "animation.rc2.idle",
+      "loop": true,
+      "length_s": 1.0,
+      "bones": [
+        "root"
+      ]
+    },
+    {
+      "name": "animation.rc2.sticks",
+      "loop": false,
+      "length_s": 2.0,
+      "bones": [
+        "stick_l",
+        "stick_r"
+      ]
+    },
+    {
+      "name": "animation.rc2.antenna_open",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.5,
+      "bones": [
+        "antenna_l",
+        "antenna_r"
+      ]
+    },
+    {
+      "name": "animation.rc2.antenna_close",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.5,
+      "bones": [
+        "antenna_l",
+        "antenna_r"
+      ]
+    }
+  ],
+  "install_paths": {
+    "geometry": "assets/<modid>/geo/rc2.geo.json",
+    "animation": "assets/<modid>/animations/rc2.animation.json",
+    "texture": "assets/<modid>/textures/item/rc2.png",
+    "item_model": "assets/<modid>/models/item/rc2.json"
+  },
+  "controllers_in_reference_code": {
+    "antenna": [
+      "open",
+      "close"
+    ],
+    "sticks": [
+      "sticks"
+    ]
+  }
+}

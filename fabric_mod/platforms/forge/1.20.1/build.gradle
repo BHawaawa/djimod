@@ -1,0 +1,82 @@
+plugins {
+    id 'java-library'
+    id 'net.minecraftforge.gradle' version '6.0.54'
+}
+ext.platformLoader = 'Forge'
+ext.portSourcesDirectory = file('../../../build/generated/mojmap-1.20.1')
+ext.portSourcePreparationTask = tasks.register('mapCanonicalSources', Exec) {
+    workingDir file('../../..')
+    commandLine file('../../../gradlew.bat').absolutePath, 'exportMojmapSources', '--no-daemon', '--console=plain'
+    inputs.dir '../../../src/main/java'
+    inputs.files '../../../build.gradle', '../../../gradle.properties'
+    inputs.file '../../../tools/adapt_mojmap_mixins.py'
+    outputs.dir portSourcesDirectory
+    doLast {
+        def loomCache = new File(gradle.gradleUserHomeDir, 'caches/fabric-loom/1.20.1')
+        def yarn = new File(loomCache, 'net.fabricmc.yarn.1_20_1.1.20.1+build.10-v2/mappings.tiny')
+        def mojang = fileTree(new File(loomCache, 'layered/working_dir')).matching { include '*/mojang/client.txt' }.singleFile
+        exec {
+            commandLine 'python', file('../../../tools/adapt_mojmap_mixins.py').absolutePath,
+                '--sources', portSourcesDirectory.absolutePath, '--yarn', yarn.absolutePath, '--mojang', mojang.absolutePath
+        }
+    }
+}
+ext.portSourceReplacements = [
+    'net.fabricmc.loader.api.FabricLoader': 'com.example.avatadrone.compat.PlatformLoader',
+    'FabricLoader.getInstance()': 'PlatformLoader.getInstance()',
+    'import net.fabricmc.api.ModInitializer;': 'import com.example.avatadrone.compat.ModInitializer;',
+    'import net.fabricmc.api.ClientModInitializer;': 'import com.example.avatadrone.compat.ClientModInitializer;',
+    'import net.minecraft.client.render.*;': '',
+    'import net.minecraft.client.gui.*;': '',
+    'import software.bernie.geckolib.animatable.GeoItem;': 'import com.example.avatadrone.compat.LegacyForgeGeoItem;',
+    'implements software.bernie.geckolib.animatable.GeoItem': 'implements com.example.avatadrone.compat.LegacyForgeGeoItem',
+    'implements GeoItem': 'implements LegacyForgeGeoItem',
+    'software.bernie.geckolib.animatable.GeoItem.makeRenderer': 'com.example.avatadrone.compat.LegacyForgeGeoItem.makeRenderer',
+    ' GeoItem.makeRenderer': ' LegacyForgeGeoItem.makeRenderer',
+    'software.bernie.geckolib.animatable.client.RenderProvider': 'net.minecraftforge.client.extensions.common.IClientItemExtensions',
+    'new RenderProvider()': 'new IClientItemExtensions()',
+    'Map<InputConstants.Key, KeyMapping> MAP': 'net.minecraftforge.client.settings.KeyMappingLookup MAP',
+    'boolean rendersOutsideBoundingBox(': 'boolean shouldRenderOffScreen('
+]
+ext.portSourceFilter = { String line ->
+    if (line == 'import ;' || line ==~ /import net\.minecraft\..*\.\*;/) return ''
+    if (line.contains('getRenderProvider()') && line.contains('return ')) {
+        line += '\n    @Override public void initializeClient(java.util.function.Consumer<net.minecraftforge.client.extensions.common.IClientItemExtensions> consumer) { createRenderer(value -> consumer.accept((net.minecraftforge.client.extensions.common.IClientItemExtensions) value)); }'
+    }
+    line
+}
+apply from: '../../forge-platform.gradle'
+repositories {
+    exclusiveContent {
+        forRepository { maven { url = 'https://maven.su5ed.dev/releases' } }
+        filter { includeGroup 'dev.su5ed.sinytra.fabric-api'; includeGroup 'dev.su5ed.sinytra' }
+    }
+}
+dependencies {
+    compileOnly 'dev.su5ed.sinytra.fabric-api:fabric-api:0.92.6+1.11.15+1.20.1'
+    runtimeOnly fg.deobf('dev.su5ed.sinytra.fabric-api:fabric-api:0.92.6+1.11.15+1.20.1')
+    implementation 'io.github.llamalad7:mixinextras-forge:0.4.1'
+    compileOnly 'io.github.llamalad7:mixinextras-common:0.4.1'
+    compileOnly fg.deobf('maven.modrinth:xaeros-world-map:KtEupJvB')
+}
+
+// Feed ForgeGradle's official -> SRG map to Mixin's annotation processor.
+def mixinOutput = layout.buildDirectory.dir('generated/mixin')
+def mixinMappings = mixinOutput.map { it.file('mixins.tsrg') }
+tasks.named('compileJava', JavaCompile) {
+    dependsOn 'createMcpToSrg'
+    inputs.file tasks.named('createMcpToSrg').flatMap { it.output }
+    outputs.dir mixinOutput
+    doFirst {
+        mixinOutput.get().asFile.mkdirs()
+        options.compilerArgs += ['-AmappingTypes=tsrg', '-AdefaultObfuscationEnv=searge',
+            '-AreobfTsrgFile=' + tasks.named('createMcpToSrg').get().output.get().asFile.absolutePath,
+            '-AoutTsrgFile=' + mixinMappings.get().asFile.absolutePath,
+            '-AoutRefMapFile=' + mixinOutput.get().file('dji-avata-drone-refmap.json').asFile.absolutePath]
+    }
+}
+processResources {
+    dependsOn 'compileJava'
+    from(mixinOutput) { include '*.json' }
+}
+tasks.matching { it.name == 'reobfJar' }.configureEach { extraMappings.from mixinMappings }

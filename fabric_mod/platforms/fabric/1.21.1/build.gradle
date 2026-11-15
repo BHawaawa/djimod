@@ -1,0 +1,127 @@
+plugins { id 'fabric-loom' version '1.7.4' }
+ext.platformLoader = 'Fabric'
+apply from: 'source-migrations.gradle'
+apply from: '../../fabric-platform.gradle'
+dependencies { modCompileOnly 'maven.modrinth:xaeros-world-map:XIR7GzC3' }
+sourceSets.test.java {
+    srcDir '../../../src/test/java'
+    include '**/DroneControlPayloadTest.java'
+}
+tasks.register('dronePayloadTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.example.avatadrone.network.DroneControlPayloadTest'
+}
+tasks.named('check') { dependsOn dronePayloadTest }
+// Native loader ports consume the adapted 1.21 source, not the 1.20 baseline.
+def prepareExportSources = tasks.register('prepareExportSources', Sync) {
+    from sourceSets.main.allJava
+    into layout.buildDirectory.dir('generated/exportSources')
+}
+tasks.register('exportMojmapSources', net.fabricmc.loom.task.MigrateMappingsTask) {
+    dependsOn prepareExportSources
+    inputDir = 'build/generated/exportSources'
+    outputDir = 'build/generated/mojmapSources'
+    mappings = 'net.minecraft:mappings:1.21.1'
+}
+processResources {
+    inputs.property 'resourceLayout', '1.21-singular-v1'
+    inputs.property 'geckoCompatibility', '>=4.6.6 <5.0.0'
+    inputs.property 'terrainMixin', '1.21-traversal-v1'
+    // Minecraft 1.21 renamed data-pack directories; leaving the old paths silently loses drops and tool tags.
+    eachFile { entry ->
+        if (entry.path.startsWith('data/')) {
+            entry.path = entry.path.replace('/loot_tables/', '/loot_table/').replace('/tags/blocks/', '/tags/block/')
+        }
+    }
+    filesMatching('fabric.mod.json') {
+        filter { line -> line.replace('"geckolib": "*"', '"geckolib": ">=4.6.6 <5.0.0"') }
+    }
+    filesMatching('avatadrone.client.mixins.json') {
+        filter { line -> line.replace('"WorldRendererMixin",', '"WorldRendererMixin", "DroneTerrainMixin",') }
+    }
+}
+
+// Isolated integration harness; never included in the published mod.
+sourceSets {
+    portQa {
+        compileClasspath += sourceSets.main.compileClasspath + sourceSets.main.output
+        runtimeClasspath += sourceSets.main.runtimeClasspath + sourceSets.main.output
+    }
+}
+// Reuse the canonical gameplay regression scenarios with the same component migration.
+def prepareGameplayQa = tasks.register('prepareGameplayQa', Sync) {
+    from('../../../src/renderQa/java') {
+        include '**/ChargingQa.java', '**/Rc2Qa.java'
+        filter { line ->
+            line = project.portSourceFilter(line)
+            line = line.replace('mini.createNbt()', 'mini.createNbt(p.getRegistryManager())')
+                .replace('copy.readNbt(saved)', 'copy.readNbt(saved, p.getRegistryManager())')
+                .replace('ItemStack.fromNbt(rc.writeNbt(new net.minecraft.nbt.NbtCompound())).getNbt()',
+                    'com.example.avatadrone.compat.ItemData.read(ItemStack.fromNbtOrEmpty(p.getRegistryManager(), (net.minecraft.nbt.NbtCompound) rc.encode(p.getRegistryManager())))')
+            line
+        }
+    }
+    inputs.file 'source-migrations.gradle'
+    into layout.buildDirectory.dir('generated/gameplayQa')
+}
+sourceSets.portQa.java.srcDir prepareGameplayQa
+tasks.register('portQaJar', Jar) {
+    dependsOn portQaClasses
+    from sourceSets.portQa.output
+    archiveClassifier = 'qa-dev'
+}
+tasks.register('remapPortQaJar', net.fabricmc.loom.task.RemapJarTask) {
+    dependsOn portQaJar
+    inputFile = tasks.named('portQaJar', Jar).flatMap { it.archiveFile }
+    archiveClassifier = 'qa'
+    archiveVersion = ''
+    addNestedDependencies = false
+    classpath.from sourceSets.main.output
+}
+tasks.register('portLaunchFiles') {
+    dependsOn classes, portQaClasses
+    doLast {
+        file('build/port-classpath.txt').text = sourceSets.main.runtimeClasspath.files.join('\n')
+    }
+}
+loom {
+    mods { djimod_port_qa { sourceSet sourceSets.portQa } }
+    runs {
+        portQa {
+            client()
+            source sourceSets.portQa
+            runDir 'run-port-qa'
+            vmArgs '-Xmx2G', '-XX:ActiveProcessorCount=4', '-Davatadrone.compatQa=true'
+            programArgs '--quickPlaySingleplayer', 'Port QA'
+        }
+        portServerQa {
+            server()
+            source sourceSets.portQa
+            runDir 'run-port-server-qa'
+            vmArgs '-Xmx2G', '-XX:ActiveProcessorCount=4', '-Ddjimod.portServerQa=true'
+            programArgs '--nogui'
+        }
+        portChargingQa {
+            client()
+            source sourceSets.portQa
+            runDir 'run-port-qa'
+            vmArgs '-Xmx2G', '-XX:ActiveProcessorCount=4', '-Davatadrone.chargingQa=true'
+            programArgs '--quickPlaySingleplayer', 'Port QA'
+        }
+        portRc2Qa {
+            client()
+            source sourceSets.portQa
+            runDir 'run-port-qa'
+            vmArgs '-Xmx2G', '-XX:ActiveProcessorCount=4', '-Davatadrone.rc2Qa=true'
+            programArgs '--quickPlaySingleplayer', 'Port QA'
+        }
+        portSurvivalQa {
+            client()
+            source sourceSets.portQa
+            runDir 'run-port-qa'
+            vmArgs '-Xmx2G', '-XX:ActiveProcessorCount=4', '-Ddjimod.survivalQa=true'
+            programArgs '--quickPlaySingleplayer', 'Port QA'
+        }
+    }
+}

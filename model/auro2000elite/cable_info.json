@@ -1,0 +1,36 @@
+{
+ "segments": 48,
+ "segment_len_px": 3.0,
+ "ribbon_px": [
+  2.4,
+  0.55
+ ],
+ "plug_tail_rest": [
+  1.2,
+  50.0,
+  -27.8
+ ],
+ "exit_slit": [
+  3.3,
+  50.0,
+  -27.0
+ ],
+ "device_px": [
+  -14.0,
+  0.0,
+  -85.5
+ ],
+ "plugged_tip_px": [
+  -14.0,
+  3.0,
+  -76.6
+ ],
+ "max_segments_outside": {
+  "extract": 24,
+  "retract": 24,
+  "plug": 26,
+  "unplug": 26,
+  "unplug_retract": 26
+ },
+ "sample_hz": 40
+}

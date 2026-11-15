@@ -1,0 +1,34 @@
+import groovy.json.JsonSlurper
+
+def matrix = new JsonSlurper().parse(file('../../../release/matrix.json'))
+version = matrix.release
+group = 'com.example.avatadrone'
+base.archivesName = "DronesJoyrideInterface-26.3+${platformLoader}-V${version}"
+// The version is already in archivesName; never produce duplicated suffixes.
+tasks.withType(Jar).configureEach { archiveVersion = '' }
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+tasks.withType(JavaCompile).configureEach {
+    options.release = 25
+    options.encoding = 'UTF-8'
+}
+
+evaluationDependsOn(':common')
+def shared = project(':common').sharedClasses
+sourceSets.main.java {
+    srcDir file('../../../src/main/java')
+    shared.each { exclude it }
+}
+dependencies { implementation project(':common') }
+tasks.named('check') { dependsOn ':common:check' }
+tasks.named('jar') {
+    dependsOn ':common:classes'
+    from project(':common').sourceSets.main.output
+    // This port currently compiles the legacy platform sources to expose all
+    // migration diagnostics. Never publish an empty/bootstrap-only release.
+    doFirst {
+        def target = matrix.targets.find { it.loader == platformLoader && it.minecraft == '26.3' }
+        if (target.status != 'ready') {
+            throw new GradleException("${platformLoader} 26.3 source migration and runtime verification are incomplete; release disabled.")
+        }
+    }
+}

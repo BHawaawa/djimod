@@ -1,0 +1,355 @@
+{
+  "id": "m400",
+  "display_name": "DJI Matrice 400（大疆经纬 M400）",
+  "type": "entity",
+  "minecraft": "1.20.1",
+  "format": "GeckoLib 4.x (Bedrock geometry 1.12.0)",
+  "files": {
+    "blockbench_project": "m400.bbmodel",
+    "geometry": "geo/m400.geo.json",
+    "animation": "animations/m400.animation.json",
+    "texture": "textures/m400.png",
+    "glowmask": "textures/m400_glowmask.png",
+    "previews": "preview/",
+    "reference_code": "reference_code/"
+  },
+  "md5": {
+    "m400.bbmodel": "0ae6f773854b0fedfc40329d6a9bb4bd",
+    "geo/m400.geo.json": "01baffd38073d0d1f81aecce303f5060",
+    "animations/m400.animation.json": "17fc43d30bf55498d232372b7ed35e68",
+    "textures/m400.png": "cb14ed6861ac50173a3645ea9995bda6",
+    "textures/m400_glowmask.png": "6c8767946e10e0675b52048026b5a161"
+  },
+  "geometry_identifier": "geometry.m400",
+  "texture": {
+    "width": 4096,
+    "height": 1024,
+    "uv_mode": "per-face UV",
+    "alpha": "cutout (propeller blades) - entityCutoutNoCull (GeckoLib default)"
+  },
+  "real_scale": "1 model px = 15 mm",
+  "model_size_px": {
+    "bbox_min": [
+      -32.8959,
+      -0.1,
+      -40.8913
+    ],
+    "bbox_max": [
+      32.8959,
+      31.6905,
+      48.3429
+    ],
+    "height_y": 31.7,
+    "motor_centres": {
+      "front": "X ±29.2, Z -19.6",
+      "rear": "X ±24.8, Z +27.1"
+    },
+    "diagonal_wheelbase": 71.3,
+    "prop_diameter": 42.4,
+    "front": "-Z (north)",
+    "origin": "ground centre, skids on Y=0"
+  },
+  "real_reference": {
+    "unfolded_mm": "980 x 760 x 480 (含脚架)",
+    "wheelbase_mm": 1070,
+    "prop": "25 inch 2510F",
+    "motor": "7510",
+    "weight_g": "9740 (带电池)"
+  },
+  "suggested": {
+    "renderer_scale": 0.4,
+    "hitbox_width": 1.6,
+    "hitbox_height": 0.8,
+    "shadow_radius": 0.8
+  },
+  "cube_count": 704,
+  "bones": [
+    {
+      "name": "root",
+      "parent": null,
+      "pivot_bb": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cube_count": 0,
+      "desc": "空骨骼，留给代码按速度倾斜"
+    },
+    {
+      "name": "drone",
+      "parent": "root",
+      "pivot_bb": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cube_count": 0,
+      "desc": "整机；fly/takeoff/land 动画作用于此"
+    },
+    {
+      "name": "body",
+      "parent": "drone",
+      "pivot_bb": [
+        0.0,
+        20.0,
+        0.0
+      ],
+      "cube_count": 324,
+      "desc": "机身：机头（前视双目、dji 标、前向 ToF、侧边网格散热）、腰部、顶部平台、4 个机臂根部（旋钮锁）+ 碳纤维臂管 + 电调盒、云台快拆口；v1.1：机身后上部改为围绕倾斜电池仓的阶梯填充 + 旋转的仓壁/仓底/搭边（仓内深色，底面插座与导槽）"
+    },
+    {
+      "name": "lidar",
+      "parent": "body",
+      "pivot_bb": [
+        0.0,
+        29.6,
+        -12.6
+      ],
+      "cube_count": 64,
+      "desc": "顶部激光雷达玻璃罩（墨绿玻璃，带高光）"
+    },
+    {
+      "name": "battery",
+      "parent": "drone",
+      "pivot_bb": [
+        0.0,
+        28.6,
+        4.5
+      ],
+      "cube_count": 38,
+      "desc": "TB100 电池（与 model/battery/M400 同一套几何/贴图代码生成，旋转到 34° 斜面；默认隐藏，由 battery_* 动画控制）"
+    },
+    {
+      "name": "bat_latch_r",
+      "parent": "battery",
+      "pivot_bb": [
+        5.0,
+        21.5311,
+        14.086
+      ],
+      "cube_count": 1,
+      "desc": "电池右侧橙色释放卡扣（Blockbench +X）"
+    },
+    {
+      "name": "bat_latch_l",
+      "parent": "battery",
+      "pivot_bb": [
+        -5.0,
+        21.5311,
+        14.086
+      ],
+      "cube_count": 1,
+      "desc": "电池左侧橙色释放卡扣（Blockbench -X）"
+    },
+    {
+      "name": "gear",
+      "parent": "drone",
+      "pivot_bb": [
+        0.0,
+        14.7,
+        3.0
+      ],
+      "cube_count": 76,
+      "desc": "起落架：两根斜腿 + 横向 T 接头 + 两根碳纤维纵向滑橇（橡胶端帽）"
+    },
+    {
+      "name": "motor_fr",
+      "parent": "drone",
+      "pivot_bb": [
+        29.2,
+        20.0,
+        -19.6
+      ],
+      "cube_count": 40,
+      "desc": "电机 fr：电机座/立柱（状态灯）、顶部天线、电机钟罩（桨在电机下方）"
+    },
+    {
+      "name": "prop_fr",
+      "parent": "motor_fr",
+      "pivot_bb": [
+        29.2,
+        15.35,
+        -19.6
+      ],
+      "cube_count": 10,
+      "desc": "2510F 折叠桨 fr（绕 Y 旋转，桨尖橙色）"
+    },
+    {
+      "name": "motor_fl",
+      "parent": "drone",
+      "pivot_bb": [
+        -29.2,
+        20.0,
+        -19.6
+      ],
+      "cube_count": 40,
+      "desc": "电机 fl：电机座/立柱（状态灯）、顶部天线、电机钟罩（桨在电机下方）"
+    },
+    {
+      "name": "prop_fl",
+      "parent": "motor_fl",
+      "pivot_bb": [
+        -29.2,
+        15.35,
+        -19.6
+      ],
+      "cube_count": 10,
+      "desc": "2510F 折叠桨 fl（绕 Y 旋转，桨尖橙色）"
+    },
+    {
+      "name": "motor_rr",
+      "parent": "drone",
+      "pivot_bb": [
+        24.8,
+        20.0,
+        27.1
+      ],
+      "cube_count": 40,
+      "desc": "电机 rr：电机座/立柱（状态灯）、顶部RTK 天线罩、电机钟罩（桨在电机下方）"
+    },
+    {
+      "name": "prop_rr",
+      "parent": "motor_rr",
+      "pivot_bb": [
+        24.8,
+        15.35,
+        27.1
+      ],
+      "cube_count": 10,
+      "desc": "2510F 折叠桨 rr（绕 Y 旋转，桨尖橙色）"
+    },
+    {
+      "name": "motor_rl",
+      "parent": "drone",
+      "pivot_bb": [
+        -24.8,
+        20.0,
+        27.1
+      ],
+      "cube_count": 40,
+      "desc": "电机 rl：电机座/立柱（状态灯）、顶部RTK 天线罩、电机钟罩（桨在电机下方）"
+    },
+    {
+      "name": "prop_rl",
+      "parent": "motor_rl",
+      "pivot_bb": [
+        -24.8,
+        15.35,
+        27.1
+      ],
+      "cube_count": 10,
+      "desc": "2510F 折叠桨 rl（绕 Y 旋转，桨尖橙色）"
+    }
+  ],
+  "animations": [
+    {
+      "name": "animation.m400.idle",
+      "loop": true,
+      "length_s": 1.0,
+      "bones": [
+        "drone"
+      ]
+    },
+    {
+      "name": "animation.m400.props",
+      "loop": true,
+      "length_s": 1.0,
+      "bones": [
+        "prop_fr",
+        "prop_fl",
+        "prop_rr",
+        "prop_rl"
+      ]
+    },
+    {
+      "name": "animation.m400.fly",
+      "loop": true,
+      "length_s": 2.0,
+      "bones": [
+        "drone",
+        "prop_fr",
+        "prop_fl",
+        "prop_rr",
+        "prop_rl"
+      ]
+    },
+    {
+      "name": "animation.m400.takeoff",
+      "loop": "hold_on_last_frame",
+      "length_s": 1.5,
+      "bones": [
+        "drone",
+        "prop_fr",
+        "prop_fl",
+        "prop_rr",
+        "prop_rl"
+      ]
+    },
+    {
+      "name": "animation.m400.land",
+      "loop": "hold_on_last_frame",
+      "length_s": 1.5,
+      "bones": [
+        "drone",
+        "prop_fr",
+        "prop_fl",
+        "prop_rr",
+        "prop_rl"
+      ]
+    },
+    {
+      "name": "animation.m400.battery_insert",
+      "loop": "hold_on_last_frame",
+      "length_s": 1.8,
+      "bones": [
+        "battery",
+        "bat_latch_r",
+        "bat_latch_l"
+      ]
+    },
+    {
+      "name": "animation.m400.battery_remove",
+      "loop": "hold_on_last_frame",
+      "length_s": 1.5,
+      "bones": [
+        "battery",
+        "bat_latch_r",
+        "bat_latch_l"
+      ]
+    },
+    {
+      "name": "animation.m400.battery_installed",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.05,
+      "bones": [
+        "battery"
+      ]
+    },
+    {
+      "name": "animation.m400.battery_empty",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.05,
+      "bones": [
+        "battery"
+      ]
+    }
+  ],
+  "install_paths": {
+    "geometry": "assets/<modid>/geo/m400.geo.json",
+    "animation": "assets/<modid>/animations/m400.animation.json",
+    "texture": "assets/<modid>/textures/entity/m400.png",
+    "glowmask": "assets/<modid>/textures/entity/m400_glowmask.png"
+  },
+  "version": "1.1",
+  "generator": "DJI/tools/gen_m400.py <out>  (uses tools/tb100.py; previews: tools/preview_m400.py; GIFs: tools/make_m400_battery_gifs.py)",
+  "battery": {
+    "default": "no battery (bone battery hidden: battery_empty scales it to 0; Blockbench project also has it hidden)",
+    "slot": "sloped rear top (yellow circle in the reference), 34 deg, hinge line at Blockbench Y 28.6 / Z 4.5; lid 10 x 14.96 px, body 8.2 x 10.75 px, depth 7.35 px below the lid top",
+    "insert": "animation.m400.battery_insert (1.8 s, hold) - pushed in along the slope normal (world dir (0,0.829,0.559)), latches squeeze 0.95-1.38 s",
+    "remove": "animation.m400.battery_remove (1.5 s, hold) - latches pressed, pulled out along the normal, scale -> 0 at 1.45 s",
+    "states": "battery_installed / battery_empty (hold) - identical to the last frames of insert / remove",
+    "source_model": "model/battery/M400 (item, 7.5 mm/px) - same tools/tb100.py builder, k=1 in the drone",
+    "gifs": "model/gif/M400/"
+  },
+  "previous_version": "DJI/backup/M400_v1/"
+}

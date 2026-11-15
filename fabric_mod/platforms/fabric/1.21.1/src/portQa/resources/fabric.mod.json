@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "djimod_port_qa",
+  "version": "1.0.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.example.avatadrone.qa.ServerChecks"],
+    "client": ["com.example.avatadrone.qa.RenderQa", "com.example.avatadrone.qa.ChargingQa", "com.example.avatadrone.qa.Rc2Qa", "com.example.avatadrone.qa.SurvivalFlightQa"]
+  },
+  "depends": { "djimod": "*" }
+}

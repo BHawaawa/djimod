@@ -1,0 +1,606 @@
+{
+ "id": "mini4pro_charging_hub",
+ "display_name": "DJI Mini 3 Pro / Mini 4 Pro Two-Way Charging Hub (CHX162-30)",
+ "type": "geckolib_block_entity",
+ "modid": "avatadrone",
+ "minecraft": "1.20.1 Fabric",
+ "geckolib": "4.x (verified against 4.4.9 sources)",
+ "format": "GeckoLib 4.x block (Bedrock geometry 1.12.0)",
+ "geometry_identifier": "geometry.mini4pro_charging_hub",
+ "files": {
+  "mini4pro_charging_hub.bbmodel": "8e10326b4bc62f5e483beb20991b694f",
+  "geo/mini4pro_charging_hub.geo.json": "a12c8170b980c8276228cfdb194b6f2e",
+  "animations/mini4pro_charging_hub.animation.json": "8ffc3cb7ca56beb0343b3504e94d6740",
+  "textures/mini4pro_charging_hub.png": "0a60f9e03c0ec275ede6948936da9529",
+  "textures/mini4pro_charging_hub_glowmask.png": "e2b57c463dd2bdd416da1c02f8da7e1a",
+  "blockstates/mini4pro_charging_hub.json": "031412055ed8dfb92de82061927e640b",
+  "models/block/mini4pro_charging_hub.json": "d1cb92800ae3dfbba990e56710f5b532",
+  "models/item/mini4pro_charging_hub.json": "d48cdc228f6c7551f0ad9b75affc1516",
+  "preview/label_art.png": "86845998b1cba0fef7c0e63d2992218f"
+ },
+ "mod_paths": {
+  "geo/mini4pro_charging_hub.geo.json": "assets/avatadrone/geo/block/mini4pro_charging_hub.geo.json",
+  "animations/mini4pro_charging_hub.animation.json": "assets/avatadrone/animations/block/mini4pro_charging_hub.animation.json",
+  "textures/mini4pro_charging_hub.png": "assets/avatadrone/textures/block/mini4pro_charging_hub.png",
+  "textures/mini4pro_charging_hub_glowmask.png": "assets/avatadrone/textures/block/mini4pro_charging_hub_glowmask.png",
+  "blockstates/mini4pro_charging_hub.json": "assets/avatadrone/blockstates/mini4pro_charging_hub.json",
+  "models/block/mini4pro_charging_hub.json": "assets/avatadrone/models/block/mini4pro_charging_hub.json",
+  "models/item/mini4pro_charging_hub.json": "assets/avatadrone/models/item/mini4pro_charging_hub.json"
+ },
+ "texture": {
+  "width": 2048,
+  "height": 2048,
+  "uv_mode": "per-face UV",
+  "glowmask": "textures/mini4pro_charging_hub_glowmask.png (charge LEDs, for AutoGlowingGeoLayer)"
+ },
+ "cube_count": 584,
+ "bbox_px_rest_frame": {
+  "min": [
+   -8.8783,
+   0.0,
+   -6.6666
+  ],
+  "max": [
+   8.6784,
+   12.0,
+   6.6666
+  ],
+  "note": "battery cubes are listed before their slot bone rest rotation; real height see README"
+ },
+ "orientation": "origin = block bottom centre; front = -Z (north); GeoBlockRenderer rotates by HorizontalFacingBlock.FACING",
+ "slot_bones": [
+  "slot1 (-X)",
+  "slot2 (centre)",
+  "slot3 (+X)"
+ ],
+ "bones": [
+  {
+   "name": "root",
+   "parent": null,
+   "pivot_geo": [
+    -0.0,
+    0.0,
+    0.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 0
+  },
+  {
+   "name": "hub",
+   "parent": "root",
+   "pivot_geo": [
+    -0.0,
+    0.0,
+    0.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 110
+  },
+  {
+   "name": "slot1",
+   "parent": "hub",
+   "pivot_geo": [
+    5.03,
+    8.0,
+    0.0
+   ],
+   "rest_rotation_geo": [
+    -90.0,
+    -90.0,
+    0.0
+   ],
+   "cubes": 0
+  },
+  {
+   "name": "s1_body",
+   "parent": "slot1",
+   "pivot_geo": [
+    5.03,
+    8.0,
+    0.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 94
+  },
+  {
+   "name": "s1_collar",
+   "parent": "slot1",
+   "pivot_geo": [
+    5.03,
+    8.0,
+    -4.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 58
+  },
+  {
+   "name": "s1_button_l",
+   "parent": "slot1",
+   "pivot_geo": [
+    8.7383,
+    8.0,
+    -5.6666
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s1_button_r",
+   "parent": "slot1",
+   "pivot_geo": [
+    1.3216,
+    8.0,
+    -5.6666
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "slot2",
+   "parent": "hub",
+   "pivot_geo": [
+    0.1,
+    8.0,
+    0.0
+   ],
+   "rest_rotation_geo": [
+    -90.0,
+    -90.0,
+    0.0
+   ],
+   "cubes": 0
+  },
+  {
+   "name": "s2_body",
+   "parent": "slot2",
+   "pivot_geo": [
+    0.1,
+    8.0,
+    0.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 94
+  },
+  {
+   "name": "s2_collar",
+   "parent": "slot2",
+   "pivot_geo": [
+    0.1,
+    8.0,
+    -4.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 58
+  },
+  {
+   "name": "s2_button_l",
+   "parent": "slot2",
+   "pivot_geo": [
+    3.8083,
+    8.0,
+    -5.6666
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s2_button_r",
+   "parent": "slot2",
+   "pivot_geo": [
+    -3.6083,
+    8.0,
+    -5.6666
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "slot3",
+   "parent": "hub",
+   "pivot_geo": [
+    -4.83,
+    8.0,
+    0.0
+   ],
+   "rest_rotation_geo": [
+    -90.0,
+    -90.0,
+    0.0
+   ],
+   "cubes": 0
+  },
+  {
+   "name": "s3_body",
+   "parent": "slot3",
+   "pivot_geo": [
+    -4.83,
+    8.0,
+    0.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 94
+  },
+  {
+   "name": "s3_collar",
+   "parent": "slot3",
+   "pivot_geo": [
+    -4.83,
+    8.0,
+    -4.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 58
+  },
+  {
+   "name": "s3_button_l",
+   "parent": "slot3",
+   "pivot_geo": [
+    -1.1217,
+    8.0,
+    -5.6666
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s3_button_r",
+   "parent": "slot3",
+   "pivot_geo": [
+    -8.5383,
+    8.0,
+    -5.6666
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s1_led1",
+   "parent": "hub",
+   "pivot_geo": [
+    4.3,
+    0.78,
+    -3.835
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s1_led2",
+   "parent": "hub",
+   "pivot_geo": [
+    4.72,
+    0.78,
+    -3.835
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s1_led3",
+   "parent": "hub",
+   "pivot_geo": [
+    5.14,
+    0.78,
+    -3.835
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s1_led4",
+   "parent": "hub",
+   "pivot_geo": [
+    5.56,
+    0.78,
+    -3.835
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s2_led1",
+   "parent": "hub",
+   "pivot_geo": [
+    -0.63,
+    0.78,
+    -3.835
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s2_led2",
+   "parent": "hub",
+   "pivot_geo": [
+    -0.21,
+    0.78,
+    -3.835
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s2_led3",
+   "parent": "hub",
+   "pivot_geo": [
+    0.21,
+    0.78,
+    -3.835
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s2_led4",
+   "parent": "hub",
+   "pivot_geo": [
+    0.63,
+    0.78,
+    -3.835
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s3_led1",
+   "parent": "hub",
+   "pivot_geo": [
+    -5.56,
+    0.78,
+    -3.835
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s3_led2",
+   "parent": "hub",
+   "pivot_geo": [
+    -5.14,
+    0.78,
+    -3.835
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s3_led3",
+   "parent": "hub",
+   "pivot_geo": [
+    -4.72,
+    0.78,
+    -3.835
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s3_led4",
+   "parent": "hub",
+   "pivot_geo": [
+    -4.3,
+    0.78,
+    -3.835
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  }
+ ],
+ "animations": {
+  "animation.mini4pro_charging_hub.idle": {
+   "loop": "loop",
+   "length": 1.0,
+   "bones": [
+    "hub"
+   ]
+  },
+  "animation.mini4pro_charging_hub.slot1_insert": {
+   "loop": "hold",
+   "length": 1.6,
+   "bones": [
+    "slot1",
+    "s1_button_r",
+    "s1_button_l",
+    "s1_led1",
+    "s1_led2",
+    "s1_led3",
+    "s1_led4"
+   ]
+  },
+  "animation.mini4pro_charging_hub.slot1_remove": {
+   "loop": "hold",
+   "length": 1.3,
+   "bones": [
+    "slot1",
+    "s1_button_r",
+    "s1_button_l",
+    "s1_led1",
+    "s1_led2",
+    "s1_led3",
+    "s1_led4"
+   ]
+  },
+  "animation.mini4pro_charging_hub.slot1_installed": {
+   "loop": "hold",
+   "length": 0.05,
+   "bones": [
+    "slot1",
+    "s1_led1",
+    "s1_led2",
+    "s1_led3",
+    "s1_led4"
+   ]
+  },
+  "animation.mini4pro_charging_hub.slot1_empty": {
+   "loop": "hold",
+   "length": 0.05,
+   "bones": [
+    "slot1",
+    "s1_led1",
+    "s1_led2",
+    "s1_led3",
+    "s1_led4"
+   ]
+  },
+  "animation.mini4pro_charging_hub.slot1_charging": {
+   "loop": "loop",
+   "length": 2.0,
+   "bones": [
+    "slot1",
+    "s1_led1",
+    "s1_led2",
+    "s1_led3",
+    "s1_led4"
+   ]
+  },
+  "animation.mini4pro_charging_hub.slot2_insert": {
+   "loop": "hold",
+   "length": 1.6,
+   "bones": [
+    "slot2",
+    "s2_button_r",
+    "s2_button_l",
+    "s2_led1",
+    "s2_led2",
+    "s2_led3",
+    "s2_led4"
+   ]
+  },
+  "animation.mini4pro_charging_hub.slot2_remove": {
+   "loop": "hold",
+   "length": 1.3,
+   "bones": [
+    "slot2",
+    "s2_button_r",
+    "s2_button_l",
+    "s2_led1",
+    "s2_led2",
+    "s2_led3",
+    "s2_led4"
+   ]
+  },
+  "animation.mini4pro_charging_hub.slot2_installed": {
+   "loop": "hold",
+   "length": 0.05,
+   "bones": [
+    "slot2",
+    "s2_led1",
+    "s2_led2",
+    "s2_led3",
+    "s2_led4"
+   ]
+  },
+  "animation.mini4pro_charging_hub.slot2_empty": {
+   "loop": "hold",
+   "length": 0.05,
+   "bones": [
+    "slot2",
+    "s2_led1",
+    "s2_led2",
+    "s2_led3",
+    "s2_led4"
+   ]
+  },
+  "animation.mini4pro_charging_hub.slot2_charging": {
+   "loop": "loop",
+   "length": 2.0,
+   "bones": [
+    "slot2",
+    "s2_led1",
+    "s2_led2",
+    "s2_led3",
+    "s2_led4"
+   ]
+  },
+  "animation.mini4pro_charging_hub.slot3_insert": {
+   "loop": "hold",
+   "length": 1.6,
+   "bones": [
+    "slot3",
+    "s3_button_r",
+    "s3_button_l",
+    "s3_led1",
+    "s3_led2",
+    "s3_led3",
+    "s3_led4"
+   ]
+  },
+  "animation.mini4pro_charging_hub.slot3_remove": {
+   "loop": "hold",
+   "length": 1.3,
+   "bones": [
+    "slot3",
+    "s3_button_r",
+    "s3_button_l",
+    "s3_led1",
+    "s3_led2",
+    "s3_led3",
+    "s3_led4"
+   ]
+  },
+  "animation.mini4pro_charging_hub.slot3_installed": {
+   "loop": "hold",
+   "length": 0.05,
+   "bones": [
+    "slot3",
+    "s3_led1",
+    "s3_led2",
+    "s3_led3",
+    "s3_led4"
+   ]
+  },
+  "animation.mini4pro_charging_hub.slot3_empty": {
+   "loop": "hold",
+   "length": 0.05,
+   "bones": [
+    "slot3",
+    "s3_led1",
+    "s3_led2",
+    "s3_led3",
+    "s3_led4"
+   ]
+  },
+  "animation.mini4pro_charging_hub.slot3_charging": {
+   "loop": "loop",
+   "length": 2.0,
+   "bones": [
+    "slot3",
+    "s3_led1",
+    "s3_led2",
+    "s3_led3",
+    "s3_led4"
+   ]
+  },
+  "animation.mini4pro_charging_hub.demo_cycle": {
+   "loop": "loop",
+   "length": 12.0,
+   "bones": [
+    "s1_led4",
+    "s1_led1",
+    "s1_button_l",
+    "slot1",
+    "s1_button_r",
+    "s1_led2",
+    "s1_led3",
+    "s2_led2",
+    "s2_led1",
+    "s2_led3",
+    "s2_button_l",
+    "slot2",
+    "s2_led4",
+    "s2_button_r",
+    "s3_led2",
+    "s3_led3",
+    "s3_led1",
+    "s3_button_r",
+    "s3_button_l",
+    "slot3",
+    "s3_led4"
+   ]
+  }
+ },
+ "animation_usage": {
+  "per_slot_controller": "controller \"slotN\": state = slotN_installed / slotN_empty (or slotN_charging); triggerable slotN_insert / slotN_remove",
+  "demo": "demo_cycle (12 s loop, all three slots, for Blockbench / showcase)"
+ }
+}

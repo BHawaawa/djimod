@@ -1,0 +1,596 @@
+{
+ "format_version": "1.8.0",
+ "animations": {
+  "animation.avata360.idle": {
+   "loop": true,
+   "animation_length": 1.0,
+   "bones": {
+    "drone": {
+     "position": {
+      "0.0": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.avata360.fly": {
+   "loop": true,
+   "animation_length": 1.0,
+   "bones": {
+    "drone": {
+     "position": {
+      "0.0": {
+       "post": [
+        0,
+        0,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      },
+      "0.5": {
+       "post": [
+        0,
+        0.4,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      },
+      "1.0": {
+       "post": [
+        0,
+        0,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      }
+     },
+     "rotation": {
+      "0.0": {
+       "post": [
+        0,
+        0,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      },
+      "0.25": {
+       "post": [
+        0.6,
+        0,
+        0.9
+       ],
+       "lerp_mode": "catmullrom"
+      },
+      "0.75": {
+       "post": [
+        -0.6,
+        0,
+        -0.9
+       ],
+       "lerp_mode": "catmullrom"
+      },
+      "1.0": {
+       "post": [
+        0,
+        0,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      }
+     }
+    },
+    "prop_fl": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "1.0": [
+       0,
+       -1440,
+       0
+      ]
+     }
+    },
+    "prop_fr": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "1.0": [
+       0,
+       1440,
+       0
+      ]
+     }
+    },
+    "prop_rl": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "1.0": [
+       0,
+       1440,
+       0
+      ]
+     }
+    },
+    "prop_rr": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "1.0": [
+       0,
+       -1440,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.avata360.mode_360": {
+   "loop": "hold_on_last_frame",
+   "animation_length": 0.75,
+   "bones": {
+    "camera": {
+     "rotation": {
+      "0.0": {
+       "post": [
+        0,
+        0,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      },
+      "0.75": {
+       "post": [
+        90,
+        0,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      }
+     }
+    }
+   }
+  },
+  "animation.avata360.mode_single": {
+   "loop": "hold_on_last_frame",
+   "animation_length": 0.75,
+   "bones": {
+    "camera": {
+     "rotation": {
+      "0.0": {
+       "post": [
+        90,
+        0,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      },
+      "0.75": {
+       "post": [
+        0,
+        0,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      }
+     }
+    }
+   }
+  },
+  "animation.avata360.gimbal_open": {
+   "loop": "hold_on_last_frame",
+   "animation_length": 0.6,
+   "bones": {
+    "gimbal_cover": {
+     "rotation": {
+      "0.0": {
+       "post": [
+        0,
+        0,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      },
+      "0.6": {
+       "post": [
+        -100,
+        0,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      }
+     }
+    }
+   }
+  },
+  "animation.avata360.gimbal_close": {
+   "loop": "hold_on_last_frame",
+   "animation_length": 0.5,
+   "bones": {
+    "gimbal_cover": {
+     "rotation": {
+      "0.0": {
+       "post": [
+        -100,
+        0,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      },
+      "0.5": {
+       "post": [
+        0,
+        0,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      }
+     }
+    }
+   }
+  },
+  "animation.avata360.battery_insert": {
+   "loop": "hold_on_last_frame",
+   "animation_length": 2.2,
+   "bones": {
+    "battery": {
+     "position": {
+      "0.0": {
+       "post": [
+        0,
+        7.5,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      },
+      "0.5": {
+       "post": [
+        0,
+        4.0,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      },
+      "0.85": {
+       "post": [
+        0,
+        1.0,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      },
+      "1.1": {
+       "post": [
+        0,
+        0.1,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      },
+      "1.25": [
+       0,
+       -0.08,
+       0
+      ],
+      "1.38": [
+       0,
+       0,
+       0
+      ]
+     },
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ]
+     },
+     "scale": {
+      "0.0": [
+       1,
+       1,
+       1
+      ]
+     }
+    },
+    "bat_latch_r": {
+     "position": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.65": [
+       0,
+       0,
+       0
+      ],
+      "0.78": [
+       0.1,
+       0,
+       0
+      ],
+      "1.3": [
+       0.1,
+       0,
+       0
+      ],
+      "1.38": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "bat_latch_l": {
+     "position": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.65": [
+       0,
+       0,
+       0
+      ],
+      "0.78": [
+       -0.1,
+       0,
+       0
+      ],
+      "1.3": [
+       -0.1,
+       0,
+       0
+      ],
+      "1.38": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "bat_button": {
+     "position": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "1.7": [
+       0,
+       0,
+       0
+      ],
+      "1.78": [
+       0,
+       0,
+       -0.055
+      ],
+      "1.9": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.avata360.battery_remove": {
+   "loop": "hold_on_last_frame",
+   "animation_length": 1.6,
+   "bones": {
+    "battery": {
+     "position": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.2": {
+       "post": [
+        0,
+        0,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      },
+      "0.65": {
+       "post": [
+        0,
+        2.5,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      },
+      "1.0": {
+       "post": [
+        0,
+        5.0,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      },
+      "1.55": {
+       "post": [
+        0,
+        7.5,
+        0
+       ],
+       "lerp_mode": "catmullrom"
+      }
+     },
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ]
+     },
+     "scale": {
+      "0.0": [
+       1,
+       1,
+       1
+      ],
+      "1.55": [
+       1,
+       1,
+       1
+      ],
+      "1.6": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "bat_latch_r": {
+     "position": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.1": [
+       0.1,
+       0,
+       0
+      ],
+      "0.6": [
+       0.1,
+       0,
+       0
+      ],
+      "0.72": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "bat_latch_l": {
+     "position": {
+      "0.0": [
+       0,
+       0,
+       0
+      ],
+      "0.1": [
+       -0.1,
+       0,
+       0
+      ],
+      "0.6": [
+       -0.1,
+       0,
+       0
+      ],
+      "0.72": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.avata360.battery_installed": {
+   "loop": "hold_on_last_frame",
+   "animation_length": 0.05,
+   "bones": {
+    "battery": {
+     "position": {
+      "0.0": [
+       0,
+       0,
+       0
+      ]
+     },
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ]
+     },
+     "scale": {
+      "0.0": [
+       1,
+       1,
+       1
+      ]
+     }
+    }
+   }
+  },
+  "animation.avata360.battery_empty": {
+   "loop": "hold_on_last_frame",
+   "animation_length": 0.05,
+   "bones": {
+    "battery": {
+     "position": {
+      "0.0": [
+       0,
+       7.5,
+       0
+      ]
+     },
+     "scale": {
+      "0.0": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.avata360.gimbal_on": {
+   "loop": "hold_on_last_frame",
+   "animation_length": 0.05,
+   "bones": {
+    "gimbal_cover": {
+     "rotation": {
+      "0.0": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.avata360.gimbal_off": {
+   "loop": "hold_on_last_frame",
+   "animation_length": 0.05,
+   "bones": {
+    "gimbal_cover": {
+     "rotation": {
+      "0.0": [
+       -100,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  }
+ }
+}

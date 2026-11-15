@@ -1,0 +1,159 @@
+// Mechanical API renames stay here so the large UI/flight source is not forked.
+// Changes to data persistence, packet ownership and rendering need explicit adapters.
+ext.portSourceReplacements = [
+    'new net.minecraft.util.Identifier(': 'net.minecraft.util.Identifier.of(',
+    'new Identifier(': 'Identifier.of(',
+    'software.bernie.geckolib.core.animatable.instance.': 'software.bernie.geckolib.animatable.instance.',
+    'software.bernie.geckolib.core.animation.': 'software.bernie.geckolib.animation.',
+    'software.bernie.geckolib.core.object.PlayState': 'software.bernie.geckolib.animation.PlayState',
+    'software.bernie.geckolib.core.animatable.GeoAnimatable': 'software.bernie.geckolib.animatable.GeoAnimatable',
+    'software.bernie.geckolib.core.animatable.model.CoreGeoBone': 'software.bernie.geckolib.cache.object.GeoBone',
+    'CoreGeoBone': 'GeoBone',
+    'software.bernie.geckolib.animatable.client.RenderProvider': 'software.bernie.geckolib.animatable.client.GeoRenderProvider',
+    'new RenderProvider()': 'new GeoRenderProvider()',
+    'net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings.create()': 'net.minecraft.block.AbstractBlock.Settings.create()',
+    'net.minecraft.client.render.CameraSubmersionType': 'net.minecraft.block.enums.CameraSubmersionType',
+    'ThreadedAnvilChunkStorage': 'ServerChunkLoadingManager',
+    'threadedAnvilChunkStorage': 'chunkLoadingManager',
+    'net.minecraft.server.world.EntityTrackingListener': 'net.minecraft.server.network.PlayerAssociatedNetworkHandler',
+    'Set<EntityTrackingListener>': 'Set<PlayerAssociatedNetworkHandler>',
+    'Either<Chunk, ChunkHolder.Unloaded>': 'net.minecraft.server.world.OptionalChunk<Chunk>',
+    'future.getNow(ChunkHolder.UNLOADED_CHUNK).left().orElse(null)': 'future.getNow(net.minecraft.server.world.OptionalChunk.of("Not ready")).orElse(null)',
+    'net.minecraft.client.item.TooltipContext': 'net.minecraft.item.tooltip.TooltipType',
+    'TooltipContext context': 'TooltipType context',
+    'appendTooltip(ItemStack stack, World world,': 'appendTooltip(ItemStack stack, net.minecraft.item.Item.TooltipContext world,',
+    'software.bernie.geckolib.animatable.GeoItem': 'com.example.avatadrone.compat.LegacyGeoItem',
+    'implements GeoItem': 'implements LegacyGeoItem',
+    '= GeoItem.makeRenderer(this)': '= LegacyGeoItem.makeRenderer(this)',
+    'getRenderProvider()': 'getLegacyRenderProvider()',
+    'getCustomRenderer()': 'getGeoItemRenderer()',
+    'net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking': 'com.example.avatadrone.compat.ServerPlayNetworking',
+    'net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking': 'com.example.avatadrone.compat.ClientPlayNetworking',
+    'void initDataTracker()': 'void initDataTracker(net.minecraft.entity.data.DataTracker.Builder builder)',
+    'super.initDataTracker();': 'super.initDataTracker(builder);',
+    'this.dataTracker.startTracking(': 'builder.add(',
+    'dataTracker.startTracking(': 'builder.add(',
+    'ItemStack.canCombine(': 'ItemStack.areItemsAndComponentsEqual(',
+    'packed.setCustomName(getCustomName())': 'packed.set(net.minecraft.component.DataComponentTypes.CUSTOM_NAME, getCustomName())',
+    'item.setCustomName(getCustomName())': 'item.set(net.minecraft.component.DataComponentTypes.CUSTOM_NAME, getCustomName())',
+    'SoundEvents.ITEM_ARMOR_EQUIP_IRON,': 'SoundEvents.ITEM_ARMOR_EQUIP_IRON.value(),',
+    'packet.getX()': 'packet.getChunkX()',
+    'packet.getZ()': 'packet.getChunkZ()',
+    'new UnloadChunkS2CPacket(pos.x, pos.z)': 'new UnloadChunkS2CPacket(pos)',
+    'RenderSystem.getModelViewStack().push()': 'RenderSystem.getModelViewStack().pushMatrix()',
+    'RenderSystem.getModelViewStack().pop()': 'RenderSystem.getModelViewStack().popMatrix()',
+    'RenderSystem.getModelViewStack().loadIdentity()': 'RenderSystem.getModelViewStack().identity()',
+    'float red, float green, float blue, float alpha': 'int renderColor',
+    'packedOverlay, red, green, blue, alpha': 'packedOverlay, renderColor'
+]
+
+ext.portSourceFilter = { String line ->
+    def itemData = 'com.example.avatadrone.compat.ItemData'
+    // Receivers in the shared tree are stack locals/fields or context.getStack().
+    def receiver = /([\w.]+(?:\([^()]*\))?)/
+    line = line.replaceAll(receiver + /\.getNbt\(\)/, { all, stack -> "${itemData}.read(${stack})" })
+    line = line.replaceAll(receiver + /\.hasNbt\(\)/, { all, stack -> "${itemData}.has(${stack})" })
+    line = line.replaceAll(receiver + /\.hasCustomName\(\)/, { all, stack ->
+        // Only ItemStack receivers use this removed method; entities keep theirs.
+        stack in ['stack', 'context.getStack()'] ? "${stack}.contains(net.minecraft.component.DataComponentTypes.CUSTOM_NAME)" : all
+    })
+    line = line.replaceAll(receiver + /\.getOrCreateNbt\(\)\.(put\w*)\(/, { all, stack, method -> "${itemData}.${method}(${stack}, " })
+    line = line.replaceAll(receiver + /\.removeSubNbt\(/, { all, stack -> "${itemData}.remove(${stack}, " })
+    line = line.replaceAll(receiver + /\.setNbt\(/, { all, stack -> "${itemData}.set(${stack}, " })
+    line
+}
+
+
+ext.portFileReplacements = [
+    'entity/AvataDroneEntity.java': [
+        'DroneBatteryStorage.write(packed.getOrCreateNbt(), getInstalledBattery())': 'DroneBatteryStorage.writeItem(packed, getInstalledBattery(), getRegistryManager())',
+        'DroneBatteryStorage.write(nbt, getInstalledBattery())': 'DroneBatteryStorage.write(nbt, getInstalledBattery(), getRegistryManager())',
+        'DroneBatteryStorage.read(nbt, batteryItem())': 'DroneBatteryStorage.read(nbt, batteryItem(), getRegistryManager())'
+    ],
+    'network/DroneMaintenance.java': [
+        'com.example.avatadrone.compat.LegacyGeoItem.getOrAssignId': 'software.bernie.geckolib.animatable.GeoItem.getOrAssignId',
+        'var nbt = p.stack.getOrCreateNbt();': 'var nbt = com.example.avatadrone.compat.ItemData.copy(p.stack);',
+        'DroneBatteryStorage.read(nbt, battery(item))': 'DroneBatteryStorage.read(nbt, battery(item), p.player.getRegistryManager())',
+        'DroneBatteryStorage.write(nbt, ItemStack.EMPTY)': 'DroneBatteryStorage.write(nbt, ItemStack.EMPTY, p.player.getRegistryManager())',
+        'DroneBatteryStorage.write(nbt, inserted)': 'DroneBatteryStorage.write(nbt, inserted, p.player.getRegistryManager())',
+        'p.player.getWorld().playSound': 'com.example.avatadrone.compat.ItemData.set(p.stack, nbt);\n        p.player.getWorld().playSound',
+        'DroneBatteryStorage.read(com.example.avatadrone.compat.ItemData.read(stack), battery(item))': 'DroneBatteryStorage.read(com.example.avatadrone.compat.ItemData.read(stack), battery(item), world.getRegistryManager())'
+    ],
+    'item/DeviceCharging.java': [
+        'DroneBatteryStorage.read(com.example.avatadrone.compat.ItemData.read(stack), com.example.avatadrone.AvataDrone.MINI4PRO_BATTERY)': 'installedLongRange(stack)',
+        'com.example.avatadrone.DroneTuning.isLongRangeBattery(\n                installedLongRange(stack))': 'installedLongRange(stack)',
+        'private static boolean longRange(ItemStack stack)': 'private static boolean installedLongRange(ItemStack stack) {\n        NbtCompound root = com.example.avatadrone.compat.ItemData.read(stack);\n        if (root == null) return false;\n        NbtCompound installed = root.getCompound("InstalledBattery");\n        return "djimod:mini4pro_battery_long".equals(installed.getString("id"))\n                || installedData(installed).getBoolean("LongRangeBattery");\n    }\n\n    private static boolean longRange(ItemStack stack)',
+        'root.getCompound("InstalledBattery").getCompound("tag")': 'installedData(root.getCompound("InstalledBattery"))',
+        'NbtCompound root = stack.getOrCreateNbt();': 'NbtCompound root = com.example.avatadrone.compat.ItemData.copy(stack);',
+        '    private static void putInner': '    private static NbtCompound installedData(NbtCompound stack) {\n        return stack.contains("Count") ? stack.getCompound("tag") : stack.getCompound("components").getCompound("minecraft:custom_data");\n    }\n\n    private static void putInner',
+        'NbtCompound inner = installedStack.contains("tag") ? installedStack.getCompound("tag") : new NbtCompound();': 'NbtCompound inner = installedData(installedStack).copy();',
+        'installedStack.put("tag", inner);': 'if (installedStack.contains("Count")) installedStack.put("tag", inner);\n        else {\n            NbtCompound components = installedStack.getCompound("components");\n            components.put("minecraft:custom_data", inner);\n            installedStack.put("components", components);\n        }',
+        'if (data.contains("InstalledBattery")) putInner(data.getCompound("InstalledBattery"), charge);\n        }': 'if (data.contains("InstalledBattery")) putInner(data.getCompound("InstalledBattery"), charge);\n        }\n        com.example.avatadrone.compat.ItemData.set(stack, root);'
+    ],
+    'entity/PowerStationEntity.java': [
+        'ItemStack.fromNbt(nbt.getCompound("Device"))': 'com.example.avatadrone.compat.ItemData.decode(getRegistryManager(), nbt.getCompound("Device"))',
+        'device.writeNbt(new NbtCompound())': 'device.encode(getRegistryManager())'
+    ],
+    'block/charger/ChargingHubBlockEntity.java': [
+        'writeNbt(NbtCompound nbt)': 'writeNbt(NbtCompound nbt, net.minecraft.registry.RegistryWrapper.WrapperLookup registries)',
+        'super.writeNbt(nbt)': 'super.writeNbt(nbt, registries)',
+        'readNbt(NbtCompound nbt)': 'readNbt(NbtCompound nbt, net.minecraft.registry.RegistryWrapper.WrapperLookup registries)',
+        'super.readNbt(nbt)': 'super.readNbt(nbt, registries)',
+        'stacks[i].writeNbt(new NbtCompound())': 'stacks[i].encode(registries)',
+        'ItemStack.fromNbt(nbt.getCompound("Stack" + i))': 'com.example.avatadrone.compat.ItemData.decode(registries, nbt.getCompound("Stack" + i))',
+        'toInitialChunkDataNbt()': 'toInitialChunkDataNbt(net.minecraft.registry.RegistryWrapper.WrapperLookup registries)',
+        'return createNbt();': 'return createNbt(registries);'
+    ],
+    'DroneSettings.java': [
+        'DroneSettings::read, DroneSettings::new, "djimod_flight_settings"': 'new PersistentState.Type<>(DroneSettings::new, (nbt, registries) -> read(nbt), null), "djimod_flight_settings"',
+        'writeNbt(NbtCompound nbt)': 'writeNbt(NbtCompound nbt, net.minecraft.registry.RegistryWrapper.WrapperLookup registries)'
+    ],
+    'signal/FourGNetwork.java': [
+        'FourGNetwork::read, FourGNetwork::new, "avatadrone_4g"': 'new PersistentState.Type<>(FourGNetwork::new, (nbt, registries) -> read(nbt), null), "avatadrone_4g"',
+        'writeNbt(NbtCompound nbt)': 'writeNbt(NbtCompound nbt, net.minecraft.registry.RegistryWrapper.WrapperLookup registries)'
+    ],
+    'client/Rc2View.java': [
+        '(itemStack = Rc2View.heldController()).hasNbt()': 'com.example.avatadrone.compat.ItemData.has(itemStack = Rc2View.heldController())',
+        'BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();': 'BufferBuilder bufferBuilder;',
+        'bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);': 'bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);',
+        '.next();': ';',
+        'Matrix3f originalInverse = new Matrix3f(RenderSystem.getInverseViewRotationMatrix());': '// 1.21 derives view rotation from the camera quaternion.',
+        'RenderSystem.setInverseViewRotationMatrix(originalInverse);': '// Camera quaternion and projection are restored by the next world pass.'
+    ],
+    'client/XaeroFlightMap.java': [
+        'var buffer = Tessellator.getInstance().getBuffer();': 'BufferBuilder buffer;',
+        'buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);': 'buffer = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);',
+        '.next();': ';'
+    ],
+    'client/ChargingCableRenderer.java': ['.next();': ';'],
+    'client/PowerStationRenderer.java': ['.next();': ';'],
+    'mixin/client/DroneClientNetworkMixin.java': [
+        'packet.getChunkX()': 'packet.pos().x', 'packet.getChunkZ()': 'packet.pos().z'
+    ],
+    'network/DroneChunkStreaming.java': [
+        'new ChunkDataS2CPacket(worldChunk, manager.getLightingProvider(), null, null).write(buf);': 'ChunkDataS2CPacket.CODEC.encode(new net.minecraft.network.RegistryByteBuf(buf, s.world.getRegistryManager()), new ChunkDataS2CPacket(worldChunk, manager.getLightingProvider(), null, null));'
+    ],
+    'client/DroneChunkClient.java': [
+        'new ChunkDataS2CPacket(buf)': 'ChunkDataS2CPacket.CODEC.decode(new net.minecraft.network.RegistryByteBuf(buf, client.world.getRegistryManager()))'
+    ]
+]
+
+portFileReplacements['block/charger/ChargingHubBlock.java'] = [
+    'public static final DirectionProperty FACING': 'public static final com.mojang.serialization.MapCodec<ChargingHubBlock> CODEC = com.mojang.serialization.codecs.RecordCodecBuilder.mapCodec(instance -> instance.group(\n            com.mojang.serialization.Codec.STRING.xmap(ChargingHubType::valueOf, ChargingHubType::name).fieldOf("hub_type").forGetter(block -> block.type),\n            createSettingsCodec()).apply(instance, ChargingHubBlock::new));\n    @Override protected com.mojang.serialization.MapCodec<ChargingHubBlock> getCodec() { return CODEC; }\n    public static final DirectionProperty FACING',
+    'PlayerEntity player, Hand hand, BlockHitResult hit) {': 'PlayerEntity player, BlockHitResult hit) {\n        Hand hand = Hand.MAIN_HAND;',
+    'checkType(beType,': 'validateTicker(beType,'
+]
+
+portFileReplacements['mixin/client/InGameHudMixin.java'] = [
+    'DrawContext context, float tickDelta, CallbackInfo ci': 'DrawContext context, net.minecraft.client.render.RenderTickCounter counter, CallbackInfo ci',
+    'Rc2View.renderHud(context, tickDelta)': 'Rc2View.renderHud(context, counter.getTickDelta(false))'
+]
+portFileReplacements['mixin/client/DroneClientChunkMixin.java'] = [
+    'avatadrone$retainRendererColumn(int x, int z, CallbackInfo ci) {': 'avatadrone$retainRendererColumn(net.minecraft.util.math.ChunkPos pos, CallbackInfo ci) {\n        int x = pos.x, z = pos.z;'
+]
+portFileReplacements['mixin/client/ParticleManagerMixin.java'] = [
+    'MatrixStack matrixStack, VertexConsumerProvider.Immediate immediate, LightmapTextureManager lightmapTextureManager, Camera camera, float f, CallbackInfo callbackInfo': 'LightmapTextureManager lightmapTextureManager, Camera camera, float f, CallbackInfo callbackInfo'
+]
+portFileReplacements['mixin/client/WorldRendererMixin.java'] = [
+    'renderSky(Lnet/minecraft/client/util/math/MatrixStack;Lorg/joml/Matrix4f;': 'renderSky(Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;'
+]

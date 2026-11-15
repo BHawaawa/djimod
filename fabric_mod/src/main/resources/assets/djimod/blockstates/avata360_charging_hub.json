@@ -1,0 +1,16 @@
+{
+ "variants": {
+  "facing=north": {
+   "model": "djimod:block/avata360_charging_hub"
+  },
+  "facing=south": {
+   "model": "djimod:block/avata360_charging_hub"
+  },
+  "facing=east": {
+   "model": "djimod:block/avata360_charging_hub"
+  },
+  "facing=west": {
+   "model": "djimod:block/avata360_charging_hub"
+  }
+ }
+}

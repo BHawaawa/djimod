@@ -1,0 +1,32 @@
+{
+  "required": false,
+  "package": "com.example.avatadrone.mixin.client",
+  "plugin": "com.example.avatadrone.mixin.AvataDroneMixinPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "MinecraftClientAccessor",
+    "CameraAccessor",
+    "GameRendererAccessor",
+    "GameRendererMixin",
+    "WorldRendererMixin",
+    "BackgroundRendererMixin",
+    "HeldItemRendererMixin",
+    "MouseMixin",
+    "ScreenMixin",
+    "KeyboardMixin",
+    "DroneKeybindsScreenMixin",
+    "InGameHudMixin",
+    "DroneClientChunkMixin",
+    "DroneClientWorldMixin",
+    "DroneClientNetworkMixin",
+    "AssistEntityMixin",
+    "AssistRenderMixin",
+    "ParticleManagerMixin",
+    "BlockEntityRenderDispatcherMixin",
+    "ToastManagerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  },
+  "refmap": "dji-avata-drone-refmap.json"
+}

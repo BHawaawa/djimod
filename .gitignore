@@ -1,0 +1,40 @@
+# Local build caches, generated outputs and game sessions
+.gradle/
+.cache/
+build/
+bin/
+logs/
+run/
+run-*/
+mods/
+mod/
+__pycache__/
+*.py[cod]
+*.log
+*.class
+*.jar
+!**/gradle/wrapper/gradle-wrapper.jar
+
+# Editor and machine-local settings
+.idea/
+.vscode/
+*.iml
+.classpath
+.project
+.settings/
+local.properties
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+Thumbs.db
+.DS_Store
+
+# Archives, historical backups and external reference checkout
+/backup/
+/DJI_RC-N1_SIMULATOR_FLY_DCL-master/
+*.zip
+
+# Generated animation previews (editable models and game assets are included)
+/model/gif/

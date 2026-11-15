@@ -1,0 +1,117 @@
+{
+ "px_per_mm": 0.5,
+ "body_mm": [
+  77.8,
+  163.3,
+  7.9
+ ],
+ "screen": {
+  "half_x": 18.55,
+  "half_y": 39.925000000000004,
+  "w": 37.1,
+  "h": 79.85000000000001,
+  "corner_r": 4.1,
+  "z_glass": -1.975,
+  "z_ui": -2.033,
+  "note": "screen px (sx,sy) from top-left seen from the front -> model X = half_x - sx, Y = half_y - sy"
+ },
+ "overlay_rest_offset_z": 2.2,
+ "ui": {
+  "status_y": 1.15,
+  "status_h": 1.35,
+  "time_x": 2.6,
+  "clock_y": 6.2,
+  "clock_h": 6.0,
+  "date_y": 13.4,
+  "date_h": 1.25,
+  "grid_top": 19.0,
+  "row_pitch": 10.0,
+  "cols": 4,
+  "rows": 5,
+  "icon": 6.4,
+  "label_h": 1.05,
+  "label_gap": 0.55,
+  "dock_y": 72.6,
+  "dots_y": 67.4,
+  "charge_ring_y": 30.0,
+  "charge_pct_y": 46.0,
+  "pill_y": 75.4
+ },
+ "ring_center_y": 9.925000000000004,
+ "pill_center_y": -35.475,
+ "usb_c": {
+  "center": [
+   0,
+   -40.825,
+   0
+  ],
+  "normal": [
+   0,
+   -1,
+   0
+  ],
+  "size": [
+   4.2,
+   1.24
+  ]
+ },
+ "lenses": [
+  {
+   "x": -11.075,
+   "y": 32.825,
+   "kind": "wide",
+   "r": 4.1
+  },
+  {
+   "x": -1.5,
+   "y": 32.825,
+   "kind": "tele",
+   "r": 4.1
+  },
+  {
+   "x": -11.075,
+   "y": 23.575,
+   "kind": "ultra",
+   "r": 4.1
+  },
+  {
+   "x": -1.5,
+   "y": 23.575,
+   "kind": "flash",
+   "r": 4.1
+  }
+ ],
+ "plate": {
+  "x0": -16.75,
+  "x1": 17.3,
+  "y0": 17.875,
+  "y1": 38.475,
+  "r": 2.85,
+  "cx": 0.27500000000000036,
+  "cy": 28.175,
+  "w": 34.05,
+  "h": 20.6
+ },
+ "default_grid": [
+  "clock",
+  "weather",
+  "calendar",
+  "gallery",
+  "settings",
+  "appstore",
+  "music",
+  "files",
+  "notes",
+  "calculator",
+  "themes",
+  "security",
+  "mihome",
+  "djifly"
+ ],
+ "default_dock": [
+  "phone",
+  "messages",
+  "browser",
+  "camera"
+ ]
+}

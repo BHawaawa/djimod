@@ -1,0 +1,14 @@
+apply from: '../../platform-conventions.gradle'
+repositories { maven { url = 'https://api.modrinth.com/maven' } }
+neoForge {
+    version = neo_version
+    runs {
+        client { client() }
+        server { server(); programArgument '--nogui' }
+    }
+    mods { djimod { sourceSet sourceSets.main; sourceSet project(':common').sourceSets.main } }
+}
+dependencies {
+    implementation "maven.modrinth:geckolib:${geckolib_id}"
+    implementation 'com.fazecast:jSerialComm:2.11.0'
+}

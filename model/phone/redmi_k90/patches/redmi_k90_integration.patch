@@ -1,0 +1,226 @@
+diff -ruN a/java/com/example/avatadrone/AvataDrone.java b/java/com/example/avatadrone/AvataDrone.java
+--- a/fabric_mod/src/main/java/com/example/avatadrone/AvataDrone.java	2026-11-15 23:31:49.482032645 +0800
++++ b/fabric_mod/src/main/java/com/example/avatadrone/AvataDrone.java	2026-11-15 23:33:42.392033417 +0800
+@@ -105,6 +105,10 @@
+     public static final Item AURO2000_ITEM = Registry.register(Registries.ITEM, new Identifier(MOD_ID, "auro2000elite"),
+             new com.example.avatadrone.item.PowerStationItem(new Item.Settings().maxCount(1)));
+ 
++    /** Redmi K90 手机（GeckoLib 物品）：Shift+右键开关机，右键亮/熄屏；AURO 2000 取线后手持手机右键电源充电。 */
++    public static final Item REDMI_K90 = Registry.register(Registries.ITEM, new Identifier(MOD_ID, "redmi_k90"),
++            new com.example.avatadrone.item.PhoneItem(new Item.Settings().maxCount(1)));
++
+     /** 禁飞无人机牌子 — 贴墙放置，仿真实路牌样式。 */
+     public static final net.minecraft.block.Block NODRONE_SIGN = Registry.register(Registries.BLOCK,
+             new Identifier(MOD_ID, "nodrone_sign"),
+@@ -133,6 +137,7 @@
+                         entries.add(ModChargers.AVATA360_HUB);
+                         entries.add(ModChargers.MINI4PRO_HUB);
+                         entries.add(DJI_RC2);
++                        entries.add(REDMI_K90);
+                         entries.add(FOUR_G_STATION_ITEM);
+                         entries.add(ModPillar.STEEL_PILLAR_ITEM);
+                         entries.add(NODRONE_SIGN_ITEM);
+@@ -156,6 +161,7 @@
+         ModPillar.init();
+         ModChargers.init();
+         com.example.avatadrone.network.ChargingNetwork.register();
++        com.example.avatadrone.item.PhoneApps.registerCommand();
+         DroneControlNetworking.register();
+         com.example.avatadrone.network.DroneChunkStreaming.register();
+         com.example.avatadrone.network.DroneMaintenance.register();
+diff -ruN a/java/com/example/avatadrone/AvataDroneClient.java b/java/com/example/avatadrone/AvataDroneClient.java
+--- a/fabric_mod/src/main/java/com/example/avatadrone/AvataDroneClient.java	2026-11-15 23:31:49.593032645 +0800
++++ b/fabric_mod/src/main/java/com/example/avatadrone/AvataDroneClient.java	2026-11-15 23:33:42.392033417 +0800
+@@ -17,6 +17,10 @@
+         EntityRendererRegistry.register(AvataDrone.M400, com.example.avatadrone.client.M400Renderer::new);
+         EntityRendererRegistry.register(AvataDrone.AURO2000, com.example.avatadrone.client.PowerStationRenderer::new);
+         com.example.avatadrone.client.FlightSettingsClient.register();
++        com.example.avatadrone.item.PhoneItem.clientTime = () -> {
++            var w = net.minecraft.client.MinecraftClient.getInstance().world;
++            return w == null ? 0L : w.getTime();
++        };
+         Rc2View.registerControls();
+         com.example.avatadrone.client.VoiceAnnouncer.register();
+         RcnSerialInput.start();
+diff -ruN a/java/com/example/avatadrone/client/ChargingCableRenderer.java b/java/com/example/avatadrone/client/ChargingCableRenderer.java
+--- a/fabric_mod/src/main/java/com/example/avatadrone/client/ChargingCableRenderer.java	2026-11-15 23:31:49.372032644 +0800
++++ b/fabric_mod/src/main/java/com/example/avatadrone/client/ChargingCableRenderer.java	2026-11-15 23:33:42.391033417 +0800
+@@ -32,7 +32,13 @@
+         } else {
+             var target = e.getWorld().getEntityById(e.getTargetEntityId());
+             if (target == null) return;
+-            if (e.getTargetKind() == 3) {
++            if (e.getTargetKind() == 3 && target instanceof net.minecraft.entity.player.PlayerEntity holder
++                    && holder.getMainHandStack().getItem() instanceof com.example.avatadrone.item.PhoneItem) {
++                // Redmi K90 held upright in the right hand: USB-C port at the bottom edge, plug comes from below
++                normal = new Vec3d(0, -1, 0);
++                Vec3d side = rotate(new Vec3d(-0.36, 0, 0.40), -target.getYaw(delta));
++                port = target.getLerpedPos(delta).subtract(e.getPos()).add(side).add(0, target.getHeight() * 0.50, 0);
++            } else if (e.getTargetKind() == 3) {
+                 normal = rotate(new Vec3d(0, 0, -1), -target.getYaw(delta));
+                 Vec3d side = rotate(new Vec3d(-0.28, 0, 0), -target.getYaw(delta));
+                 port = target.getLerpedPos(delta).subtract(e.getPos()).add(side)
+diff -ruN a/java/com/example/avatadrone/entity/PowerStationEntity.java b/java/com/example/avatadrone/entity/PowerStationEntity.java
+--- a/fabric_mod/src/main/java/com/example/avatadrone/entity/PowerStationEntity.java	2026-11-15 23:31:49.181032643 +0800
++++ b/fabric_mod/src/main/java/com/example/avatadrone/entity/PowerStationEntity.java	2026-11-15 23:33:42.391033417 +0800
+@@ -220,7 +220,7 @@
+                 if (player != null && player.isAlive() && !player.isSpectator()
+                         && squaredDistanceTo(player) <= CABLE_REACH * CABLE_REACH
+                         && player.getMainHandStack() == controllerStack
+-                        && controllerStack.getItem() instanceof com.example.avatadrone.item.Rc2Item) {
++                        && DeviceCharging.isHandheld(controllerStack)) {
+                     valid = true;
+                     if (!busy() && energyWh > 0) {
+                         double c = DeviceCharging.getCharge(controllerStack), cap = DeviceCharging.capacityWh(controllerStack);
+@@ -229,6 +229,8 @@
+                         wh = Math.min(energyWh * EFFICIENCY, Math.min(watts * dtH, (1 - c) * cap));
+                         if (wh > 0) DeviceCharging.setCharge(controllerStack, c + wh / cap);
+                     }
++                    if (!busy() && controllerStack.getItem() instanceof com.example.avatadrone.item.PhoneItem)
++                        com.example.avatadrone.item.PhoneItem.reportCharging(controllerStack, (int) Math.round(wh / dtH), getWorld().getTime());
+                 }
+             }
+             if (!valid && !busy()) disconnect(null);
+@@ -262,13 +264,13 @@
+         if (busy()) return ActionResult.CONSUME;
+         if (!player.isAlive() || !player.canModifyBlocks() || squaredDistanceTo(player) > CABLE_REACH * CABLE_REACH) return ActionResult.FAIL;
+         ItemStack held = player.getStackInHand(hand);
+-        if (!player.isSneaking() && held.getItem() instanceof com.example.avatadrone.item.Rc2Item) {
++        if (!player.isSneaking() && DeviceCharging.isHandheld(held)) {
+             if (chargesController(player, held)) disconnect(player);
+             else if (canConnect(player, player.getPos())) {
+                 var other = com.example.avatadrone.network.ChargingNetwork.controllerSource(player, held);
+                 if (other == null) connectController(player, held);
+-                else player.sendMessage(Text.literal("遥控器已连接另一台移动电源"), true);
+-            } else player.sendMessage(Text.literal("先 Shift+右键移动电源取线，等待抽线完成，再手持遥控器右键连接"), true);
++                else player.sendMessage(Text.literal("该设备已连接另一台移动电源"), true);
++            } else player.sendMessage(Text.literal("先 Shift+右键移动电源取线，等待抽线完成，再手持遥控器/手机右键连接"), true);
+             return ActionResult.CONSUME;
+         }
+         // Recover pre-hub-version saves without silently deleting an old stored device.
+@@ -283,7 +285,7 @@
+                 cableHolder = player.getUuid();
+                 dataTracker.set(CABLE, OUT);
+                 play("extract", T_EXTRACT);
+-                player.sendMessage(Text.literal("已取出充电线：Shift+右键管家 / Shift+左键无人机 / 手持遥控器右键电源（5格内）"), true);
++                player.sendMessage(Text.literal("已取出充电线：Shift+右键管家 / Shift+左键无人机 / 手持遥控器/手机右键电源（5格内）"), true);
+             } else {
+                 hubTarget = null; droneTarget = null; cableHolder = null;
+                 controllerHolder = null; controllerStack = ItemStack.EMPTY;
+diff -ruN a/java/com/example/avatadrone/item/DeviceCharging.java b/java/com/example/avatadrone/item/DeviceCharging.java
+--- a/fabric_mod/src/main/java/com/example/avatadrone/item/DeviceCharging.java	2026-11-15 23:31:48.910032641 +0800
++++ b/fabric_mod/src/main/java/com/example/avatadrone/item/DeviceCharging.java	2026-11-15 23:33:42.391033417 +0800
+@@ -16,6 +16,7 @@
+     /** battery model id ("avata360_battery" ...) of the battery that actually receives the energy, or null. */
+     public static String batteryModel(ItemStack stack) {
+         if (stack.getItem() instanceof Rc2Item) return "rc2";
++        if (stack.getItem() instanceof PhoneItem) return "redmi_k90";
+         if (stack.isEmpty() || !(stack.getItem() instanceof DroneEquipmentItem item)) return null;
+         if (!item.aircraft) return item.model;
+         return DroneEquipmentItem.hasBattery(stack) ? item.model + "_battery" : null;
+@@ -23,6 +24,11 @@
+ 
+     public static boolean isChargeable(ItemStack stack) { return batteryModel(stack) != null; }
+ 
++    /** devices charged while held in the main hand (cable goes to the player): RC 2, Redmi K90. */
++    public static boolean isHandheld(ItemStack stack) {
++        return stack.getItem() instanceof Rc2Item || stack.getItem() instanceof PhoneItem;
++    }
++
+     public static boolean isAircraftWithoutBattery(ItemStack stack) {
+         return stack.getItem() instanceof DroneEquipmentItem item && item.aircraft && !DroneEquipmentItem.hasBattery(stack);
+     }
+@@ -33,6 +39,7 @@
+         if (m == null) return 0;
+         return switch (m) {
+             case "rc2" -> 22.32; // gameplay battery capacity
++            case "redmi_k90" -> 29.26;           // 7560 mAh x 3.87 V
+             case "m400_battery" -> 977.0;        // TB100
+             case "mini4pro_battery" -> longRange(stack) ? 28.41 : 18.96;    // BWX162-3850-7.38 Plus label
+             default -> 31.7;                     // Avata-class 4S pack
+@@ -53,6 +60,7 @@
+         if (m == null) return 0;
+         return switch (m) {
+             case "rc2" -> 9.0;
++            case "redmi_k90" -> 100.0;           // 100 W HyperCharge
+             case "m400_battery" -> 140.0;
+             case "mini4pro_battery" -> 45.0;
+             default -> 65.0;
+diff -ruN a/resources/assets/djimod/lang/en_us.json b/resources/assets/djimod/lang/en_us.json
+--- a/fabric_mod/src/main/resources/assets/djimod/lang/en_us.json	2026-11-15 23:31:49.890032647 +0800
++++ b/fabric_mod/src/main/resources/assets/djimod/lang/en_us.json	2026-11-15 23:33:42.417033417 +0800
+@@ -103,5 +103,33 @@
+   "key.djimod.gimbal_max": "Toggle Gimbal Down",
+   "key.djimod.mode_cycle": "Cycle Flight Mode",
+   "key.djimod.cruise": "Cruise Control",
+-  "key.djimod.customize": "Customize Keys"
++  "key.djimod.customize": "Customize Keys",
++  "item.djimod.redmi_k90": "Redmi K90 Pro Max",
++  "message.djimod.phone.power_on": "Powering on…",
++  "message.djimod.phone.power_off": "Shutting down…",
++  "message.djimod.phone.empty": "Battery empty - charge it from a power station",
++  "message.djimod.phone.hint": "Phone is off · Shift + right click (hold power) to boot",
++  "tooltip.djimod.phone.battery": "Battery: %s%%",
++  "tooltip.djimod.phone.keys": "Shift + right click: power on/off · right click: screen on/off",
++  "tooltip.djimod.phone.charge": "Pull the power station's cable, then right click the station holding the phone",
++  "app.djimod.phone.phone": "Phone",
++  "app.djimod.phone.messages": "Messages",
++  "app.djimod.phone.browser": "Browser",
++  "app.djimod.phone.camera": "Camera",
++  "app.djimod.phone.clock": "Clock",
++  "app.djimod.phone.weather": "Weather",
++  "app.djimod.phone.calendar": "Calendar",
++  "app.djimod.phone.gallery": "Gallery",
++  "app.djimod.phone.settings": "Settings",
++  "app.djimod.phone.appstore": "GetApps",
++  "app.djimod.phone.music": "Music",
++  "app.djimod.phone.files": "Files",
++  "app.djimod.phone.notes": "Notes",
++  "app.djimod.phone.calculator": "Calculator",
++  "app.djimod.phone.themes": "Themes",
++  "app.djimod.phone.security": "Security",
++  "app.djimod.phone.mihome": "Mi Home",
++  "app.djimod.phone.djifly": "DJI Fly",
++  "app.djimod.phone.compass": "Compass",
++  "app.djimod.phone.recorder": "Recorder"
+ }
+\ No newline at end of file
+diff -ruN a/resources/assets/djimod/lang/zh_cn.json b/resources/assets/djimod/lang/zh_cn.json
+--- a/fabric_mod/src/main/resources/assets/djimod/lang/zh_cn.json	2026-11-15 23:31:49.772032647 +0800
++++ b/fabric_mod/src/main/resources/assets/djimod/lang/zh_cn.json	2026-11-15 23:33:42.416033417 +0800
+@@ -103,5 +103,33 @@
+   "key.djimod.gimbal_max": "切换垂直俯拍",
+   "key.djimod.mode_cycle": "循环切换飞行档位",
+   "key.djimod.cruise": "定速巡航",
+-  "key.djimod.customize": "自定义按键"
++  "key.djimod.customize": "自定义按键",
++  "item.djimod.redmi_k90": "Redmi K90 Pro Max 手机",
++  "message.djimod.phone.power_on": "正在开机…",
++  "message.djimod.phone.power_off": "正在关机…",
++  "message.djimod.phone.empty": "电量耗尽，请用移动电源充电",
++  "message.djimod.phone.hint": "手机已关机 · Shift+右键长按电源键开机",
++  "tooltip.djimod.phone.battery": "电量：%s%%",
++  "tooltip.djimod.phone.keys": "Shift+右键 开/关机 · 右键 亮屏/熄屏",
++  "tooltip.djimod.phone.charge": "移动电源取线后，手持手机右键电源连接／断开充电",
++  "app.djimod.phone.phone": "电话",
++  "app.djimod.phone.messages": "短信",
++  "app.djimod.phone.browser": "浏览器",
++  "app.djimod.phone.camera": "相机",
++  "app.djimod.phone.clock": "时钟",
++  "app.djimod.phone.weather": "天气",
++  "app.djimod.phone.calendar": "日历",
++  "app.djimod.phone.gallery": "相册",
++  "app.djimod.phone.settings": "设置",
++  "app.djimod.phone.appstore": "应用商店",
++  "app.djimod.phone.music": "音乐",
++  "app.djimod.phone.files": "文件管理",
++  "app.djimod.phone.notes": "笔记",
++  "app.djimod.phone.calculator": "计算器",
++  "app.djimod.phone.themes": "主题",
++  "app.djimod.phone.security": "手机管家",
++  "app.djimod.phone.mihome": "米家",
++  "app.djimod.phone.djifly": "DJI Fly",
++  "app.djimod.phone.compass": "指南针",
++  "app.djimod.phone.recorder": "录音机"
+ }
+\ No newline at end of file

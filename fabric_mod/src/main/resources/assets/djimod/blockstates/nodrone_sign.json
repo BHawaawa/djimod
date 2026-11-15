@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=north,standing=false": { "model": "djimod:block/nodrone/nodrone_sign" },
+    "facing=east,standing=false":  { "model": "djimod:block/nodrone/nodrone_sign", "y": 90 },
+    "facing=south,standing=false": { "model": "djimod:block/nodrone/nodrone_sign", "y": 180 },
+    "facing=west,standing=false":  { "model": "djimod:block/nodrone/nodrone_sign", "y": 270 },
+    "facing=north,standing=true":  { "model": "djimod:block/nodrone/nodrone_sign_standing" },
+    "facing=east,standing=true":   { "model": "djimod:block/nodrone/nodrone_sign_standing", "y": 90 },
+    "facing=south,standing=true":  { "model": "djimod:block/nodrone/nodrone_sign_standing", "y": 180 },
+    "facing=west,standing=true":   { "model": "djimod:block/nodrone/nodrone_sign_standing", "y": 270 }
+  }
+}

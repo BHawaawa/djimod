@@ -1,0 +1,650 @@
+{
+ "id": "avata360_charging_hub",
+ "display_name": "DJI Avata 360 Two-Way Charging Hub",
+ "type": "geckolib_block_entity",
+ "modid": "avatadrone",
+ "minecraft": "1.20.1 Fabric",
+ "geckolib": "4.x (verified against 4.4.9 sources)",
+ "format": "GeckoLib 4.x block (Bedrock geometry 1.12.0)",
+ "geometry_identifier": "geometry.avata360_charging_hub",
+ "files": {
+  "avata360_charging_hub.bbmodel": "19980a84f0ac98e31fe29bf8da490237",
+  "geo/avata360_charging_hub.geo.json": "4984d455376f9a5732e4ec86658a1377",
+  "animations/avata360_charging_hub.animation.json": "e109275b7d13e8584476319e8dd4dbdc",
+  "textures/avata360_charging_hub.png": "5a506c6ad309737549099124ad69fcad",
+  "textures/avata360_charging_hub_glowmask.png": "50451e2d4b1f8a84c6e5d1b40cfd7f65",
+  "blockstates/avata360_charging_hub.json": "2834b651793656a099fd651a444a362b",
+  "models/block/avata360_charging_hub.json": "dded2290f188b19f0c6ff531ff75abff",
+  "models/item/avata360_charging_hub.json": "d48cdc228f6c7551f0ad9b75affc1516",
+  "preview/label_art.png": "d78399daac1e5d5609ebebe1ac7f17ed"
+ },
+ "mod_paths": {
+  "geo/avata360_charging_hub.geo.json": "assets/avatadrone/geo/block/avata360_charging_hub.geo.json",
+  "animations/avata360_charging_hub.animation.json": "assets/avatadrone/animations/block/avata360_charging_hub.animation.json",
+  "textures/avata360_charging_hub.png": "assets/avatadrone/textures/block/avata360_charging_hub.png",
+  "textures/avata360_charging_hub_glowmask.png": "assets/avatadrone/textures/block/avata360_charging_hub_glowmask.png",
+  "blockstates/avata360_charging_hub.json": "assets/avatadrone/blockstates/avata360_charging_hub.json",
+  "models/block/avata360_charging_hub.json": "assets/avatadrone/models/block/avata360_charging_hub.json",
+  "models/item/avata360_charging_hub.json": "assets/avatadrone/models/item/avata360_charging_hub.json"
+ },
+ "texture": {
+  "width": 2048,
+  "height": 2048,
+  "uv_mode": "per-face UV",
+  "glowmask": "textures/avata360_charging_hub_glowmask.png (charge LEDs, for AutoGlowingGeoLayer)"
+ },
+ "cube_count": 1115,
+ "bbox_px_rest_frame": {
+  "min": [
+   -7.695,
+   0.0,
+   -7.07
+  ],
+  "max": [
+   7.695,
+   16.55,
+   7.0
+  ],
+  "note": "battery cubes are listed before their slot bone rest rotation; real height see README"
+ },
+ "orientation": "origin = block bottom centre; front = -Z (north); GeoBlockRenderer rotates by HorizontalFacingBlock.FACING",
+ "slot_bones": [
+  "slot1 (-X)",
+  "slot2 (centre)",
+  "slot3 (+X)"
+ ],
+ "bones": [
+  {
+   "name": "root",
+   "parent": null,
+   "pivot_geo": [
+    -0.0,
+    0.0,
+    0.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 0
+  },
+  {
+   "name": "hub",
+   "parent": "root",
+   "pivot_geo": [
+    -0.0,
+    0.0,
+    0.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 196
+  },
+  {
+   "name": "power_led",
+   "parent": "hub",
+   "pivot_geo": [
+    -4.12,
+    0.78,
+    -3.5
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "slot1",
+   "parent": "hub",
+   "pivot_geo": [
+    4.28,
+    11.9,
+    0.0
+   ],
+   "rest_rotation_geo": [
+    -90.0,
+    -90.0,
+    0.0
+   ],
+   "cubes": 0
+  },
+  {
+   "name": "s1_body",
+   "parent": "slot1",
+   "pivot_geo": [
+    4.28,
+    11.9,
+    0.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 104
+  },
+  {
+   "name": "s1_cap",
+   "parent": "slot1",
+   "pivot_geo": [
+    4.28,
+    11.9,
+    -4.05
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 178
+  },
+  {
+   "name": "s1_latch_l",
+   "parent": "slot1",
+   "pivot_geo": [
+    7.68,
+    11.9,
+    -3.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 3
+  },
+  {
+   "name": "s1_latch_r",
+   "parent": "slot1",
+   "pivot_geo": [
+    0.88,
+    11.9,
+    -3.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 3
+  },
+  {
+   "name": "s1_button",
+   "parent": "s1_cap",
+   "pivot_geo": [
+    5.455,
+    11.9,
+    -7.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 14
+  },
+  {
+   "name": "slot2",
+   "parent": "hub",
+   "pivot_geo": [
+    -0.0,
+    11.9,
+    0.0
+   ],
+   "rest_rotation_geo": [
+    -90.0,
+    -90.0,
+    0.0
+   ],
+   "cubes": 0
+  },
+  {
+   "name": "s2_body",
+   "parent": "slot2",
+   "pivot_geo": [
+    -0.0,
+    11.9,
+    0.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 104
+  },
+  {
+   "name": "s2_cap",
+   "parent": "slot2",
+   "pivot_geo": [
+    -0.0,
+    11.9,
+    -4.05
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 178
+  },
+  {
+   "name": "s2_latch_l",
+   "parent": "slot2",
+   "pivot_geo": [
+    3.4,
+    11.9,
+    -3.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 3
+  },
+  {
+   "name": "s2_latch_r",
+   "parent": "slot2",
+   "pivot_geo": [
+    -3.4,
+    11.9,
+    -3.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 3
+  },
+  {
+   "name": "s2_button",
+   "parent": "s2_cap",
+   "pivot_geo": [
+    1.175,
+    11.9,
+    -7.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 14
+  },
+  {
+   "name": "slot3",
+   "parent": "hub",
+   "pivot_geo": [
+    -4.28,
+    11.9,
+    0.0
+   ],
+   "rest_rotation_geo": [
+    -90.0,
+    -90.0,
+    0.0
+   ],
+   "cubes": 0
+  },
+  {
+   "name": "s3_body",
+   "parent": "slot3",
+   "pivot_geo": [
+    -4.28,
+    11.9,
+    0.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 104
+  },
+  {
+   "name": "s3_cap",
+   "parent": "slot3",
+   "pivot_geo": [
+    -4.28,
+    11.9,
+    -4.05
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 178
+  },
+  {
+   "name": "s3_latch_l",
+   "parent": "slot3",
+   "pivot_geo": [
+    -0.88,
+    11.9,
+    -3.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 3
+  },
+  {
+   "name": "s3_latch_r",
+   "parent": "slot3",
+   "pivot_geo": [
+    -7.68,
+    11.9,
+    -3.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 3
+  },
+  {
+   "name": "s3_button",
+   "parent": "s3_cap",
+   "pivot_geo": [
+    -3.105,
+    11.9,
+    -7.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 14
+  },
+  {
+   "name": "s1_led1",
+   "parent": "slot1",
+   "pivot_geo": [
+    4.005,
+    11.9,
+    -7.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s1_led2",
+   "parent": "slot1",
+   "pivot_geo": [
+    3.555,
+    11.9,
+    -7.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s1_led3",
+   "parent": "slot1",
+   "pivot_geo": [
+    3.105,
+    11.9,
+    -7.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s1_led4",
+   "parent": "slot1",
+   "pivot_geo": [
+    2.655,
+    11.9,
+    -7.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s2_led1",
+   "parent": "slot2",
+   "pivot_geo": [
+    -0.275,
+    11.9,
+    -7.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s2_led2",
+   "parent": "slot2",
+   "pivot_geo": [
+    -0.725,
+    11.9,
+    -7.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s2_led3",
+   "parent": "slot2",
+   "pivot_geo": [
+    -1.175,
+    11.9,
+    -7.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s2_led4",
+   "parent": "slot2",
+   "pivot_geo": [
+    -1.625,
+    11.9,
+    -7.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s3_led1",
+   "parent": "slot3",
+   "pivot_geo": [
+    -4.555,
+    11.9,
+    -7.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s3_led2",
+   "parent": "slot3",
+   "pivot_geo": [
+    -5.005,
+    11.9,
+    -7.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s3_led3",
+   "parent": "slot3",
+   "pivot_geo": [
+    -5.455,
+    11.9,
+    -7.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  },
+  {
+   "name": "s3_led4",
+   "parent": "slot3",
+   "pivot_geo": [
+    -5.905,
+    11.9,
+    -7.0
+   ],
+   "rest_rotation_geo": null,
+   "cubes": 1
+  }
+ ],
+ "animations": {
+  "animation.avata360_charging_hub.idle": {
+   "loop": "loop",
+   "length": 1.0,
+   "bones": [
+    "hub"
+   ]
+  },
+  "animation.avata360_charging_hub.slot1_insert": {
+   "loop": "hold",
+   "length": 1.6,
+   "bones": [
+    "slot1",
+    "s1_latch_r",
+    "s1_latch_l",
+    "s1_led1",
+    "s1_led2",
+    "s1_led3",
+    "s1_led4"
+   ]
+  },
+  "animation.avata360_charging_hub.slot1_remove": {
+   "loop": "hold",
+   "length": 1.3,
+   "bones": [
+    "slot1",
+    "s1_latch_r",
+    "s1_latch_l",
+    "s1_led1",
+    "s1_led2",
+    "s1_led3",
+    "s1_led4"
+   ]
+  },
+  "animation.avata360_charging_hub.slot1_installed": {
+   "loop": "hold",
+   "length": 0.05,
+   "bones": [
+    "slot1",
+    "s1_led1",
+    "s1_led2",
+    "s1_led3",
+    "s1_led4"
+   ]
+  },
+  "animation.avata360_charging_hub.slot1_empty": {
+   "loop": "hold",
+   "length": 0.05,
+   "bones": [
+    "slot1",
+    "s1_led1",
+    "s1_led2",
+    "s1_led3",
+    "s1_led4"
+   ]
+  },
+  "animation.avata360_charging_hub.slot1_charging": {
+   "loop": "loop",
+   "length": 2.0,
+   "bones": [
+    "slot1",
+    "s1_led1",
+    "s1_led2",
+    "s1_led3",
+    "s1_led4"
+   ]
+  },
+  "animation.avata360_charging_hub.slot2_insert": {
+   "loop": "hold",
+   "length": 1.6,
+   "bones": [
+    "slot2",
+    "s2_latch_r",
+    "s2_latch_l",
+    "s2_led1",
+    "s2_led2",
+    "s2_led3",
+    "s2_led4"
+   ]
+  },
+  "animation.avata360_charging_hub.slot2_remove": {
+   "loop": "hold",
+   "length": 1.3,
+   "bones": [
+    "slot2",
+    "s2_latch_r",
+    "s2_latch_l",
+    "s2_led1",
+    "s2_led2",
+    "s2_led3",
+    "s2_led4"
+   ]
+  },
+  "animation.avata360_charging_hub.slot2_installed": {
+   "loop": "hold",
+   "length": 0.05,
+   "bones": [
+    "slot2",
+    "s2_led1",
+    "s2_led2",
+    "s2_led3",
+    "s2_led4"
+   ]
+  },
+  "animation.avata360_charging_hub.slot2_empty": {
+   "loop": "hold",
+   "length": 0.05,
+   "bones": [
+    "slot2",
+    "s2_led1",
+    "s2_led2",
+    "s2_led3",
+    "s2_led4"
+   ]
+  },
+  "animation.avata360_charging_hub.slot2_charging": {
+   "loop": "loop",
+   "length": 2.0,
+   "bones": [
+    "slot2",
+    "s2_led1",
+    "s2_led2",
+    "s2_led3",
+    "s2_led4"
+   ]
+  },
+  "animation.avata360_charging_hub.slot3_insert": {
+   "loop": "hold",
+   "length": 1.6,
+   "bones": [
+    "slot3",
+    "s3_latch_r",
+    "s3_latch_l",
+    "s3_led1",
+    "s3_led2",
+    "s3_led3",
+    "s3_led4"
+   ]
+  },
+  "animation.avata360_charging_hub.slot3_remove": {
+   "loop": "hold",
+   "length": 1.3,
+   "bones": [
+    "slot3",
+    "s3_latch_r",
+    "s3_latch_l",
+    "s3_led1",
+    "s3_led2",
+    "s3_led3",
+    "s3_led4"
+   ]
+  },
+  "animation.avata360_charging_hub.slot3_installed": {
+   "loop": "hold",
+   "length": 0.05,
+   "bones": [
+    "slot3",
+    "s3_led1",
+    "s3_led2",
+    "s3_led3",
+    "s3_led4"
+   ]
+  },
+  "animation.avata360_charging_hub.slot3_empty": {
+   "loop": "hold",
+   "length": 0.05,
+   "bones": [
+    "slot3",
+    "s3_led1",
+    "s3_led2",
+    "s3_led3",
+    "s3_led4"
+   ]
+  },
+  "animation.avata360_charging_hub.slot3_charging": {
+   "loop": "loop",
+   "length": 2.0,
+   "bones": [
+    "slot3",
+    "s3_led1",
+    "s3_led2",
+    "s3_led3",
+    "s3_led4"
+   ]
+  },
+  "animation.avata360_charging_hub.demo_cycle": {
+   "loop": "loop",
+   "length": 12.0,
+   "bones": [
+    "s1_latch_r",
+    "s1_led3",
+    "s1_led4",
+    "slot1",
+    "s1_latch_l",
+    "s1_led2",
+    "s1_led1",
+    "s2_led3",
+    "s2_led4",
+    "slot2",
+    "s2_latch_r",
+    "s2_led2",
+    "s2_latch_l",
+    "s2_led1",
+    "s3_led4",
+    "slot3",
+    "s3_led1",
+    "s3_led3",
+    "s3_led2",
+    "s3_latch_r",
+    "s3_latch_l"
+   ]
+  }
+ },
+ "animation_usage": {
+  "per_slot_controller": "controller \"slotN\": state = slotN_installed / slotN_empty (or slotN_charging); triggerable slotN_insert / slotN_remove",
+  "demo": "demo_cycle (12 s loop, all three slots, for Blockbench / showcase)"
+ }
+}

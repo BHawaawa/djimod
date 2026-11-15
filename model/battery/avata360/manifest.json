@@ -1,0 +1,306 @@
+{
+  "id": "avata360_battery",
+  "display_name": "DJI Avata 360 Intelligent Flight Battery",
+  "type": "item",
+  "minecraft": "1.20.1",
+  "format": "GeckoLib 4.x item (Bedrock geometry 1.12.0)",
+  "files": {
+    "blockbench_project": "avata360_battery.bbmodel",
+    "geometry": "geo/avata360_battery.geo.json",
+    "animation": "animations/avata360_battery.animation.json",
+    "texture": "textures/avata360_battery.png",
+    "item_model_display": "models/item/avata360_battery.json",
+    "glowmask": "textures/avata360_battery_glowmask.png",
+    "previews": "preview/",
+    "reference_code": "reference_code/"
+  },
+  "md5": {
+    "avata360_battery.bbmodel": "69759ad012a8224158904600cc5b3f88",
+    "geo/avata360_battery.geo.json": "31812014a3243f446b5dfabe496a3648",
+    "animations/avata360_battery.animation.json": "a45b5aed1c7a3a4ca2b48de7a7b7b13f",
+    "textures/avata360_battery.png": "8b54a90e2df14370af23ac782dab2df3",
+    "textures/avata360_battery_glowmask.png": "d490fc51260e888e15294fe23e380b92",
+    "models/item/avata360_battery.json": "0faf9006e5bfc2cd5a4000fcd0ef53d2"
+  },
+  "geometry_identifier": "geometry.avata360_battery",
+  "texture": {
+    "width": 2048,
+    "height": 2048,
+    "uv_mode": "per-face UV",
+    "alpha": "opaque; glowmask = 4 green LEDs (AutoGlowingGeoLayer)"
+  },
+  "model_size_px": {
+    "width_x": 13.66,
+    "height_y": 8.4,
+    "length_z": 28.14,
+    "front": "-Z (north) = cap end with power button & LEDs; +Z = connector end",
+    "top": "+Y = black label face",
+    "origin": "model centred on the GeckoLib item pivot (internal Y offset -4.2)"
+  },
+  "real_scale": "1 model px ~= 4 mm (real battery ~112 x 48 x 28 mm, 149 g, 2700 mAh 14.32 V 38.67 Wh, model BWXVN1-2700-14.32)",
+  "cube_count": 302,
+  "bones": [
+    {
+      "name": "root",
+      "parent": null,
+      "pivot_geo": [
+        0.0,
+        -4.2,
+        0.0
+      ],
+      "cube_count": 0,
+      "desc": "根骨骼（中心=物品渲染枢轴）"
+    },
+    {
+      "name": "battery",
+      "parent": "root",
+      "pivot_geo": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cube_count": 0,
+      "desc": "整块电池；showcase 动画在此旋转/浮动"
+    },
+    {
+      "name": "body",
+      "parent": "battery",
+      "pivot_geo": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cube_count": 104,
+      "desc": "电芯外壳：圆角主体、顶面黑色标签、底面双凹槽+卡扣舌、侧面分模线/防滑纹、端面8针金色触点"
+    },
+    {
+      "name": "cap",
+      "parent": "battery",
+      "pivot_geo": [
+        0.0,
+        0.0,
+        -8.1
+      ],
+      "cube_count": 178,
+      "desc": "电池帽（截面与 Avata 360 机身一致，插入后成为机尾）：圆角罩体、圆滑端部、顶面卡槽、端面 4 颗电量灯"
+    },
+    {
+      "name": "latch_l",
+      "parent": "battery",
+      "pivot_geo": [
+        6.8,
+        0.0,
+        -6.0
+      ],
+      "cube_count": 3,
+      "desc": "左卡扣（Blockbench -X）"
+    },
+    {
+      "name": "latch_r",
+      "parent": "battery",
+      "pivot_geo": [
+        -6.8,
+        0.0,
+        -6.0
+      ],
+      "cube_count": 3,
+      "desc": "右卡扣（Blockbench +X）"
+    },
+    {
+      "name": "button",
+      "parent": "cap",
+      "pivot_geo": [
+        2.35,
+        0.0,
+        -14.0
+      ],
+      "cube_count": 14,
+      "desc": "椭圆电源键"
+    }
+  ],
+  "animations": [
+    {
+      "name": "animation.avata360_battery.idle",
+      "loop": true,
+      "length_s": 1.0,
+      "bones": [
+        "root"
+      ]
+    },
+    {
+      "name": "animation.avata360_battery.latch_press",
+      "loop": false,
+      "length_s": 0.6,
+      "bones": [
+        "latch_r",
+        "latch_l"
+      ]
+    },
+    {
+      "name": "animation.avata360_battery.button_press",
+      "loop": false,
+      "length_s": 0.3,
+      "bones": [
+        "button"
+      ]
+    },
+    {
+      "name": "animation.avata360_battery.showcase",
+      "loop": true,
+      "length_s": 8.0,
+      "bones": [
+        "battery"
+      ]
+    }
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        10,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        1.0
+      ],
+      "scale": [
+        0.36,
+        0.36,
+        0.36
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        10,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        1.0
+      ],
+      "scale": [
+        0.36,
+        0.36,
+        0.36
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        10,
+        200,
+        0
+      ],
+      "translation": [
+        0,
+        3.5,
+        0
+      ],
+      "scale": [
+        0.42,
+        0.42,
+        0.42
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        10,
+        160,
+        0
+      ],
+      "translation": [
+        0,
+        3.5,
+        0
+      ],
+      "scale": [
+        0.42,
+        0.42,
+        0.42
+      ]
+    },
+    "ground": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        2,
+        0
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.3
+      ]
+    },
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "head": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        14,
+        0
+      ],
+      "scale": [
+        0.6,
+        0.6,
+        0.6
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        -90,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.55,
+        0.55,
+        0.55
+      ]
+    }
+  },
+  "install_paths": {
+    "geometry": "assets/<modid>/geo/avata360_battery.geo.json",
+    "animation": "assets/<modid>/animations/avata360_battery.animation.json",
+    "texture": "assets/<modid>/textures/item/avata360_battery.png",
+    "item_model": "assets/<modid>/models/item/avata360_battery.json",
+    "glowmask": "assets/<modid>/textures/item/avata360_battery_glowmask.png"
+  },
+  "generator": "DJI/tools/gen_battery_avata360.py  (shared builder DJI/tools/bbgen.py, preview DJI/tools/preview_item.py)",
+  "fits_drone": {
+    "drone": "model/avata360",
+    "note": "cap cross-section = Avata 360 spine (6.8 x 4.2 px, r 1.0 @ 8 mm/px) x2; colour = drone shell (146,148,150); latch grips flush with the cap, hair-line seams only. Inserted at scale 0.5 rotated 180 deg the cap continues the fuselage without a step."
+  }
+}

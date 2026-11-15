@@ -1,0 +1,16 @@
+{
+ "variants": {
+  "facing=north": {
+   "model": "avatadrone:block/mini4pro_charging_hub"
+  },
+  "facing=south": {
+   "model": "avatadrone:block/mini4pro_charging_hub"
+  },
+  "facing=east": {
+   "model": "avatadrone:block/mini4pro_charging_hub"
+  },
+  "facing=west": {
+   "model": "avatadrone:block/mini4pro_charging_hub"
+  }
+ }
+}

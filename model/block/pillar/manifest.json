@@ -1,0 +1,14 @@
+{
+ "name": "steel_pillar", "type": "geckolib_block_entity", "modid": "avatadrone", "mc": "1.20.1 Fabric", "geckolib": "4.x",
+ "generator": "tools/gen_pillar_geo.py",
+ "files": {
+  "geo/steel_pillar.geo.json": "assets/avatadrone/geo/block/steel_pillar.geo.json",
+  "animations/steel_pillar.animation.json": "assets/avatadrone/animations/block/steel_pillar.animation.json",
+  "textures/steel_pillar.png": "assets/avatadrone/textures/block/steel_pillar.png",
+  "blockstates/steel_pillar.json": "assets/avatadrone/blockstates/steel_pillar.json",
+  "models/steel_pillar_block.json": "assets/avatadrone/models/block/steel_pillar.json",
+  "models/steel_pillar_item.json": "assets/avatadrone/models/item/steel_pillar.json",
+  "models/pillar_vanilla_fallback.json": "assets/avatadrone/models/block/pillar/pillar.json",
+  "reference_code/": "src/main/java/com/example/avatadrone/"
+ }
+}

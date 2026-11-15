@@ -1,0 +1,437 @@
+{
+  "id": "mini4pro",
+  "display_name": "DJI Mini 4 Pro",
+  "type": "entity",
+  "minecraft": "1.20.1",
+  "format": "GeckoLib 4.x (Bedrock geometry 1.12.0)",
+  "files": {
+    "blockbench_project": "mini4pro.bbmodel",
+    "geometry": "geo/mini4pro.geo.json",
+    "animation": "animations/mini4pro.animation.json",
+    "texture": "textures/mini4pro.png",
+    "previews": "preview/",
+    "reference_code": "reference_code/"
+  },
+  "md5": {
+    "mini4pro.bbmodel": "4e3301fa21db7a34fde1b666860755c9",
+    "geo/mini4pro.geo.json": "47e0066369e1b5579b312aecb41e182a",
+    "animations/mini4pro.animation.json": "25c7a2b549ed69febdff89d1797c1392",
+    "textures/mini4pro.png": "7bdf593abcc67459d36d153e744c4b66"
+  },
+  "geometry_identifier": "geometry.mini4pro",
+  "texture": {
+    "width": 2048,
+    "height": 1024,
+    "uv_mode": "per-face UV",
+    "alpha": "cutout (propeller blades) - use entityCutoutNoCull (GeckoLib default)"
+  },
+  "model_size_px": {
+    "span_prop_tip_x": 61.0,
+    "body_length_z": 20.2,
+    "height_landed_y": 14.7,
+    "front": "-Z (north)",
+    "origin": "ground contact at Y=0 in landed pose",
+    "rest_pitch_deg": 10.56
+  },
+  "real_scale": "1 model px ~= 6 mm",
+  "suggested": {
+    "renderer_scale": 0.4,
+    "hitbox_width": 0.9,
+    "hitbox_height": 0.45,
+    "shadow_radius": 0.4
+  },
+  "cube_count": 982,
+  "bones": [
+    {
+      "name": "root",
+      "parent": null,
+      "pivot_geo": [
+        -0.0,
+        5.0648,
+        0.0
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 0,
+      "desc": "空骨骼，留给代码按速度倾斜"
+    },
+    {
+      "name": "drone",
+      "parent": "root",
+      "pivot_geo": [
+        -0.0,
+        0.2663,
+        -6.7
+      ],
+      "rest_rotation_geo": [
+        -10.563,
+        0.0,
+        0.0
+      ],
+      "cube_count": 0,
+      "desc": "整机；默认带 rest 俯仰（落地抬头姿态），轴心在前脚着地点；动画在此调平/浮动"
+    },
+    {
+      "name": "body",
+      "parent": "drone",
+      "pivot_geo": [
+        -0.0,
+        9.0648,
+        2.0
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 732,
+      "desc": "机身外壳（v2.1：顶部为沿 Z 放样的平滑圆角外壳（中间整片顶板 + 每侧 4 片肩部圆角板，每 0.55 像素一段，跟随机身轮廓与高度起伏）；尾部下方为电池仓，后部和底部后段开口；仓内深色内壁、前壁 6 针连接器和黄色激光标签；仓上方尾面 USB-C + microSD；两侧有按键开窗）、前后鱼眼、云台侧舱、格栅、云台支架"
+    },
+    {
+      "name": "frame",
+      "parent": "drone",
+      "pivot_geo": [
+        -0.0,
+        9.0648,
+        2.0
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 10,
+      "desc": "四个机臂、前起落架"
+    },
+    {
+      "name": "gimbal",
+      "parent": "drone",
+      "pivot_geo": [
+        -0.0,
+        9.3648,
+        -7.75
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 2,
+      "desc": "相机（俯仰轴，rotation x=90 → 俯拍）"
+    },
+    {
+      "name": "motor_fl",
+      "parent": "drone",
+      "pivot_geo": [
+        18.2,
+        10.5648,
+        -6.7
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 12,
+      "desc": "电机 fl"
+    },
+    {
+      "name": "prop_fl",
+      "parent": "motor_fl",
+      "pivot_geo": [
+        18.2,
+        12.3148,
+        -6.7
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 6,
+      "desc": "螺旋桨 fl（绕 Y 旋转）"
+    },
+    {
+      "name": "motor_fr",
+      "parent": "drone",
+      "pivot_geo": [
+        -18.2,
+        10.5648,
+        -6.7
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 12,
+      "desc": "电机 fr"
+    },
+    {
+      "name": "prop_fr",
+      "parent": "motor_fr",
+      "pivot_geo": [
+        -18.2,
+        12.3148,
+        -6.7
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 6,
+      "desc": "螺旋桨 fr（绕 Y 旋转）"
+    },
+    {
+      "name": "motor_rl",
+      "parent": "drone",
+      "pivot_geo": [
+        15.68,
+        7.5648,
+        19.3
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 18,
+      "desc": "电机 rl"
+    },
+    {
+      "name": "prop_rl",
+      "parent": "motor_rl",
+      "pivot_geo": [
+        15.68,
+        9.3148,
+        19.3
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 6,
+      "desc": "螺旋桨 rl（绕 Y 旋转）"
+    },
+    {
+      "name": "motor_rr",
+      "parent": "drone",
+      "pivot_geo": [
+        -15.68,
+        7.5648,
+        19.3
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 18,
+      "desc": "电机 rr"
+    },
+    {
+      "name": "prop_rr",
+      "parent": "motor_rr",
+      "pivot_geo": [
+        -15.68,
+        9.3148,
+        19.3
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 6,
+      "desc": "螺旋桨 rr（绕 Y 旋转）"
+    },
+    {
+      "name": "battery",
+      "parent": "drone",
+      "pivot_geo": [
+        -0.0,
+        7.6731,
+        4.0833
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 0,
+      "desc": "电池（由 model/battery/mini4pro 的物品模型按 0.5 倍、旋转 180° 合并；默认隐藏，由 battery_* 动画控制位置/缩放）"
+    },
+    {
+      "name": "bat_body",
+      "parent": "battery",
+      "pivot_geo": [
+        -0.0,
+        7.6731,
+        4.0833
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 94,
+      "desc": "电池主体（顶面黑色标签，前端触点）"
+    },
+    {
+      "name": "bat_collar",
+      "parent": "battery",
+      "pivot_geo": [
+        -0.0,
+        7.6731,
+        8.0833
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 58,
+      "desc": "电池尾部加宽段（即机尾外露部分）"
+    },
+    {
+      "name": "bat_button_r",
+      "parent": "battery",
+      "pivot_geo": [
+        -3.7083,
+        7.6731,
+        9.75
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 1,
+      "desc": "电池右侧按键（Blockbench +X）"
+    },
+    {
+      "name": "bat_button_l",
+      "parent": "battery",
+      "pivot_geo": [
+        3.7083,
+        7.6731,
+        9.75
+      ],
+      "rest_rotation_geo": [
+        0,
+        0,
+        0
+      ],
+      "cube_count": 1,
+      "desc": "电池左侧按键（Blockbench -X）"
+    }
+  ],
+  "animations": [
+    {
+      "name": "animation.mini4pro.idle",
+      "loop": true,
+      "length_s": 1.0,
+      "bones": [
+        "root"
+      ]
+    },
+    {
+      "name": "animation.mini4pro.fly",
+      "loop": true,
+      "length_s": 1.0,
+      "bones": [
+        "drone",
+        "prop_fl",
+        "prop_fr",
+        "prop_rl",
+        "prop_rr"
+      ]
+    },
+    {
+      "name": "animation.mini4pro.takeoff",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.6,
+      "bones": [
+        "drone"
+      ]
+    },
+    {
+      "name": "animation.mini4pro.gimbal_down",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.8,
+      "bones": [
+        "gimbal"
+      ]
+    },
+    {
+      "name": "animation.mini4pro.gimbal_forward",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.8,
+      "bones": [
+        "gimbal"
+      ]
+    },
+    {
+      "name": "animation.mini4pro.battery_empty",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.05,
+      "bones": [
+        "battery"
+      ]
+    },
+    {
+      "name": "animation.mini4pro.battery_installed",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.05,
+      "bones": [
+        "battery"
+      ]
+    },
+    {
+      "name": "animation.mini4pro.battery_insert",
+      "loop": "hold_on_last_frame",
+      "length_s": 1.6,
+      "bones": [
+        "battery",
+        "bat_button_r",
+        "bat_button_l"
+      ]
+    },
+    {
+      "name": "animation.mini4pro.battery_remove",
+      "loop": "hold_on_last_frame",
+      "length_s": 1.4,
+      "bones": [
+        "battery",
+        "bat_button_r",
+        "bat_button_l"
+      ]
+    }
+  ],
+  "install_paths": {
+    "geometry": "assets/<modid>/geo/mini4pro.geo.json",
+    "animation": "assets/<modid>/animations/mini4pro.animation.json",
+    "texture": "assets/<modid>/textures/entity/mini4pro.png"
+  },
+  "rear_arms": "spread 40 deg from body axis, motors at X ±15.68 Z 19.3 (Blockbench body frame); rear prop discs clear the body by >=0.5 px at any blade angle",
+  "vision_sensors": {
+    "front_fisheye": "lens faces forward, yawed 24 deg outward, pitched 18 deg up",
+    "rear_fisheye": "behind the front bumps, lens faces backward, yawed 40 deg outward, pitched 30 deg up"
+  },
+  "version": "2.1",
+  "battery": {
+    "default": "no battery (bone battery hidden: battery_empty scales it to 0; Blockbench project also has it hidden)",
+    "insert": "animation.mini4pro.battery_insert (1.6 s, hold) - slides in from behind the tail, push buttons click at 1.2-1.4 s",
+    "remove": "animation.mini4pro.battery_remove (1.4 s, hold) - buttons squeezed, slides out, scale -> 0",
+    "states": "battery_installed / battery_empty (hold) - steady states matching the last frame of insert / remove",
+    "source_model": "model/battery/mini4pro (item, 3 mm/px) merged at scale 0.5, rotated 180 deg about Y (connector forward)",
+    "bay": "opening at the tail (Z 10.6) and bottom behind Z 4.75 (Blockbench body frame); ceiling Y 4.8; front wall Z -2.59",
+    "gifs": "model/gif/avata360/batteryinmini4pro/"
+  },
+  "generator": "DJI/tools/gen_mini4pro.py <out> [battery_model_dir]  (GIFs: DJI/tools/make_m4p_battery_gifs.py)"
+}

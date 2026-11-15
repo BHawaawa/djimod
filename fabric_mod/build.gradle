@@ -1,0 +1,270 @@
+plugins {
+    id 'fabric-loom' version '1.7.4'
+}
+
+apply from: rootProject.file('gradle/release-matrix.gradle')
+// Yarn -> Mojang source export is an explicit migration operation, never a release artifact.
+tasks.register('exportMojmapSources', net.fabricmc.loom.task.MigrateMappingsTask) {
+    inputDir = 'src/main/java'
+    outputDir = 'build/generated/mojmap-1.20.1'
+    mappings = 'net.minecraft:mappings:1.20.1'
+}
+
+tasks.register('releaseToolsTest', Exec) {
+    group = 'verification'
+    description = 'Reject incorrectly labeled loader, game, Java and release artifacts.'
+    environment 'PYTHONUTF8', '1'
+    commandLine 'python', rootProject.file('tools/test_release_tools.py')
+}
+tasks.named('check') { dependsOn releaseToolsTest }
+tasks.register('dronePayloadTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.example.avatadrone.network.DroneControlPayloadTest'
+}
+tasks.named('check') { dependsOn dronePayloadTest }
+tasks.register('rcnSerialInputTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.example.avatadrone.client.RcnSerialInputTest'
+}
+tasks.named('check') { dependsOn rcnSerialInputTest }
+tasks.register('droneEnduranceTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.example.avatadrone.entity.DroneEnduranceTest'
+}
+tasks.named('check') { dependsOn droneEnduranceTest }
+
+version = project.mod_version
+group = project.maven_group
+base { archivesName = project.archives_base_name }
+tasks.withType(AbstractArchiveTask).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
+
+repositories {
+    maven { url = 'https://api.modrinth.com/maven' }
+    maven {
+        name = 'GeckoLib'
+        url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        content {
+            includeGroup 'software.bernie.geckolib'
+            includeGroup 'com.eliotlash.mclib'
+        }
+    }
+}
+
+configurations { xaeroBundle }
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    // Fabric Loader >=0.16.10 supplies MixinExtras at runtime.
+    compileOnly 'io.github.llamalad7:mixinextras-fabric:0.4.1'
+    annotationProcessor 'io.github.llamalad7:mixinextras-fabric:0.4.1'
+    modImplementation "software.bernie.geckolib:geckolib-fabric-1.20.1:${project.geckolib_version}"
+    // Compile the optional integration even when testing a client without Xaero.
+    if (providers.gradleProperty('withoutXaero').isPresent()) {
+        modCompileOnly "maven.modrinth:xaeros-world-map:fabric-1.20.1-1.47.0"
+    } else {
+        modImplementation "maven.modrinth:xaeros-world-map:fabric-1.20.1-1.47.0"
+    }
+    xaeroBundle "maven.modrinth:xaeros-world-map:fabric-1.20.1-1.47.0"
+    include implementation('com.fazecast:jSerialComm:2.11.0')
+}
+
+// Fabric normally discovers XaeroLib inside World Map. Loom strips nested jars
+// from remapped development dependencies, so restore it only to development runs.
+tasks.withType(JavaExec).configureEach {
+    if (name.startsWith('run')) {
+        doFirst {
+            if (!providers.gradleProperty('withoutXaero').isPresent()) copy {
+                from(zipTree(configurations.xaeroBundle.singleFile)) {
+                    include 'META-INF/jars/xaerolib-*.jar'
+                    eachFile { path = name }
+                    includeEmptyDirs = false
+                }
+                into new File(workingDir, 'mods')
+            }
+        }
+    }
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') { expand 'version': project.version }
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+    withSourcesJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 17
+}
+
+tasks.withType(JavaExec).configureEach {
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+loom {
+    mixin { defaultRefmapName = 'dji-avata-drone-refmap.json' }
+    runs {
+        client { ideConfigGenerated = true }
+        server { ideConfigGenerated = true }
+    }
+}
+
+// Dependency-free geometry regression tests run as part of check/build.
+tasks.register('coverageTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.example.avatadrone.signal.CoverageTest'
+}
+tasks.named('check') { dependsOn coverageTest }
+
+tasks.register('droneKeyBindingTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.example.avatadrone.client.DroneKeyBindingTest'
+}
+tasks.named('check') { dependsOn droneKeyBindingTest }
+
+// Separate development mod: never included in the distributable jar.
+sourceSets {
+    renderQa {
+        compileClasspath += sourceSets.main.compileClasspath + sourceSets.main.output
+        runtimeClasspath += sourceSets.main.runtimeClasspath + sourceSets.main.output
+    }
+}
+loom {
+    mods {
+        djimod { sourceSet sourceSets.main }
+        avatadrone_render_qa { sourceSet sourceSets.renderQa }
+    }
+    runs {
+        renderQa {
+            client()
+            source sourceSets.renderQa
+            runDir 'run-render-qa'
+            programArgs '--quickPlaySingleplayer', 'Feed Render QA'
+        }
+    }
+}
+
+loom.runs {
+    maintenanceQa {
+        client()
+        source sourceSets.renderQa
+        runDir 'run-maintenance-qa'
+        vmArg '-Davatadrone.maintenanceQa=true'
+        programArgs '--quickPlaySingleplayer', 'Maintenance QA'
+    }
+}
+
+// Route-planner regression checks use synthetic collision environments.
+tasks.register('returnRouteTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.example.avatadrone.navigation.ReturnRoutePlannerTest'
+}
+tasks.named('check') { dependsOn returnRouteTest }
+
+// Shared body attitude and gimbal camera regressions.
+tasks.register('gimbalTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.example.avatadrone.client.DroneAttitudeTest'
+}
+tasks.named('check') { dependsOn gimbalTest }
+
+// Charging boundary checks and an isolated integrated-server visual regression scene.
+tasks.register('chargeIndicatorTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.example.avatadrone.charging.ChargeIndicatorTest'
+}
+tasks.named('check') { dependsOn chargeIndicatorTest }
+loom.runs {
+    chargingQa {
+        client()
+        source sourceSets.renderQa
+        runDir 'run-charging-qa'
+        vmArg '-Davatadrone.chargingQa=true'
+        programArgs '--quickPlaySingleplayer', 'Charging QA'
+    }
+}
+
+loom.runs {
+    rc2Qa {
+        client()
+        source sourceSets.renderQa
+        runDir 'run-rc2-qa'
+        vmArg '-Davatadrone.rc2Qa=true'
+        programArgs '--quickPlaySingleplayer', 'RC2 QA'
+    }
+}
+
+loom.runs {
+    accidentQa {
+        client()
+        source sourceSets.renderQa
+        runDir 'run-accident-qa'
+        vmArg '-Davatadrone.accidentQa=true'
+        programArgs '--quickPlaySingleplayer', 'Accident QA'
+    }
+    flightMapQa {
+        client()
+        source sourceSets.renderQa
+        runDir 'run-flight-map-qa'
+        vmArg '-Davatadrone.flightMapQa=true'
+        programArgs '--quickPlaySingleplayer', 'Flight Map QA'
+    }
+}
+
+// QA artifacts are separate mods and never bundled in the release JAR.
+loom.runs {
+    phoneQa {
+        client()
+        source sourceSets.renderQa
+        runDir 'run-phone-qa'
+        vmArg '-Davatadrone.phoneQa=true'
+        programArgs '--quickPlaySingleplayer', 'Phone QA'
+    }
+}
+
+tasks.register('renderQaJar', Jar) {
+    dependsOn renderQaClasses
+    from sourceSets.renderQa.output
+    archiveClassifier = 'qa-dev'
+}
+tasks.register('remapRenderQaJar', net.fabricmc.loom.task.RemapJarTask) {
+    dependsOn renderQaJar
+    inputFile = tasks.named('renderQaJar', Jar).flatMap { it.archiveFile }
+    archiveClassifier = 'qa'
+    addNestedDependencies = false
+    classpath.from sourceSets.main.output
+}
+tasks.register('compatLaunchFiles') {
+    dependsOn classes, renderQaClasses
+    doLast {
+        file('build/compat-classpath.txt').text = sourceSets.main.runtimeClasspath.files.join('\n')
+    }
+}
+
+
+loom.runs {
+    keybindingQa {
+        client()
+        source sourceSets.renderQa
+        runDir 'run-keybinding-qa'
+        vmArg '-Davatadrone.keybindingQa=true'
+    }
+}

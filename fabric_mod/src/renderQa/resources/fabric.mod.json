@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "avatadrone_render_qa",
+  "version": "1.0.0",
+  "name": "Drone rendering regression scene",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.example.avatadrone.qa.RenderQa",
+      "com.example.avatadrone.qa.PhoneQa",
+      "com.example.avatadrone.qa.KeybindingQa",
+      "com.example.avatadrone.qa.MaintenanceQa",
+      "com.example.avatadrone.qa.ChargingQa",
+      "com.example.avatadrone.qa.Rc2Qa",
+      "com.example.avatadrone.qa.AccidentQa",
+      "com.example.avatadrone.qa.FlightMapQa"
+    ]
+  },
+  "depends": {
+    "djimod": "*"
+  }
+}

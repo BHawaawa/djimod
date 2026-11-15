@@ -1,0 +1,14 @@
+{
+  "required": false,
+  "package": "com.example.avatadrone.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "DroneTrackingMixin",
+    "DroneChunkWatchMixin",
+    "ServerChunkManagerAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  },
+  "refmap": "dji-avata-drone-refmap.json"
+}

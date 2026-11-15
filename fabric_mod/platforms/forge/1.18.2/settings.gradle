@@ -1,0 +1,16 @@
+pluginManagement {
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == 'net.minecraftforge.gradle') useModule('net.minecraftforge.gradle:ForgeGradle:' + requested.version)
+        }
+    }
+    repositories {
+        maven { url = 'https://bmclapi2.bangbang93.com/maven/'; content { includeGroupByRegex 'net\\.minecraftforge.*' } }
+        maven { url = 'https://maven.minecraftforge.net/' }
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+rootProject.name = 'dji-forge-1.18.2'
+include ':common'
+project(':common').projectDir = file('../../common')

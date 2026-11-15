@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "djimod:block/4g/4g_signal_emitter"
+    },
+    "facing=east": {
+      "model": "djimod:block/4g/4g_signal_emitter",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "djimod:block/4g/4g_signal_emitter",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "djimod:block/4g/4g_signal_emitter",
+      "y": 270
+    }
+  }
+}

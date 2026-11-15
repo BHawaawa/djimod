@@ -1,0 +1,123 @@
+import groovy.json.JsonSlurper
+
+def canonicalRoot = file('../../..')
+def matrix = new JsonSlurper().parse(new File(canonicalRoot, 'release/matrix.json'))
+def target = matrix.targets.find { it.loader == platformLoader && it.minecraft == minecraft_version }
+if (target == null) throw new GradleException("No matrix entry for ${platformLoader} ${minecraft_version}")
+ext.platformTarget = target
+version = matrix.release
+group = 'com.example.avatadrone'
+base.archivesName = "DronesJoyrideInterface-${minecraft_version}+${platformLoader}-V${version}"
+tasks.withType(Jar).configureEach { archiveVersion = '' }
+tasks.withType(AbstractArchiveTask).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+    // Opt-in artifacts for production-namespace runtime QA cannot enter the release path.
+    if (providers.gradleProperty('portCandidate').isPresent()) {
+        destinationDirectory = layout.buildDirectory.dir('qa-candidate')
+    }
+}
+java.toolchain.languageVersion = JavaLanguageVersion.of(target.compilerJava as int)
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    // ForgeGradle creates its own Minecraft compilation tasks using JDK 8.
+    // Do not add --release to those tasks: JDK 8 does not support that flag.
+    if (name in ['compileJava', 'compileTestJava']) {
+        options.release = target.java as int
+        javaCompiler = javaToolchains.compilerFor {
+            languageVersion = JavaLanguageVersion.of(target.compilerJava as int)
+        }
+        options.compilerArgs += ['-Xmaxerrs', '200']
+    }
+}
+// Local matrix builds can overlap without writing the same common output.
+project(':common').layout.buildDirectory = layout.buildDirectory.dir('common')
+evaluationDependsOn(':common')
+dependencies { implementation project(':common') }
+
+// Serial native libraries must travel with the mod on Forge-family loaders.
+if (platformLoader != 'Fabric') {
+    configurations.create('embeddedSerial')
+    dependencies.add('embeddedSerial', 'com.fazecast:jSerialComm:2.11.0')
+    tasks.named('jar') {
+        from({ configurations.embeddedSerial.collect { zipTree(it) } }) {
+            exclude 'META-INF/MANIFEST.MF', 'META-INF/*.SF', 'META-INF/*.RSA', 'META-INF/*.DSA', '**/module-info.class'
+        }
+    }
+}
+
+// Each platform keeps only its overrides in src/main/java. Unchanged code is
+// shared from the canonical tree, excluding the Java-8-compatible common core.
+// Sync output is a build artifact; generated source must never be edited.
+def overrides = fileTree('src/main/java').matching { include '**/*.java' }.files.collect {
+    file('src/main/java').toPath().relativize(it.toPath()).toString().replace('\\', '/')
+}
+def prepareSources = tasks.register('preparePortSources', Sync) {
+    // Also invalidate generated source when a line-filter closure changes.
+    inputs.file project.buildFile
+    if (project.hasProperty('portSourcePreparationTask')) dependsOn project.portSourcePreparationTask
+    from(project.hasProperty('portSourcesDirectory') ? project.portSourcesDirectory : new File(canonicalRoot, 'src/main/java')) {
+        project(':common').sharedClasses.each { exclude it }
+        overrides.each { exclude it }
+        if (project.hasProperty('portSourceReplacements')) {
+            filter { line ->
+                project.portSourceReplacements.each { oldText, newText -> line = line.replace(oldText, newText) }
+                line
+            }
+        }
+        if (project.hasProperty('portSourceFilter')) filter { line -> project.portSourceFilter(line) }
+    }
+    if (project.hasProperty('portSourceReplacements')) inputs.property 'sourceReplacements', project.portSourceReplacements
+    if (file('source-migrations.gradle').isFile()) inputs.file 'source-migrations.gradle'
+    into layout.buildDirectory.dir('generated/portSources')
+    if (project.hasProperty('portFileReplacements')) {
+        inputs.property 'fileReplacements', project.portFileReplacements
+        doLast {
+            project.portFileReplacements.each { relativePath, replacements ->
+                def source = new File(destinationDir, 'com/example/avatadrone/' + relativePath)
+                if (!source.isFile()) throw new GradleException("Missing source for version adaptation: ${relativePath}")
+                def contents = source.getText('UTF-8').replace('\r\n', '\n')
+                replacements.each { oldText, newText ->
+                    if (!contents.contains(oldText)) throw new GradleException("Source changed; review ${relativePath} adaptation: ${oldText}")
+                    contents = contents.replace(oldText, newText)
+                }
+                source.setText(contents, 'UTF-8')
+            }
+        }
+    }
+}
+sourceSets.main.java.srcDir prepareSources
+tasks.named('check') { dependsOn ':common:check' }
+tasks.named('jar') {
+    dependsOn ':common:classes'
+    from project(':common').sourceSets.main.output
+    doFirst {
+        if (!(target.status in ['ready', 'compiled']) && !providers.gradleProperty('portCandidate').isPresent()
+                && !providers.gradleProperty('buildWithoutRuntimeCheck').isPresent()) {
+            throw new GradleException("${platformLoader} ${minecraft_version}: source port and runtime verification incomplete; release disabled.")
+        }
+    }
+}
+
+sourceSets.main.resources {
+    srcDir new File(canonicalRoot, 'src/main/resources')
+    if (platformLoader != 'Fabric') exclude 'fabric.mod.json'
+}
+processResources {
+    inputs.property 'release', matrix.release
+    inputs.property 'minecraft', minecraft_version
+    filesMatching('fabric.mod.json') {
+        filter { line -> line.replace('"minecraft": "1.20.1"', '"minecraft": "' + minecraft_version + '"')
+            .replace('"java": ">=17"', '"java": ">=' + target.java + '"')
+            .replace('"fabricloader": ">=0.16.10"', '"fabricloader": ">=' + target.loaderVersion + '"')
+            .replace('"geckolib": ">=4.4.9 <5.0.0"', '"geckolib": "*"') }
+        expand version: project.version
+    }
+    filesMatching(['META-INF/mods.toml', 'META-INF/neoforge.mods.toml']) {
+        expand release: matrix.release, minecraft: minecraft_version, loaderVersion: target.loaderVersion
+    }
+}
+tasks.register('platformInfo') {
+    group = 'help'
+    doLast { println groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(target)) }
+}

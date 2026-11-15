@@ -1,0 +1,15 @@
+.gradle/
+.cache/
+build/
+run/
+run-server/
+run-*-qa/
+run-compat-*/
+run-yuefei-qa-*/
+logs/
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+bin/

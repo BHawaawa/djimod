@@ -1,0 +1,196 @@
+{
+ "kind": "item",
+ "cubes": 277,
+ "atlas": [
+  2048,
+  2048
+ ],
+ "offset": [
+  0.0,
+  0.0,
+  0.0
+ ],
+ "bones": {
+  "phone": {
+   "parent": null,
+   "pivot_bb": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "cubes": 0
+  },
+  "body": {
+   "parent": "phone",
+   "pivot_bb": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "cubes": 241
+  },
+  "keys": {
+   "parent": "phone",
+   "pivot_bb": [
+    -19.45,
+    0.0,
+    0.0
+   ],
+   "cubes": 28
+  },
+  "screen": {
+   "parent": "phone",
+   "pivot_bb": [
+    0.0,
+    0.0,
+    -1.975
+   ],
+   "cubes": 0
+  },
+  "scr_home": {
+   "parent": "screen",
+   "pivot_bb": [
+    0.0,
+    0.0,
+    -1.985
+   ],
+   "cubes": 1
+  },
+  "boot_redmi": {
+   "parent": "screen",
+   "pivot_bb": [
+    0.0,
+    1.0,
+    0.203
+   ],
+   "cubes": 1
+  },
+  "boot_android": {
+   "parent": "boot_redmi",
+   "pivot_bb": [
+    0.0,
+    -33.925,
+    0.203
+   ],
+   "cubes": 1
+  },
+  "boot_hyperos": {
+   "parent": "screen",
+   "pivot_bb": [
+    0.0,
+    0.5,
+    0.203
+   ],
+   "cubes": 1
+  },
+  "shutdown_spin": {
+   "parent": "screen",
+   "pivot_bb": [
+    0.0,
+    0.0,
+    0.203
+   ],
+   "cubes": 1
+  },
+  "chg_ring": {
+   "parent": "screen",
+   "pivot_bb": [
+    0.0,
+    9.925,
+    0.203
+   ],
+   "cubes": 1
+  },
+  "chg_bolt": {
+   "parent": "screen",
+   "pivot_bb": [
+    0.0,
+    9.925,
+    0.197
+   ],
+   "cubes": 1
+  },
+  "chg_pop": {
+   "parent": "screen",
+   "pivot_bb": [
+    0.0,
+    -35.475,
+    0.191
+   ],
+   "cubes": 1
+  },
+  "screen_ui": {
+   "parent": "screen",
+   "pivot_bb": [
+    0.0,
+    0.0,
+    -2.033
+   ],
+   "cubes": 0
+  }
+ },
+ "bbox_min": [
+  -19.67,
+  -40.8255,
+  -2.021
+ ],
+ "bbox_max": [
+  19.4505,
+  40.8255,
+  3.044
+ ],
+ "animations": {
+  "animation.redmi_k90.screen_off": {
+   "loop": "hold",
+   "length": 0.1,
+   "bones": [
+    "scr_home",
+    "screen_ui"
+   ]
+  },
+  "animation.redmi_k90.home": {
+   "loop": "hold",
+   "length": 0.1,
+   "bones": [
+    "scr_home",
+    "screen_ui"
+   ]
+  },
+  "animation.redmi_k90.boot": {
+   "loop": "hold",
+   "length": 4.0,
+   "bones": [
+    "scr_home",
+    "screen_ui",
+    "boot_redmi",
+    "boot_hyperos"
+   ]
+  },
+  "animation.redmi_k90.power_off": {
+   "loop": "hold",
+   "length": 2.0,
+   "bones": [
+    "scr_home",
+    "screen_ui",
+    "shutdown_spin"
+   ]
+  },
+  "animation.redmi_k90.charge_off": {
+   "loop": "loop",
+   "length": 2.0,
+   "bones": [
+    "scr_home",
+    "screen_ui",
+    "chg_ring",
+    "chg_bolt"
+   ]
+  },
+  "animation.redmi_k90.charge_plug": {
+   "loop": "hold",
+   "length": 2.2,
+   "bones": [
+    "chg_pop"
+   ]
+  }
+ }
+}

@@ -1,0 +1,203 @@
+{
+  "id": "auro2000elite",
+  "display_name": "DJI Power AURO 2000 ELITE（大疆户外电源）",
+  "type": "entity (placeable) + GeoItem for the inventory",
+  "minecraft": "1.20.1",
+  "loader": "Fabric (Yarn)",
+  "format": "GeckoLib 4.x (Bedrock geometry 1.12.0)",
+  "version": "1.0",
+  "files": {
+    "blockbench_project": "auro2000elite.bbmodel",
+    "geometry": "geo/auro2000elite.geo.json",
+    "animation": "animations/auro2000elite.animation.json",
+    "texture": "textures/auro2000elite.png",
+    "glowmask": "textures/auro2000elite_glowmask.png",
+    "item_model": "models/item/auro2000elite.json",
+    "previews": "preview/",
+    "gifs": "../gif/auro2000elite/cable/",
+    "reference_photos": "reference/",
+    "reference_code": "reference_code/",
+    "cable_info": "cable_info.json"
+  },
+  "md5": {
+    "auro2000elite.bbmodel": "a1367a99ffe6eb18bdd2edaa6e3db684",
+    "geo/auro2000elite.geo.json": "984cadee9dbcab7483915de9762edd42",
+    "animations/auro2000elite.animation.json": "fd35b6f4bc621ec908b07957a579e117",
+    "textures/auro2000elite.png": "f542e8e07d230a3611bc755bfa2cf095",
+    "textures/auro2000elite_glowmask.png": "3d0eba1742add35197da5beb5841f4ca",
+    "models/item/auro2000elite.json": "2d91595dafc566dd8ce6221868b28276",
+    "cable_info.json": "c5a5b4cc47b343017ef5c29d2b29eaef"
+  },
+  "geometry_identifier": "geometry.auro2000elite",
+  "texture": {
+    "width": 4096,
+    "height": 1024,
+    "uv_mode": "per-face UV",
+    "glowmask": "LCD, AC button, power LED, charge bar (AutoGlowingGeoLayer)"
+  },
+  "real_scale": "1 model px = 4 mm",
+  "real_reference": {
+    "size_mm": "456 x 225 x 245 (L x D x H)",
+    "capacity": "2016 Wh LiFePO4",
+    "weight": "~19 kg",
+    "model": "DYM2000MH",
+    "outputs": "AC 2000 W (CN ref photo: 3 sockets), built-in retractable USB-C cable 140 W, USB-C 65 W x2, USB-A 12 W x2, SDC x2",
+    "inputs": "AC 1440 W (0-80% ~85 min), SDC solar 600 W x2"
+  },
+  "model_size_px": {
+    "bbox_min": [
+      -57.26,
+      0.0,
+      -29.25
+    ],
+    "bbox_max": [
+      57.26,
+      61.55,
+      28.1
+    ],
+    "front": "-Z (north)",
+    "origin": "ground centre (feet on Y=0)",
+    "front_layout": "front-panel features were measured on reference/1_hero.png in u = -X (viewer right) coordinates"
+  },
+  "suggested": {
+    "renderer_scale": 0.125,
+    "hitbox_width": 0.9,
+    "hitbox_height": 0.48,
+    "shadow_radius": 0.45,
+    "note": "0.125 -> 0.89 x 0.44 x 0.48 blocks (about 1.95x real size, similar to the drones in this pack)"
+  },
+  "cube_count": 456,
+  "bones": [
+    {
+      "name": "root",
+      "parent": null,
+      "desc": "empty root"
+    },
+    {
+      "name": "body",
+      "parent": "root",
+      "cubes": 377,
+      "desc": "shell (rounded corners, stepped lid, handle ears over louvred cavities, side holes), dark front band, AC tray + 3 CN outlets + AC button, middle panel with the cable recess/slot, SDC cover, 2x USB-A (orange) + 2x USB-C, LCD, 2 SDC covers, lid power button, rear ports/label, feet"
+    },
+    {
+      "name": "plug_yaw",
+      "parent": "root",
+      "pivot_bb": [
+        1.2,
+        50.0,
+        -27.8
+      ],
+      "desc": "plug translation + yaw (keeps the plug euler away from gimbal lock)"
+    },
+    {
+      "name": "plug",
+      "parent": "plug_yaw",
+      "pivot_bb": [
+        1.2,
+        50.0,
+        -27.8
+      ],
+      "desc": "140 W USB-C plug (metal tip, MAX 140W label, grip ribs); rest = lying in the front slot, tip -> -X"
+    },
+    {
+      "name": "cab_01 .. cab_48",
+      "parent": "plug -> cab_01 -> ... (chain)",
+      "desc": "flat ribbon segments 3 px long (2.4 x 0.55 px). Cubes are modelled as a straight vertical chain; each bone has a REST ROTATION that folds the chain into the stowed reel inside the body, so Blockbench shows the stowed cable and every animation value is a small bend (no gimbal)."
+    }
+  ],
+  "animations": [
+    {
+      "name": "animation.auro2000elite.cable_stowed",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.05,
+      "desc": "state: cable in the slot (all zero = rest)"
+    },
+    {
+      "name": "animation.auro2000elite.cable_out",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.05,
+      "desc": "state: cable pulled out, plug lying on the ground in front"
+    },
+    {
+      "name": "animation.auro2000elite.cable_plugged",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.05,
+      "desc": "state: plug inserted into the device spot (DEVICE px (-14,0,-85.5))"
+    },
+    {
+      "name": "animation.auro2000elite.cable_extract",
+      "loop": "hold_on_last_frame",
+      "length_s": 1.6,
+      "desc": "pop out of the slot, pulled forward and laid on the ground; cable unreels from the slot"
+    },
+    {
+      "name": "animation.auro2000elite.cable_retract",
+      "loop": "hold_on_last_frame",
+      "length_s": 1.35,
+      "desc": "dragged back along the ground, lifted and clicked into the slot; cable reels in"
+    },
+    {
+      "name": "animation.auro2000elite.cable_plug",
+      "loop": "hold_on_last_frame",
+      "length_s": 1.1,
+      "desc": "picked up, aligned and pushed into the device port"
+    },
+    {
+      "name": "animation.auro2000elite.cable_unplug",
+      "loop": "hold_on_last_frame",
+      "length_s": 0.95,
+      "desc": "pulled out of the device and laid down"
+    },
+    {
+      "name": "animation.auro2000elite.cable_unplug_retract",
+      "loop": "hold_on_last_frame",
+      "length_s": 2.3,
+      "desc": "unplug + retract in one go (shift+right click while charging)"
+    }
+  ],
+  "animation_sampling": "40 keys/s generated by a cable path solver (Bezier + gravity sag, clamped to the ground and kept in front of the panel; internal reel); verified: FK error at keys < 0.004 px, between keys < 0.55 px",
+  "cable": {
+    "segments": 48,
+    "segment_len_px": 3.0,
+    "ribbon_px": [
+      2.4,
+      0.55
+    ],
+    "plug_tail_rest": [
+      1.2,
+      50.0,
+      -27.8
+    ],
+    "exit_slit": [
+      3.3,
+      50.0,
+      -27.0
+    ],
+    "device_px": [
+      -14.0,
+      0.0,
+      -85.5
+    ],
+    "plugged_tip_px": [
+      -14.0,
+      3.0,
+      -76.6
+    ],
+    "max_segments_outside": {
+      "extract": 24,
+      "retract": 24,
+      "plug": 26,
+      "unplug": 26,
+      "unplug_retract": 26
+    },
+    "sample_hz": 40
+  },
+  "install_paths": {
+    "geometry": "assets/<modid>/geo/auro2000elite.geo.json",
+    "animation": "assets/<modid>/animations/auro2000elite.animation.json",
+    "texture": "assets/<modid>/textures/entity/auro2000elite.png",
+    "glowmask": "assets/<modid>/textures/entity/auro2000elite_glowmask.png",
+    "item_model": "assets/<modid>/models/item/auro2000elite.json"
+  },
+  "generator": "DJI/tools/gen_auro2000.py <out>  (cable solver: tools/auro_cable.py; previews: tools/preview_auro.py; GIFs: tools/make_auro_gifs.py)"
+}

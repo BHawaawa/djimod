@@ -1,0 +1,61 @@
+/* The matrix is intentionally data-driven so a port becomes a separate project.
+ * A target is marked ready only after its own loader and Minecraft toolchain pass.
+ */
+import groovy.json.JsonSlurper
+
+def matrixFile = rootProject.file('release/matrix.json')
+ext.releaseMatrix = new JsonSlurper().parseText(matrixFile.getText('UTF-8'))
+
+tasks.register('releaseMatrix') {
+    group = 'release'
+    description = 'Print the supported and planned loader/Minecraft targets.'
+    doLast {
+        releaseMatrix.targets.each { target ->
+            def marker = target.status.toUpperCase(Locale.ROOT)
+            println "${marker.padRight(7)} ${target.loader.padRight(8)} Minecraft ${target.minecraft}"
+        }
+    }
+}
+
+tasks.register('verifyReleaseMatrix') {
+    group = 'verification'
+    description = 'Validate release identifiers and platform build routes.'
+    doLast {
+        if (project.version.toString() != releaseMatrix.release.toString()) {
+            throw new GradleException("Gradle version ${project.version} does not match matrix release ${releaseMatrix.release}")
+        }
+        def ids = releaseMatrix.targets.collect { "${it.loader}:${it.minecraft}" }
+        if (ids.toSet().size() != ids.size()) {
+            throw new GradleException('Duplicate loader/Minecraft target in release matrix.')
+        }
+        def missing = releaseMatrix.targets.findAll { target ->
+            !(target.status in ['ready', 'compiled', 'planned', 'porting']) ||
+            !(target.loader in ['Fabric', 'Forge', 'NeoForge']) ||
+            (target.status in ['ready', 'compiled', 'porting'] && (!target.project || !target.buildTasks || !target.artifact ||
+                !rootProject.file("${target.project}/gradlew.bat").isFile() ||
+                !rootProject.file("${target.project}/build.gradle").isFile()))
+        }
+        if (!missing.isEmpty()) {
+            throw new GradleException('Invalid release target or missing platform build route: ' + missing)
+        }
+        releaseMatrix.targets.findAll { it.status in ['ready', 'compiled', 'porting'] }.each { target ->
+            def propertiesFile = rootProject.file("${target.project}/gradle.properties")
+            def platformProperties = new Properties()
+            propertiesFile.withInputStream { platformProperties.load(it) }
+            if (platformProperties.getProperty('minecraft_version') != target.minecraft) {
+                throw new GradleException("Minecraft version drift in ${propertiesFile}")
+            }
+            if (target.geckolibId && platformProperties.getProperty('geckolib_id') != target.geckolibId) {
+                throw new GradleException("GeckoLib dependency drift in ${propertiesFile}")
+            }
+            if (target.project != '.') {
+                def loaderKey = target.loader == 'Forge' ? 'forge_version' :
+                        target.loader == 'NeoForge' ? 'neo_version' : 'loader_version'
+                if (platformProperties.getProperty(loaderKey) != target.loaderVersion) {
+                    throw new GradleException("Loader version drift in ${propertiesFile}")
+                }
+            }
+        }
+        println "Validated ${releaseMatrix.targets.size()} build routes; ${releaseMatrix.targets.count { it.status in ['ready', 'compiled'] }} compiled target(s)."
+    }
+}

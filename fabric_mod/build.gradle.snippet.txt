@@ -1,0 +1,16 @@
+// 历史接入片段；当前工程已配置完整 build.gradle，无需再合并本文件。
+repositories {
+    maven {
+        name = 'GeckoLib'
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        content {
+            includeGroup 'software.bernie.geckolib'
+            includeGroup 'com.eliotlash.mclib'
+        }
+    }
+}
+
+dependencies {
+    // 1.20.1 对应 GeckoLib 4.x，版本号可换成 Modrinth/CurseForge 上 1.20.1 的最新 4.x
+    modImplementation "software.bernie.geckolib:geckolib-fabric-1.20.1:4.4.9"
+}

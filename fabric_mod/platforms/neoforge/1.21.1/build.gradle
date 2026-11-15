@@ -1,0 +1,63 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+abstract class PortExecServices {
+    @javax.inject.Inject abstract org.gradle.process.ExecOperations getExecOperations()
+}
+def portExecServices = objects.newInstance(PortExecServices)
+ext.platformLoader = 'NeoForge'
+ext.portSourcesDirectory = file('../../fabric/1.21.1/build/generated/mojmapSources')
+ext.portSourcePreparationTask = tasks.register('mapCanonicalSources', Exec) {
+    workingDir file('../../fabric/1.21.1')
+    environment 'JAVA_HOME', javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(21)
+    }.get().metadata.installationPath.asFile.absolutePath
+    commandLine file('../../fabric/1.21.1/gradlew.bat').absolutePath,
+        'exportMojmapSources', '--no-daemon', '--console=plain'
+    inputs.dir '../../../src/main/java'
+    inputs.dir '../../fabric/1.21.1/src/main/java'
+    inputs.files '../../fabric/1.21.1/build.gradle', '../../fabric/1.21.1/source-migrations.gradle',
+        '../../../tools/adapt_mojmap_mixins.py'
+    outputs.dir portSourcesDirectory
+    doLast {
+        def loomCache = new File(gradle.gradleUserHomeDir, 'caches/fabric-loom/1.21.1')
+        def yarn = new File(loomCache, 'net.fabricmc.yarn.1_21_1.1.21.1+build.3-v2/mappings.tiny')
+        def mojang = fileTree(new File(loomCache, 'layered/working_dir')).matching { include '*/mojang/client.txt' }.singleFile
+        portExecServices.execOperations.exec {
+            commandLine 'python', file('../../../tools/adapt_mojmap_mixins.py').absolutePath,
+                '--sources', portSourcesDirectory.absolutePath, '--yarn', yarn.absolutePath, '--mojang', mojang.absolutePath
+        }
+    }
+}
+ext.portSourceReplacements = [
+    'net.fabricmc.loader.api.FabricLoader': 'com.example.avatadrone.compat.PlatformLoader',
+    'FabricLoader.getInstance()': 'PlatformLoader.getInstance()',
+    'import net.fabricmc.api.ModInitializer;': 'import com.example.avatadrone.compat.ModInitializer;',
+    'import net.fabricmc.api.ClientModInitializer;': 'import com.example.avatadrone.compat.ClientModInitializer;',
+    'boolean rendersOutsideBoundingBox(': 'boolean shouldRenderOffScreen('
+]
+ext.portSourceFilter = { String line ->
+    line == 'import ;' || line ==~ /import net\.minecraft\..*\.\*;/ ? '' : line
+}
+apply from: '../../neoforge-platform.gradle'
+repositories {
+    exclusiveContent {
+        forRepository { maven { url = 'https://maven.su5ed.dev/releases' } }
+        filter { includeGroup 'org.sinytra.forgified-fabric-api'; includeGroup 'org.sinytra' }
+    }
+}
+dependencies {
+    implementation 'org.sinytra.forgified-fabric-api:forgified-fabric-api:0.116.15+2.3.6+1.21.1'
+    compileOnly 'maven.modrinth:xaeros-world-map:SnQ4SoDe'
+}
+processResources {
+    eachFile { entry ->
+        if (entry.path.startsWith('data/')) {
+            entry.path = entry.path.replace('/loot_tables/', '/loot_table/').replace('/tags/blocks/', '/tags/block/')
+        }
+    }
+    filesMatching('avatadrone.client.mixins.json') {
+        filter { line -> line.replace('"WorldRendererMixin",', '"WorldRendererMixin", "DroneTerrainMixin",') }
+    }
+}

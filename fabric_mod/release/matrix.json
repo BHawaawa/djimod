@@ -1,0 +1,256 @@
+{
+  "release": "2.0.1",
+  "artifactPattern": "DronesJoyrideInterface-{minecraft}+{loader}-V{release}.jar",
+  "targets": [
+    {
+      "loader": "Forge",
+      "minecraft": "1.16.5",
+      "status": "porting",
+      "project": "platforms/forge/1.16.5",
+      "buildTasks": [
+        "check",
+        "build"
+      ],
+      "artifact": "build/libs/DronesJoyrideInterface-1.16.5+Forge-V{release}.jar",
+      "loaderVersion": "36.2.42",
+      "java": 8,
+      "compilerJava": 17,
+      "gradleJava": 17,
+      "geckolibId": "UQGoJDhn",
+      "gradle": "8.10",
+      "reason": "Native Forge registration/event/network adapters, Mojang game mappings, GeckoLib 3 renderer/animation backport and legacy Java syntax are incomplete."
+    },
+    {
+      "loader": "Forge",
+      "minecraft": "1.17.1",
+      "status": "porting",
+      "project": "platforms/forge/1.17.1",
+      "buildTasks": [
+        "check",
+        "build"
+      ],
+      "artifact": "build/libs/DronesJoyrideInterface-1.17.1+Forge-V{release}.jar",
+      "loaderVersion": "37.1.1",
+      "java": 16,
+      "compilerJava": 17,
+      "gradleJava": 17,
+      "geckolibId": "qL484XIi",
+      "gradle": "8.10",
+      "reason": "Native Forge registration/event/network adapters, Mojang game mappings, GeckoLib 3 renderer/animation backport and legacy Java syntax are incomplete."
+    },
+    {
+      "loader": "Forge",
+      "minecraft": "1.18.2",
+      "status": "porting",
+      "project": "platforms/forge/1.18.2",
+      "buildTasks": [
+        "check",
+        "build"
+      ],
+      "artifact": "build/libs/DronesJoyrideInterface-1.18.2+Forge-V{release}.jar",
+      "loaderVersion": "40.3.12",
+      "java": 17,
+      "compilerJava": 17,
+      "gradleJava": 17,
+      "geckolibId": "wwh0ZFLu",
+      "gradle": "8.10",
+      "reason": "Native Forge registration/event/network adapters, Mojang game mappings, GeckoLib 3 renderer/animation backport and legacy Java syntax are incomplete."
+    },
+    {
+      "loader": "Forge",
+      "minecraft": "1.19.2",
+      "status": "porting",
+      "project": "platforms/forge/1.19.2",
+      "buildTasks": [
+        "check",
+        "build"
+      ],
+      "artifact": "build/libs/DronesJoyrideInterface-1.19.2+Forge-V{release}.jar",
+      "loaderVersion": "43.5.2",
+      "java": 17,
+      "compilerJava": 17,
+      "gradleJava": 17,
+      "geckolibId": "lxzmD9V4",
+      "gradle": "8.10",
+      "reason": "Native Forge registration/event/network adapters, Mojang game mappings, GeckoLib 3 renderer/animation backport and legacy Java syntax are incomplete."
+    },
+    {
+      "loader": "Forge",
+      "minecraft": "1.20.1",
+      "status": "compiled",
+      "project": "platforms/forge/1.20.1",
+      "buildTasks": [
+        "check",
+        "build"
+      ],
+      "artifact": "build/libs/DronesJoyrideInterface-1.20.1+Forge-V{release}.jar",
+      "loaderVersion": "47.4.29",
+      "java": 17,
+      "compilerJava": 17,
+      "gradleJava": 17,
+      "geckolibId": "aC5KMoNg",
+      "gradle": "8.10",
+      "verification": "Compiled, packaged and metadata checked; runtime tests not performed, as requested.",
+      "runtimeVerified": false,
+      "requiredMods": [
+        "geckolib",
+        "fabric_api (Forgified Fabric API for this loader and Minecraft version)"
+      ]
+    },
+    {
+      "loader": "NeoForge",
+      "minecraft": "1.21.1",
+      "status": "compiled",
+      "project": "platforms/neoforge/1.21.1",
+      "buildTasks": [
+        "check",
+        "build"
+      ],
+      "artifact": "build/libs/DronesJoyrideInterface-1.21.1+NeoForge-V{release}.jar",
+      "java": 21,
+      "compilerJava": 21,
+      "gradleJava": 25,
+      "loaderVersion": "21.1.266",
+      "geckolibId": "qj2pTqCr",
+      "gradle": "9.8.2",
+      "verification": "Compiled, packaged and metadata checked; runtime tests not performed, as requested.",
+      "runtimeVerified": false,
+      "requiredMods": [
+        "geckolib",
+        "fabric_api (Forgified Fabric API for this loader and Minecraft version)"
+      ]
+    },
+    {
+      "loader": "Fabric",
+      "minecraft": "1.16.5",
+      "status": "porting",
+      "project": "platforms/fabric/1.16.5",
+      "buildTasks": [
+        "check",
+        "remapJar"
+      ],
+      "artifact": "build/libs/DronesJoyrideInterface-1.16.5+Fabric-V{release}.jar",
+      "loaderVersion": "0.16.10",
+      "yarn": "1.16.5+build.10",
+      "fabricApi": "0.42.0+1.16",
+      "java": 8,
+      "compilerJava": 17,
+      "gradleJava": 21,
+      "geckolibId": "Z8ZwOmeO",
+      "gradle": "8.10",
+      "reason": "Source backport required: GeckoLib 3, legacy registry/HUD/matrix APIs, version-specific mixins, and Java 8/16 language compatibility where applicable."
+    },
+    {
+      "loader": "Fabric",
+      "minecraft": "1.17.1",
+      "status": "porting",
+      "project": "platforms/fabric/1.17.1",
+      "buildTasks": [
+        "check",
+        "remapJar"
+      ],
+      "artifact": "build/libs/DronesJoyrideInterface-1.17.1+Fabric-V{release}.jar",
+      "loaderVersion": "0.16.10",
+      "yarn": "1.17.1+build.65",
+      "fabricApi": "0.46.1+1.17",
+      "java": 16,
+      "compilerJava": 17,
+      "gradleJava": 21,
+      "geckolibId": "uGcjKjMT",
+      "gradle": "8.10",
+      "reason": "Source backport required: GeckoLib 3, legacy registry/HUD/matrix APIs, version-specific mixins, and Java 8/16 language compatibility where applicable."
+    },
+    {
+      "loader": "Fabric",
+      "minecraft": "1.18.2",
+      "status": "porting",
+      "project": "platforms/fabric/1.18.2",
+      "buildTasks": [
+        "check",
+        "remapJar"
+      ],
+      "artifact": "build/libs/DronesJoyrideInterface-1.18.2+Fabric-V{release}.jar",
+      "loaderVersion": "0.16.10",
+      "yarn": "1.18.2+build.4",
+      "fabricApi": "0.77.0+1.18.2",
+      "java": 17,
+      "compilerJava": 17,
+      "gradleJava": 21,
+      "geckolibId": "Z7uH6V77",
+      "gradle": "8.10",
+      "reason": "Source backport required: GeckoLib 3, legacy registry/HUD/matrix APIs, version-specific mixins, and Java 8/16 language compatibility where applicable."
+    },
+    {
+      "loader": "Fabric",
+      "minecraft": "1.19.2",
+      "status": "porting",
+      "project": "platforms/fabric/1.19.2",
+      "buildTasks": [
+        "check",
+        "remapJar"
+      ],
+      "artifact": "build/libs/DronesJoyrideInterface-1.19.2+Fabric-V{release}.jar",
+      "loaderVersion": "0.16.10",
+      "yarn": "1.19.2+build.28",
+      "fabricApi": "0.77.0+1.19.2",
+      "java": 17,
+      "compilerJava": 17,
+      "gradleJava": 21,
+      "geckolibId": "ATPZfRS1",
+      "gradle": "8.10",
+      "reason": "Source backport required: GeckoLib 3, legacy registry/HUD/matrix APIs, version-specific mixins, and Java 8/16 language compatibility where applicable."
+    },
+    {
+      "loader": "Fabric",
+      "minecraft": "1.20.1",
+      "status": "ready",
+      "project": ".",
+      "buildTasks": [
+        "verifyReleaseMatrix",
+        "check",
+        "remapJar"
+      ],
+      "artifact": "build/libs/dji-avata-drone-{release}.jar",
+      "java": 17
+    },
+    {
+      "loader": "Fabric",
+      "minecraft": "1.21.1",
+      "status": "ready",
+      "project": "platforms/fabric/1.21.1",
+      "buildTasks": [
+        "check",
+        "remapJar"
+      ],
+      "artifact": "build/libs/DronesJoyrideInterface-1.21.1+Fabric-V{release}.jar",
+      "loaderVersion": "0.16.10",
+      "yarn": "1.21.1+build.3",
+      "fabricApi": "0.116.18+1.21.1",
+      "java": 21,
+      "compilerJava": 21,
+      "gradleJava": 21,
+      "geckolibId": "qV4OzASD",
+      "gradle": "8.10",
+      "verification": "Client and dedicated server; immutable/legacy item data; charging/RC; production render, remote terrain, survival C2S flight, charging and RC QA."
+    },
+    {
+      "loader": "NeoForge",
+      "minecraft": "26.3",
+      "status": "porting",
+      "project": "platforms/neoforge/26.3",
+      "buildTasks": [
+        "check",
+        "build"
+      ],
+      "artifact": "build/libs/DronesJoyrideInterface-26.3+NeoForge-V{release}.jar",
+      "java": 25,
+      "neoforge": "26.3.0.103",
+      "reason": "26.3 source port incomplete: native NeoForge APIs, item/payload data, GeckoLib 5 and the new render pipeline.",
+      "compilerJava": 25,
+      "gradleJava": 25,
+      "loaderVersion": "26.3.0.103",
+      "geckolibId": "2s1O42FX",
+      "gradle": "9.8.2"
+    }
+  ]
+}

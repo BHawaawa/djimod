@@ -1,0 +1,16 @@
+{
+ "variants": {
+  "facing=north": {
+   "model": "djimod:block/mini4pro_charging_hub"
+  },
+  "facing=south": {
+   "model": "djimod:block/mini4pro_charging_hub"
+  },
+  "facing=east": {
+   "model": "djimod:block/mini4pro_charging_hub"
+  },
+  "facing=west": {
+   "model": "djimod:block/mini4pro_charging_hub"
+  }
+ }
+}

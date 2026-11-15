@@ -1,0 +1,99 @@
+{
+  "voice.1": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "djimod:voice/1",
+        "stream": true
+      }
+    ]
+  },
+  "voice.2": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "djimod:voice/2",
+        "stream": true
+      }
+    ]
+  },
+  "voice.3": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "djimod:voice/3",
+        "stream": true
+      }
+    ]
+  },
+  "voice.4": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "djimod:voice/4",
+        "stream": true
+      }
+    ]
+  },
+  "voice.5": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "djimod:voice/5",
+        "stream": true
+      }
+    ]
+  },
+  "voice.6": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "djimod:voice/6",
+        "stream": true
+      }
+    ]
+  },
+  "voice.7": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "djimod:voice/7",
+        "stream": true
+      }
+    ]
+  },
+  "voice.xinban": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "djimod:voice/xinban",
+        "stream": true
+      }
+    ]
+  },
+  "voice.jiuban": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "djimod:voice/jiuban",
+        "stream": true
+      }
+    ]
+  },
+  "voice.bizhang": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "djimod:voice/bizhang"
+      }
+    ]
+  },
+  "voice.wubizhang": {
+    "category": "voice",
+    "sounds": [
+      {
+        "name": "djimod:voice/wubizhang"
+      }
+    ]
+  }
+}
