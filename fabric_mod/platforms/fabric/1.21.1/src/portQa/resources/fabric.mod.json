@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "license": "GPL-3.0-only",
   "id": "djimod_port_qa",
   "version": "1.0.0",
   "environment": "*",

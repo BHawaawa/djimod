@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "license": "GPL-3.0-only",
   "id": "avatadrone_render_qa",
   "version": "1.0.0",
   "name": "Drone rendering regression scene",

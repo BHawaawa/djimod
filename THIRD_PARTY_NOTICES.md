@@ -1,6 +1,6 @@
 # Third-party notices / 第三方说明
 
-The root MIT license applies to this project's original contributions. It does not grant rights to third-party code, dependencies, fonts, artwork, trademarks or other materials owned by others. Existing third-party notices must be retained.
+The root GNU GPL v3.0 license (GPL-3.0-only) applies to this project's original contributions. It does not grant rights to third-party code, dependencies, fonts, artwork, trademarks or other materials owned by others. Existing third-party notices must be retained.
 
 ## Dependencies
 
@@ -12,8 +12,8 @@ The local development workspace contained `DJI_RC-N1_SIMULATOR_FLY_DCL-master`, 
 
 ## Imported material and assets
 
-`fabric_mod/YUEFEI_IMPORT_AUDIT.md` records material recovered and merged from a YueFei V1.0.32 mod JAR, including code and resources. The root MIT license covers only contributions for which the project author can grant that license; it does not establish or replace a license for the original imported material. This repository does not assert that all such material has been independently licensed under MIT.
+`fabric_mod/YUEFEI_IMPORT_AUDIT.md` records material recovered and merged from a YueFei V1.0.32 mod JAR, including code and resources. The root GNU GPL v3.0 license (GPL-3.0-only) covers only contributions for which the project author can grant that license; it does not establish or replace a license for the original imported material. This repository does not assert that all such material has been independently licensed under GPL-3.0-only.
 
-Fonts, icons, logos, textures and models may include third-party material. Consult their existing metadata and source records before reuse outside this mod; no separate trademark or third-party asset rights are granted by the root MIT license.
+Fonts, icons, logos, textures and models may include third-party material. Consult their existing metadata and source records before reuse outside this mod; no separate trademark or third-party asset rights are granted by the root GNU GPL v3.0 license (GPL-3.0-only).
 
 DJI and product names are trademarks of their respective owners. Minecraft is a trademark of Mojang/Microsoft. This is an unofficial project and is not affiliated with or endorsed by those companies.

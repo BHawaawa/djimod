@@ -53,7 +53,7 @@ Fabric 1.20.1 的依赖版本固定在 `fabric_mod/gradle.properties`，包括 F
 
 ## 许可证与来源
 
-本项目原创代码采用 [MIT License](LICENSE)。第三方代码、依赖、字体、图标、素材与商标仍适用各自的权利和许可，详见 [第三方说明](THIRD_PARTY_NOTICES.md)。
+Copyright (c) 2026 BHawaawa。本项目原创代码采用 [GNU GPL v3.0](LICENSE)（`GPL-3.0-only`）。第三方代码、依赖、字体、图标、素材与商标仍适用各自的权利和许可，详见 [第三方说明](THIRD_PARTY_NOTICES.md)。
 
 本项目为非官方 Minecraft 模组，与 DJI、Mojang 或 Microsoft 无隶属或背书关系。
 
